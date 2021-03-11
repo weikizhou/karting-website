@@ -43,11 +43,6 @@ class Page
     private $in_navigation;
 
     /**
-     * @ORM\Column(type="boolean")
-     */
-    private $has_imageslider;
-
-    /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $introduction_image;
@@ -126,18 +121,6 @@ class Page
     public function setInNavigation(bool $in_navigation): self
     {
         $this->in_navigation = $in_navigation;
-
-        return $this;
-    }
-
-    public function getHasImageslider(): ?bool
-    {
-        return $this->has_imageslider;
-    }
-
-    public function setHasImageslider(bool $has_imageslider): self
-    {
-        $this->has_imageslider = $has_imageslider;
 
         return $this;
     }

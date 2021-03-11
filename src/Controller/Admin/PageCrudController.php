@@ -21,7 +21,6 @@ class PageCrudController extends AbstractCrudController
         return Page::class;
     }
 
-
     public function configureFields(string $pageName): iterable
     {
         return [
@@ -29,7 +28,6 @@ class PageCrudController extends AbstractCrudController
             SlugField::new('slug')->setTargetFieldName('title'),
             TextField::new('nav_title'),
             BooleanField::new('in_navigation'),
-            BooleanField::new('has_imageslider')->setLabel('Active carousel'),
 
             TextareaField::new('imageFile')
                 ->setFormType(VichImageType::class)
@@ -42,5 +40,4 @@ class PageCrudController extends AbstractCrudController
             AssociationField::new('section')->onlyOnForms(),
         ];
     }
-
 }

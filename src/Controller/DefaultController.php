@@ -26,5 +26,22 @@ class DefaultController extends AbstractController
             'pages' => $pages,
         ]);
     }
+
+    /**
+     * @Route("/{slug}", name="page")
+     */
+    public function page(PageRepository $pageRepository, $slug)
+    {
+        $pages = $pageRepository->findAll();
+        $currentPage = $pageRepository->findOneBy(['slug'=> $slug]);
+        $sections = $currentPage->getSection()->getValues();
+
+        return $this->render('frontend/index.twig', [
+            'title' => $currentPage->getNavTitle().' | Karting Max',
+            'currentPage' => $currentPage,
+            'sections' => $sections,
+            'pages' => $pages,
+        ]);
+    }
 }
 
