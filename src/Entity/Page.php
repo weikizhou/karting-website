@@ -74,5 +74,5 @@ class Page
 
         return $this;
     }
-    
+
 }
