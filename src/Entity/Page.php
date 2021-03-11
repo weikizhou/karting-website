@@ -6,9 +6,12 @@ use App\Repository\PageRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * @ORM\Entity(repositoryClass=PageRepository::class)
+ * @Vich\Uploadable
  */
 class Page
 {
@@ -33,6 +36,46 @@ class Page
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $nav_title;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $in_navigation;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $has_imageslider;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $introduction_image;
+
+    /**
+     * @Vich\UploadableField(mapping="introduction_image", fileNameProperty="introduction_image")
+     */
+    private $imageFile;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $introduction;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $introduction_title;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Section::class, inversedBy="pages")
+     */
+    private $section;
+
+    public function __construct()
+    {
+        $this->section = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -71,6 +114,105 @@ class Page
     public function setNavTitle(?string $nav_title): self
     {
         $this->nav_title = $nav_title;
+
+        return $this;
+    }
+
+    public function getInNavigation(): ?bool
+    {
+        return $this->in_navigation;
+    }
+
+    public function setInNavigation(bool $in_navigation): self
+    {
+        $this->in_navigation = $in_navigation;
+
+        return $this;
+    }
+
+    public function getHasImageslider(): ?bool
+    {
+        return $this->has_imageslider;
+    }
+
+    public function setHasImageslider(bool $has_imageslider): self
+    {
+        $this->has_imageslider = $has_imageslider;
+
+        return $this;
+    }
+
+    public function getIntroductionImage(): ?string
+    {
+        return $this->introduction_image;
+    }
+
+    public function setIntroductionImage(?string $introduction_image): self
+    {
+        $this->introduction_image = $introduction_image;
+
+        return $this;
+    }
+
+
+    public function setImageFile(File $image = null)
+    {
+        $this->imageFile = $image;
+
+//        if ($image) {
+//            $this->updatedAt = new \DateTime('now');
+//        }
+    }
+
+    public function getImageFile()
+    {
+        return $this->imageFile;
+    }
+
+    public function getIntroduction(): ?string
+    {
+        return $this->introduction;
+    }
+
+    public function setIntroduction(?string $introduction): self
+    {
+        $this->introduction = $introduction;
+
+        return $this;
+    }
+
+    public function getIntroductionTitle(): ?string
+    {
+        return $this->introduction_title;
+    }
+
+    public function setIntroductionTitle(?string $introduction_title): self
+    {
+        $this->introduction_title = $introduction_title;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Section[]
+     */
+    public function getSection(): Collection
+    {
+        return $this->section;
+    }
+
+    public function addSection(Section $section): self
+    {
+        if (!$this->section->contains($section)) {
+            $this->section[] = $section;
+        }
+
+        return $this;
+    }
+
+    public function removeSection(Section $section): self
+    {
+        $this->section->removeElement($section);
 
         return $this;
     }

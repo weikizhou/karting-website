@@ -1,0 +1,11 @@
+vich_uploader:
+    db_driver: orm
+
+    mappings:
+        introduction_image:
+            uri_prefix: assets/uploads/page
+            upload_destination: '%kernel.project_dir%/public/assets/uploads/page'
+
+        section_image:
+            uri_prefix: assets/uploads/section
+            upload_destination: '%kernel.project_dir%/public/assets/uploads/section'

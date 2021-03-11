@@ -1,0 +1,12 @@
+{% include 'frontend/parts/_nav.twig' %}
+
+<div class="container-fluid header-container">
+    <div class="row">
+        <img class="introduction-image" src="{{ asset('assets/uploads/page/'~currentPage.introductionImage) }}" alt="introduction image">
+
+        <div class="introduction-content">
+            <h2>{{ currentPage.introductionTitle }}</h2>
+            {{ currentPage.introduction|raw }}
+        </div>
+    </div>
+</div>

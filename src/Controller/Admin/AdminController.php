@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Page;
+use App\Entity\Section;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
@@ -24,13 +25,14 @@ class AdminController extends AbstractDashboardController
     public function configureDashboard(): Dashboard
     {
         return Dashboard::new()
-            ->setTitle('Karting 2021');
+            ->setTitle('Karting');
     }
 
     public function configureMenuItems(): iterable
     {
         return [
             MenuItem::linkToCrud('Page', 'fas fa-book', Page::class),
+            MenuItem::linkToCrud('Section', 'fas fa-cubes', Section::class),
         ];
     }
 }
