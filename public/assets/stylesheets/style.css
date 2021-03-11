@@ -20,9 +20,19 @@ div {
     font-size: 16pt;
 }
 
+.btn-blue {
+    background-color: #0D19A3;
+    color: #fff;
+}
+
+.btn-blue:hover {
+    background-color: #080F5B;
+    color: #fff;
+}
+
 /*----Navbar----*/
 .navbar-nav {
-    margin: 0 20px 0 auto;
+    margin: 0 40px 0 auto;
 }
 
 .nav-link {
@@ -49,7 +59,7 @@ div {
 .introduction-content h2 {
     color: #15DB95;
     padding: 20px 20px 0;
-    font-weight: 800;
+    font-weight: 700;
 }
 
 .introduction-content div {
@@ -66,7 +76,7 @@ div {
 }
 
 .section-content-0 h2, .section-content-1 h2 {
-    font-weight: 800;
+    font-weight: 700;
 }
 
 .section-image-0 {
@@ -105,6 +115,45 @@ div {
 
 .section-content-1 h2 {
     color: #15DB95;
+}
+
+/*----Inloggen----*/
+.login-row {
+    margin: 30px 0 40px;
+}
+
+.inlog-form {
+    border-right: 1px solid #d1d1d1;
+}
+
+.inlog-form input[type="text"],
+.inlog-form input[type="password"] {
+    height: 50px;
+    margin: 10px 0;
+    background-color: #fff;
+}
+.inlog-form input[type="text"]::placeholder,
+.inlog-form input[type="password"]::placeholder {
+    color: #000;
+    opacity: 1;
+}
+.inlog-form input[type="text"]:-ms-input-placeholder,
+.inlog-form input[type="password"]:-ms-input-placeholder{
+    color: #000;
+}
+
+.inlog-form input[type="text"]::-ms-input-placeholder,
+.inlog-form input[type="password"]::-ms-input-placeholder{
+    color: #000;
+}
+
+/*----Empty-Section----*/
+.empty-container {
+    margin: 0;
+}
+
+.empty-container img {
+    height: 70%;
 }
 
 /*----Footer----*/

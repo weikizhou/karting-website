@@ -16,15 +16,15 @@
     {% endblock %}
 </head>
 <body>
-    {% include 'frontend/parts/header.twig' %}
-    {% block main %}{% endblock %}
-    {% include 'frontend/parts/_footer.twig' %}
+{% include 'frontend/parts/_nav.twig' %}
+{% block main %}{% endblock %}
+{% include 'frontend/parts/_footer.twig' %}
 
-    {% block javascripts %}
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
-                integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0"
-                crossorigin="anonymous"></script>
-    {% endblock %}
+{% block javascripts %}
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0"
+            crossorigin="anonymous"></script>
+{% endblock %}
 </body>
 
 </html>

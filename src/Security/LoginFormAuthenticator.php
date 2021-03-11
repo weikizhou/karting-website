@@ -25,6 +25,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
     use TargetPathTrait;
 
     public const LOGIN_ROUTE = 'app_login';
+    public const LOGIN_ROUTE_USER = 'user_login';
 
     private $entityManager;
     private $urlGenerator;
@@ -41,10 +42,14 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
 
     public function supports(Request $request)
     {
-        return self::LOGIN_ROUTE === $request->attributes->get('_route')
-            && $request->isMethod('POST');
+        $routeName = $request->get('_route');
+        if ($routeName == 'app_login'){
+            return self::LOGIN_ROUTE === $request->attributes->get('_route') && $request->isMethod('POST');
+        }
+        elseif($routeName == 'user_login'){
+            return self::LOGIN_ROUTE_USER === $request->attributes->get('_route') && $request->isMethod('POST');
+        }
     }
-
     public function getCredentials(Request $request)
     {
         $credentials = [
@@ -56,7 +61,6 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
             Security::LAST_USERNAME,
             $credentials['username']
         );
-
         return $credentials;
     }
 
@@ -98,6 +102,9 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
 
         $user = $this->entityManager->getRepository(User::class)->findOneBy(['username' => $request->request->get('_username')]);
 
+        if (($user->getRoles()[0] === "ROLE_USER")){
+            return new RedirectResponse('/gebruiker/kartcentrum');
+        }
         if (($user->getRoles()[0] === "ROLE_ADMIN") ){
             return new RedirectResponse('/admin');
         }

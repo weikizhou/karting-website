@@ -1,12 +1,24 @@
-{% include 'frontend/parts/_nav.twig' %}
+    {% include 'frontend/parts/_nav.twig' %}
 
-<div class="container-fluid header-container">
-    <div class="row">
-        <img class="introduction-image" src="{{ asset('assets/uploads/page/'~currentPage.introductionImage) }}" alt="introduction image">
-
-        <div class="introduction-content">
-            <h2>{{ currentPage.introductionTitle }}</h2>
-            {{ currentPage.introduction|raw }}
+    {% set currentPath = path(app.request.attributes.get('_route'),
+    app.request.attributes.get('_route_params')) %}
+    {% if currentPath != "/inloggen/kartcentrum" %}
+        <div class="container-fluid header-container">
+            <div class="row">
+                {% if currentPage.introductionImage is not empty %}
+                    <img class="introduction-image" src="{{ asset('assets/uploads/page/'~currentPage.introductionImage) }}" alt="introduction image">
+                {% endif %}
+                {% if currentPage.introductionTitle is not empty and currentPage.introduction is not empty %}
+                    <div class="introduction-content">
+                        <h2>{{ currentPage.introductionTitle }}</h2>
+                        {{ currentPage.introduction|raw }}
+                    </div>
+                {% endif %}
+            </div>
         </div>
-    </div>
-</div>
+        {% if currentPage.introductionImage is empty and
+            currentPage.introductionTitle is empty and
+            currentPage.introduction is empty  %}
+            {% include 'frontend/parts/_empty.twig' %}
+        {% endif %}
+    {% endif %}
