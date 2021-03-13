@@ -9,3 +9,11 @@ vich_uploader:
         section_image:
             uri_prefix: assets/uploads/section
             upload_destination: '%kernel.project_dir%/public/assets/uploads/section'
+
+        category_image:
+            uri_prefix: assets/uploads/category
+            upload_destination: '%kernel.project_dir%/public/assets/uploads/category'
+
+        carousel_image:
+            uri_prefix: assets/uploads/carousel
+            upload_destination: '%kernel.project_dir%/public/assets/uploads/carousel'

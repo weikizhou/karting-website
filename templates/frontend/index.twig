@@ -11,16 +11,16 @@
             {% for section in sections %}
                 <div class="row">
                     {% if section.textAlign == 0 %}
-                        <div class="section-content-{{ section.textAlign }} {{ loop.index is odd ? 'bg-brown' : 'bg-blue' }}">
+                        <div class="section-content-{{ section.textAlign }} {{ loop.index is odd ? 'bg-brown' : 'bg-blue' }} shadow">
                             <h2>{{ section.title }}</h2>
                             {{ section.content|raw }}
                         </div>
-                        <img class="section-image-{{ section.textAlign }}"
+                        <img class="section-image-{{ section.textAlign }} p-0 shadow"
                              src="{{ asset('assets/uploads/section/'~section.image) }}" alt="section image">
                     {% else %}
-                        <img class="img-fluid section-image-{{ section.textAlign }}"
+                        <img class="img-fluid section-image-{{ section.textAlign }} p-0 shadow"
                              src="{{ asset('assets/uploads/section/'~section.image) }}" alt="section image">
-                        <div class="section-content-{{ section.textAlign }} {{ loop.index is odd ? 'bg-brown' : 'bg-blue' }}">
+                        <div class="section-content-{{ section.textAlign }} {{ loop.index is odd ? 'bg-brown' : 'bg-blue' }} shadow">
                             <h2>{{ section.title }}</h2>
                             {{ section.content|raw }}
                         </div>

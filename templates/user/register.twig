@@ -1,0 +1,43 @@
+{% extends 'user/base.html.twig' %}
+
+{% block main %}
+    {% set lesson = lesson[0] %}
+    <div class="container-fluid m-0 p-0 register-row" style="background-image: url('{{ asset('assets/uploads/category/'~lesson.category.image) }}')">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 mt-5">
+                    <h1>{{ lesson.category.name }}</h1>
+                    {{ lesson.category.introduction|raw }}
+                    <br>
+                    <p>
+                        <i class="far fa-calendar-alt"></i>
+                        {{ lesson.date|date('d-m-Y') }} / {{ lesson.time|date('H:i') }}
+                        <br>
+                        <i class="fas fa-users"></i>
+                        {{ lesson.maxParticipants }}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container my-5">
+        <div class="row">
+            {% set categorySlug = lesson.category.slug %}
+            <div class="col-md-12 col-lg-8">
+                <h2>{{ lesson.category.name }}</h2>
+                {{ lesson.category.description|raw }}
+                <a class="btn btn-lg btn-blue mt-5" href="{{ path('register-activity', {'slug': categorySlug, 'date': lesson.date|date('d-m-Y')}) }}">Inschrijven</a>
+            </div>
+            <div class="col-md-12 col-lg-4 register-sidebar">
+                <h3 class="m-0">Meer info</h3>
+                <ul>
+                    <li><i class="far fa-calendar-alt"></i> <span>Datum: </span>{{ lesson.date|date('d-m-Y') }} / {{ lesson.time|date('H:i') }}</li>
+                    <li><i class="fas fa-clock"></i> <span>Tijdsduur: </span>{{ lesson.category.time|date('H:i') }}</li>
+                    <li><i class="fas fa-users"></i> <span>Max aantal: </span>{{ lesson.maxParticipants }}</li>
+                    <li><i class="far fa-id-card"></i> <span>Minumum leeftijd: {{ lesson.category.minimumAge }}</span></li>
+                </ul>
+                <a class="btn btn-lg btn-blue" href="{{ path('register-activity', {'slug': categorySlug, 'date': lesson.date|date('d-m-Y')}) }}">Inschrijven</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,41 +1,36 @@
-{% extends 'base.html.twig' %}
+{% extends 'user/base.html.twig' %}
 
 {% block main %}
-    <div class="container">
+    <div class="container login-container">
         <div class="row">
-            <div class="col-md-12 col-lg-10 m-auto">
-                <div class="row login-row">
-                    <div class="col-md-12 col-lg-6 inlog-form px-5">
-                        <h2>Inloggen</h2>
-                        <form method="post">
-                            {% if error %}
-                                <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-                            {% endif %}
+            <div class="col-md-12 col-lg-6 inlog-form px-5">
+                <h2>Inloggen</h2>
+                <form method="post">
+                    {% if error %}
+                        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                    {% endif %}
 
-                            {% if app.user %}
-                                <div class="mb-3">
-                                    U bent ingelogd {{ app.user.username }}, <a href="{{ path('app_logout') }}">Uitloggen</a>
-                                </div>
-                            {% endif %}
+                    {% if app.user %}
+                        <div class="mb-3">
+                            U bent ingelogd {{ app.user.username }}, <a href="{{ path('app_logout') }}">Uitloggen</a>
+                        </div>
+                    {% endif %}
 
-                            <input type="text" value="{{ last_username }}" name="_username" id="inputUsername" class="form-control" placeholder="Gebruikersnaam" required autofocus>
-                            <input type="password" name="_password" id="inputPassword" class="form-control" placeholder="Wachtwoord" required>
+                    <input type="text" value="{{ last_username }}" name="_username" id="inputUsername" class="form-control" placeholder="Gebruikersnaam" required autofocus>
+                    <input type="password" name="_password" id="inputPassword" class="form-control" placeholder="Wachtwoord" required>
 
-                            <input type="hidden" name="_csrf_token"
-                                   value="{{ csrf_token('authenticate') }}">
-                            <button class="btn btn-lg btn-blue" type="submit">
-                                Inloggen
-                            </button>
-                        </form>
-                    </div>
+                    <input type="hidden" name="_csrf_token"
+                           value="{{ csrf_token('authenticate') }}">
 
-                    <div class="col-md-12 col-lg-6 px-5">
-                        <h3>Nieuw bij Kartcentrum Max?</h3>
-                        <p>Maak binnen 2 minuten een account aan.</p>
+                    <button class="btn btn-lg btn-blue mt-2" type="submit">
+                        Inloggen
+                    </button>
+                </form>
+                <a href="{{ path('registration') }}">Nog geen account? Meld je aan!</a>
+            </div>
 
-                        <a class="btn btn-lg btn-blue" href="{{ path('registration') }}">Maak een account aan</a>
-                    </div>
-                </div>
+            <div class="col-md-12 col-lg-6 px-5">
+                <img class="img-fluid" src="{{ asset('assets/img/login_image.jpg') }}" alt="login_image">
             </div>
         </div>
     </div>

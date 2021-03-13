@@ -30,6 +30,16 @@ div {
     color: #fff;
 }
 
+.txt-black{
+    color: #000;
+}
+
+.shadow {
+    -webkit-box-shadow: 3px 3px 5px 6px #ccc;
+    -moz-box-shadow: 3px 3px 5px 6px #ccc;
+    box-shadow: 3px 3px 5px 6px #ccc;
+}
+
 /*----Navbar----*/
 .navbar-nav {
     margin: 0 40px 0 auto;
@@ -118,12 +128,16 @@ div {
 }
 
 /*----Inloggen----*/
-.login-row {
-    margin: 30px 0 40px;
+.login-container {
+    margin-bottom: 40px;
 }
 
 .inlog-form {
     border-right: 1px solid #d1d1d1;
+}
+
+.inlog-form form {
+    margin-bottom: 30px;
 }
 
 .inlog-form input[type="text"],
@@ -132,19 +146,41 @@ div {
     margin: 10px 0;
     background-color: #fff;
 }
+
 .inlog-form input[type="text"]::placeholder,
 .inlog-form input[type="password"]::placeholder {
     color: #000;
     opacity: 1;
 }
+
 .inlog-form input[type="text"]:-ms-input-placeholder,
-.inlog-form input[type="password"]:-ms-input-placeholder{
+.inlog-form input[type="password"]:-ms-input-placeholder {
     color: #000;
 }
 
 .inlog-form input[type="text"]::-ms-input-placeholder,
-.inlog-form input[type="password"]::-ms-input-placeholder{
+.inlog-form input[type="password"]::-ms-input-placeholder {
     color: #000;
+}
+
+/*----Registratie-Form----*/
+.registration-form{
+    margin-right: 10px;
+    width: 65%;
+}
+.registration-form input{
+    width: 100%;
+    margin: 10px 25px 10px auto;
+    height: 50px;
+}
+.registration-form label{
+    padding-top: 15px;
+}
+
+.registration-card{
+    background-size: cover;
+    background-repeat: no-repeat;
+    margin-bottom: 20px;
 }
 
 /*----Empty-Section----*/
@@ -154,6 +190,73 @@ div {
 
 .empty-container img {
     height: 70%;
+}
+
+/*----User----*/
+.lesson-image{
+    height: 700px;
+    width: 100%;
+    filter: brightness(50%);
+}
+
+.uk-position-center-left.uk-position-small.uk-icon.uk-slidenav-previous.uk-slidenav {
+    transform: translateX(2vh) translateY(-50%) translateY(-15px);
+}
+
+.uk-position-center-right.uk-position-small.uk-icon.uk-slidenav-next.uk-slidenav {
+    transform: translateX(-25vh) translateY(-50%) translateY(-15px);
+}
+
+.uk-position-center-left.uk-position-small.uk-icon.uk-slidenav-previous.uk-slidenav svg,
+.uk-position-center-right.uk-position-small.uk-icon.uk-slidenav-next.uk-slidenav svg{
+    width: 25px;
+}
+
+.uk-position-center-left.uk-text-left {
+    left: 10%;
+}
+
+.uk-position-center-left.uk-text-left div{
+    width: 80%;
+}
+
+/*----Register----*/
+.register-row{
+    filter: brightness(75%);
+    height: 400px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    color: #fff;
+    font-weight: 700;
+}
+
+.register-sidebar h3{
+    color: #fff;
+    background-color: #0D19A3;
+    padding: 10px 20px;
+}
+
+.register-sidebar ul{
+    background-color: #F2F1F1;
+    padding: 10px 20px;
+    list-style: none;
+}
+
+.register-sidebar ul li::before {
+    content: "";
+    border-color: transparent #111;
+    border-style: solid;
+    border-width: 0.35em 0 0.35em 0.45em;
+    display: block;
+    height: 0;
+    width: 0;
+    left: -1em;
+    top: 1em;
+    position: relative;
+}
+
+.register-sidebar ul li{
+    padding: 0 20px;
 }
 
 /*----Footer----*/

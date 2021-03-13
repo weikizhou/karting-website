@@ -2,6 +2,8 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\Category;
+use App\Entity\Moment;
 use App\Entity\Page;
 use App\Entity\Section;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
@@ -33,6 +35,8 @@ class AdminController extends AbstractDashboardController
         return [
             MenuItem::linkToCrud('Page', 'fas fa-book', Page::class),
             MenuItem::linkToCrud('Section', 'fas fa-cubes', Section::class),
+            MenuItem::linkToCrud('Moment', 'far fa-clock', Moment::class),
+            MenuItem::linkToCrud('Category', 'fas fa-clipboard-list', Category::class),
         ];
     }
 }

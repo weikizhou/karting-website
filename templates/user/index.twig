@@ -1,5 +1,47 @@
 {% extends 'user/base.html.twig' %}
 
-{% block main %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.6.18/dist/css/uikit.min.css" />
+{% endblock %}
 
+{% block main %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="uk-position-relative uk-visible-toggle uk-light" tabindex="-1" uk-slider>
+                <ul class="uk-slider-items uk-grid">
+                    {% for lesson in moments %}
+                        {% set categorySlug = lesson.category.slug %}
+                        <li class="uk-width-4-5">
+                            <div class="uk-panel">
+                                <img class="lesson-image shadow" src="{{ asset('assets/uploads/category/'~lesson.category.image) }}" alt="lesson_image">
+                                <div class="uk-position-center-left uk-text-left">
+                                    <h2 uk-slider-parallax="x: 100,-100">{{ lesson.category.name }}</h2>
+                                    <p uk-slider-parallax="x: 200,-200">{{ lesson.category.introduction|raw }}</p>
+                                    <p uk-slider-parallax="x: 200,-200">
+                                        <i class="far fa-calendar-alt"></i>
+                                        {{ lesson.date|date('d-m-Y') }} / {{ lesson.time|date('H:i') }}
+                                        <br>
+                                        <i class="fas fa-users"></i>
+                                        {{ lesson.maxParticipants }}
+                                    </p>
+                                    <a class="btn btn-blue" href="{{ path('user-detail',
+                                        {'slug': categorySlug, 'date': lesson.date|date('d-m-Y')}) }}">
+                                        Meer info</a>
+                                </div>
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+                <a class="uk-position-center-left uk-position-small" href="#" uk-slidenav-previous uk-slider-item="previous"></a>
+                <a class="uk-position-center-right uk-position-small" href="#" uk-slidenav-next uk-slider-item="next"></a>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.6.18/dist/js/uikit.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.6.18/dist/js/uikit-icons.min.js"></script>
 {% endblock %}

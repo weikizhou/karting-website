@@ -1,5 +1,75 @@
-{% extends 'base.html.twig' %}
+{% extends 'user/base.html.twig' %}
 
 {% block main %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 col-lg-8 registration-form">
+                {{ form_start(registrationForm, {'attr': {'novalidate': 'novalidate'}}) }}
+                <div class="row">
+                    <h2>Maak uw eigen account</h2>
+                    <hr>
+                    <div class="col-md-4"><label>Gebruikersnaam</label></div>
+                    <div class="col-md-8">
+                        {{ form_row(registrationForm.username) }}
+                    </div>
 
+
+                    <div class="col-md-4"><label>Wachtwoord</label></div>
+                    <div class="col-md-8">
+                        {{ form_row(registrationForm.password) }}
+                    </div>
+
+                    <div class="col-md-4"><label>Herhaal wachtwoord</label></div>
+                    <div class="col-md-8">
+                        {{ form_row(registrationForm.repeated_password) }}
+                    </div>
+                </div>
+                <div class="row my-4">
+                    <h2>Persoonlijke informatie</h2>
+                    <hr>
+                    <div class="col-md-4"><label>Volledige naam</label></div>
+                    <div class="col-md-8">
+                        {{ form_row(registrationForm.name) }}
+                    </div>
+
+                    <div class="col-md-4"><label>E-mailadres</label></div>
+                    <div class="col-md-8">
+                        {{ form_row(registrationForm.email) }}
+                    </div>
+
+                    <div class="col-md-4"><label>Telefoon</label></div>
+                    <div class="col-md-8">
+                        {{ form_row(registrationForm.phone) }}
+                    </div>
+
+                    <div class="col-md-4"><label>Straat</label></div>
+                    <div class="col-md-8">
+
+                        <div class="row">
+                            <div class="col-9">
+                                {{ form_row(registrationForm.postal_code) }}
+                            </div>
+                            <div class="col-3">
+                                {{ form_row(registrationForm.house_nr) }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4"><label>Adres</label></div>
+                    <div class="col-md-8">
+                        {{ form_row(registrationForm.address) }}
+                    </div>
+
+                    <button class="btn btn-lg btn-blue mt-2" type="submit">
+                        Aanmelden
+                    </button>
+                </div>
+                {{ form_end(registrationForm) }}
+
+            </div>
+            <div class="col-md-12 col-lg-4 registration-card shadow"
+                 style="background-image: url('{{ asset('assets/img/registratie_image.jpg') }}')">
+            </div>
+        </div>
+    </div>
 {% endblock %}
