@@ -32,7 +32,9 @@ class CategoryCrudController extends AbstractCrudController
                 ->setTargetFieldName('name')
                 ->onlyOnForms(),
             TimeField::new('time'),
-            MoneyField::new('price')->setCurrency('EUR'),
+            MoneyField::new('price')
+                ->setCurrency('EUR')
+                ->setCurrencyPropertyPath(100),
             NumberField::new('minimum_age'),
 
             TextareaField::new('imageFile')

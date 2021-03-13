@@ -21,7 +21,7 @@
             </div>
         </div>
     </div>
-    {% for label, messages in app.flashes(['success', 'warning']) %}
+    {% for label, messages in app.flashes(['success', 'warning', 'danger']) %}
         {% for message in messages %}
             <div class="container-fluid m-0 p-0">
                 <div class="alert alert-{{ label }}" role="alert">
@@ -39,11 +39,10 @@
     <div class="container my-4">
         <div class="row">
             {% set categorySlug = lesson.category.slug %}
+            {% set price = lesson.category.price / 100 %}
             <div class="col-md-12 col-lg-8">
                 <h2>{{ lesson.category.name }}</h2>
                 {{ lesson.category.description|raw }}
-                <a class="btn btn-lg btn-blue mt-5"
-                   href="{{ path('register-activity', {'slug': categorySlug, 'date': lesson.date|date('d-m-Y')}) }}">Inschrijven</a>
             </div>
             <div class="col-md-12 col-lg-4 register-sidebar">
                 <h3 class="m-0 shadow">Meer info</h3>
@@ -54,10 +53,30 @@
                     <li><i class="fas fa-users"></i> <span>Max aantal: </span>{{ lesson.maxParticipants }}</li>
                     <li><i class="far fa-id-card"></i> <span>Minumum leeftijd: {{ lesson.category.minimumAge }}</span>
                     </li>
-                    <li><i class="fas fa-ticket-alt"></i> <span> Prijs: </span> {{ lesson.category.price }}</li>
+                    <li><i class="fas fa-ticket-alt"></i> <span> Prijs: </span> &euro;{{ price|number_format(2, ',', '.') }}</li>
                 </ul>
-                <a class="btn btn-lg btn-blue"
-                   href="{{ path('register-activity', {'slug': categorySlug, 'date': lesson.date|date('d-m-Y')}) }}">Inschrijven</a>
+                {% if registrationFull == true %}
+                    <a class="btn btn-lg btn-blue w-100"
+                       href="{{ path('user-detail',
+                           {'slug': categorySlug, 'date': lesson.date|date('d-m-Y')}) }}">
+                        {{ lesson.category.name }} <span>zit vol!</span>
+                    </a>
+                {% else %}
+                    {% if registration is empty%}
+                        <a class="btn btn-lg btn-blue w-100"
+                           href="{{ path('register-activity',
+                               {'slug': categorySlug, 'date': lesson.date|date('d-m-Y')}) }}">
+                            Inschrijven
+                        </a>
+                    {% else %}
+                        <a class="btn btn-lg btn-blue w-100"
+                           href="{{ path('delete-register', {'slug': registration[0].moment.category.slug, 'date': lesson.date|date('d-m-Y')}) }}">
+                            Uitschrijven
+                        </a>
+                    {% endif %}
+                {% endif %}
+
+
             </div>
         </div>
     </div>

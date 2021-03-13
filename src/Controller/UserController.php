@@ -8,6 +8,7 @@ use App\Entity\Registration;
 use App\Repository\CategoryRepository;
 use App\Repository\MomentRepository;
 use App\Repository\PageRepository;
+use App\Repository\RegistrationRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -34,7 +35,9 @@ class UserController extends AbstractController
     /**
      * @Route("/gebruiker/kartcentrum/{slug}/{date}", name="user-detail")
      */
-    public function userDetail(PageRepository $pageRepository, MomentRepository $momentRepository, CategoryRepository $categoryRepository, $slug, $date)
+    public function userDetail(PageRepository $pageRepository, MomentRepository $momentRepository,
+                               CategoryRepository $categoryRepository, RegistrationRepository  $registrationRepository,
+                               $slug, $date)
     {
         $pages = $pageRepository->findAll();
 
@@ -48,9 +51,24 @@ class UserController extends AbstractController
             return $this->redirectToRoute('empty-lesson', ['slug'=>$slug, 'date' => $date]);
         }
 
+        $user = $this->get('security.token_storage')->getToken()->getUser();
+        $registration = $registrationRepository->findBy(['user' => $user, 'moment' => $lesson[0]]);
+        if(empty($registration)){
+            $registration = [];
+        }
+        $currentRegistrations = $registrationRepository->findBy(['moment' => $lesson]);
+        if ($lesson[0]->getMaxParticipants() <= count($currentRegistrations)){
+            $registrationFull = true;
+        }
+        else{
+            $registrationFull = false;
+        }
+
         return $this->render('user/register.twig', [
             'title' => $lesson[0]->getCategory()->getName() .' | Kartcentrum Max',
             'lesson' => $lesson,
+            'registration' => $registration,
+            'registrationFull' => $registrationFull,
             'pages' => $pages,
         ]);
     }
@@ -59,7 +77,8 @@ class UserController extends AbstractController
      * @Route("/gebruiker/kartcentrum/register-activity/{slug}/{date}", name="register-activity")
      */
     public function registerActivity(PageRepository $pageRepository, MomentRepository $momentRepository,
-                                     CategoryRepository $categoryRepository, $slug, $date, EntityManagerInterface $em)
+                                     CategoryRepository $categoryRepository, RegistrationRepository $registrationRepository,
+                                     $slug, $date, EntityManagerInterface $em)
     {
         $pages = $pageRepository->findAll();
 
@@ -72,36 +91,78 @@ class UserController extends AbstractController
         $birthDate = $user->getDateOfBirth();
         $now = new \DateTime();
         $age = $now->diff($birthDate)->y;
-        if ($age >= $lesson[0]->getCategory()->getMinimumAge()){
-            if ($lesson != null && $user != null){
-                $registration = new Registration();
-                $registration->setUser($user);
-                $registration->setMoment($lesson[0]);
-                $registration->setCreatedAt(new \DateTime());
-                $em->persist($registration);
-                $em->flush($registration);
 
+        $currentRegistrations = $registrationRepository->findBy(['moment' => $lesson]);
+        if (count($currentRegistrations) < $lesson[0]->getMaxParticipants()){
+            if ($age >= $lesson[0]->getCategory()->getMinimumAge()){
+                if ($lesson != null && $user != null){
+                    $registration = new Registration();
+                    $registration->setUser($user);
+                    $registration->setMoment($lesson[0]);
+                    $registration->setCreatedAt(new \DateTime());
+                    $em->persist($registration);
+                    $em->flush($registration);
+
+                    $this->addFlash(
+                        'success',
+                        'U bent ingeschreven in de '. strtolower($lesson[0]->getCategory()->getName()) . '.'
+                    );
+
+                    return $this->redirectToRoute('user-detail', ['slug'=>$slug, 'date'=>$date]);
+                }
+            }
+            else{
                 $this->addFlash(
-                    'success',
-                    'Het inschrijven is gelukt!'
+                    'warning',
+                    'U moet ' .$lesson[0]->getCategory()->getMinimumAge(). ' jaar zijn om hieraan deel te nemen.'
                 );
-
                 return $this->redirectToRoute('user-detail', ['slug'=>$slug, 'date'=>$date]);
             }
         }
         else{
             $this->addFlash(
                 'warning',
-                'U bent niet oud genoeg voor deze race.'
+                'De '.strtolower($lesson[0]->getCategory()->getName()). ' zit vol!'
             );
-
             return $this->redirectToRoute('user-detail', ['slug'=>$slug, 'date'=>$date]);
         }
+
         return $this->render('user/register.twig', [
             'title' => 'Gebruiker | Kartcentrum Max',
             'lesson' => $lesson,
             'pages' => $pages,
         ]);
+    }
+
+    /**
+     * @Route("/gebruiker/kartcentrum/verwijder/{slug}/{date}", name="delete-register")
+     */
+    public function deleteRegister(MomentRepository $momentRepository,
+                               CategoryRepository $categoryRepository, RegistrationRepository  $registrationRepository,
+                               EntityManagerInterface  $em, $slug, $date)
+    {
+        $newDate = \DateTime::createFromFormat('d-m-Y', $date);
+        $category = $categoryRepository->findOneBy(['slug' => $slug]);
+        if ($newDate < new \DateTime()){
+            return $this->redirectToRoute('empty-lesson', ['slug'=>$slug, 'date' => $date]);
+        }
+        $lesson = $momentRepository->getCurrentLesson($category, $newDate->setTime(0,0,00));
+        if(empty($lesson)){
+            return $this->redirectToRoute('empty-lesson', ['slug'=>$slug, 'date' => $date]);
+        }
+        $user = $this->get('security.token_storage')->getToken()->getUser();
+
+        $registration = $registrationRepository->findOneBy(['moment' => $lesson, 'user' => $user]);
+        if ($registration != null){
+            $em->remove($registration);
+            $em->flush();
+
+            $this->addFlash(
+                'danger',
+                'U bent uitgeschreven uit de ' .$lesson[0]->getCategory()->getName(). '.'
+            );
+            return $this->redirectToRoute('user-detail', ['slug' => $slug, 'date' => $date]);
+        }
     }
 
     /**
