@@ -40,10 +40,13 @@ class UserController extends AbstractController
 
         $newDate = \DateTime::createFromFormat('d-m-Y', $date);
         $category = $categoryRepository->findOneBy(['slug' => $slug]);
-        if(empty($lesson)){
+        if ($newDate < new \DateTime()){
             return $this->redirectToRoute('empty-lesson', ['slug'=>$slug, 'date' => $date]);
         }
         $lesson = $momentRepository->getCurrentLesson($category, $newDate->setTime(0,0,00));
+        if(empty($lesson)){
+            return $this->redirectToRoute('empty-lesson', ['slug'=>$slug, 'date' => $date]);
+        }
 
         return $this->render('user/register.twig', [
             'title' => $lesson[0]->getCategory()->getName() .' | Kartcentrum Max',
@@ -65,14 +68,32 @@ class UserController extends AbstractController
         $lesson = $momentRepository->getCurrentLesson($category, $newDate->setTime(0,0,00));
 
         $user = $this->get('security.token_storage')->getToken()->getUser();
-        $registration = new Registration();
 
-        if ($lesson != null && $user != null){
-            $registration->setUser($user);
-            $registration->setMoment($lesson[0]);
-            $registration->setCreatedAt(new \DateTime());
-            $em->persist($registration);
-            $em->flush($registration);
+        $birthDate = $user->getDateOfBirth();
+        $now = new \DateTime();
+        $age = $now->diff($birthDate)->y;
+        if ($age >= $lesson[0]->getCategory()->getMinimumAge()){
+            if ($lesson != null && $user != null){
+                $registration = new Registration();
+                $registration->setUser($user);
+                $registration->setMoment($lesson[0]);
+                $registration->setCreatedAt(new \DateTime());
+                $em->persist($registration);
+                $em->flush($registration);
+
+                $this->addFlash(
+                    'success',
+                    'Het inschrijven is gelukt!'
+                );
+
+                return $this->redirectToRoute('user-detail', ['slug'=>$slug, 'date'=>$date]);
+            }
+        }
+        else{
+            $this->addFlash(
+                'warning',
+                'U bent niet oud genoeg voor deze race.'
+            );
 
             return $this->redirectToRoute('user-detail', ['slug'=>$slug, 'date'=>$date]);
         }

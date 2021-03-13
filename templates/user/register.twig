@@ -2,7 +2,8 @@
 
 {% block main %}
     {% set lesson = lesson[0] %}
-    <div class="container-fluid m-0 p-0 register-row" style="background-image: url('{{ asset('assets/uploads/category/'~lesson.category.image) }}')">
+    <div class="container-fluid m-0 p-0 register-row"
+         style="background-image: url('{{ asset('assets/uploads/category/'~lesson.category.image) }}')">
         <div class="container">
             <div class="row">
                 <div class="col-12 mt-5">
@@ -20,23 +21,43 @@
             </div>
         </div>
     </div>
-    <div class="container my-5">
+    {% for label, messages in app.flashes(['success', 'warning']) %}
+        {% for message in messages %}
+            <div class="container-fluid m-0 p-0">
+                <div class="alert alert-{{ label }}" role="alert">
+                    <div class="container">
+                        <div class="row">
+                            <div class="flash-{{ label }}">
+                                {{ message }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    {% endfor %}
+    <div class="container my-4">
         <div class="row">
             {% set categorySlug = lesson.category.slug %}
             <div class="col-md-12 col-lg-8">
                 <h2>{{ lesson.category.name }}</h2>
                 {{ lesson.category.description|raw }}
-                <a class="btn btn-lg btn-blue mt-5" href="{{ path('register-activity', {'slug': categorySlug, 'date': lesson.date|date('d-m-Y')}) }}">Inschrijven</a>
+                <a class="btn btn-lg btn-blue mt-5"
+                   href="{{ path('register-activity', {'slug': categorySlug, 'date': lesson.date|date('d-m-Y')}) }}">Inschrijven</a>
             </div>
             <div class="col-md-12 col-lg-4 register-sidebar">
                 <h3 class="m-0 shadow">Meer info</h3>
                 <ul class="shadow">
-                    <li><i class="far fa-calendar-alt"></i> <span>Datum: </span>{{ lesson.date|date('d-m-Y') }} / {{ lesson.time|date('H:i') }}</li>
+                    <li><i class="far fa-calendar-alt"></i> <span>Datum: </span>{{ lesson.date|date('d-m-Y') }}
+                        / {{ lesson.time|date('H:i') }}</li>
                     <li><i class="fas fa-clock"></i> <span>Tijdsduur: </span>{{ lesson.category.time|date('H:i') }}</li>
                     <li><i class="fas fa-users"></i> <span>Max aantal: </span>{{ lesson.maxParticipants }}</li>
-                    <li><i class="far fa-id-card"></i> <span>Minumum leeftijd: {{ lesson.category.minimumAge }}</span></li>
+                    <li><i class="far fa-id-card"></i> <span>Minumum leeftijd: {{ lesson.category.minimumAge }}</span>
+                    </li>
+                    <li><i class="fas fa-ticket-alt"></i> <span> Prijs: </span> {{ lesson.category.price }}</li>
                 </ul>
-                <a class="btn btn-lg btn-blue" href="{{ path('register-activity', {'slug': categorySlug, 'date': lesson.date|date('d-m-Y')}) }}">Inschrijven</a>
+                <a class="btn btn-lg btn-blue"
+                   href="{{ path('register-activity', {'slug': categorySlug, 'date': lesson.date|date('d-m-Y')}) }}">Inschrijven</a>
             </div>
         </div>
     </div>

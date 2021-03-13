@@ -1,5 +1,11 @@
 {% extends 'user/base.html.twig' %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/demos/style.css">
+{% endblock %}
+
 {% block main %}
     <div class="container">
         <div class="row">
@@ -42,9 +48,13 @@
                         {{ form_row(registrationForm.phone) }}
                     </div>
 
+                    <div class="col-md-4"><label>Geboorte datum</label></div>
+                    <div class="col-md-8">
+                        {{ form_row(registrationForm.date_of_birth) }}
+                    </div>
+
                     <div class="col-md-4"><label>Straat</label></div>
                     <div class="col-md-8">
-
                         <div class="row">
                             <div class="col-9">
                                 {{ form_row(registrationForm.postal_code) }}
@@ -72,4 +82,21 @@
             </div>
         </div>
     </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script>
+        jQuery(document).ready(function() {
+            $('.js-datepicker').datepicker({
+                changeYear: true,
+                yearRange: "-80:+0",
+                inline: true,
+                showOtherMonths: true,
+                maxDate: new Date,
+            });
+        });
+    </script>
 {% endblock %}

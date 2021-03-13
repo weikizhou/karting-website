@@ -5,6 +5,7 @@ namespace App\Form;
 
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -25,6 +26,12 @@ class RegistrationType extends AbstractType
             ->add('postal_code', TextType::class,['attr'=>['placeholder'=>' Postcode'], 'label' => false])
             ->add('house_nr', TextType::class,['attr'=>['placeholder'=>' Huis nr.'], 'label' => false])
             ->add('address', TextType::class,['attr'=>['placeholder'=>' Adres'], 'label' => false])
+            ->add('date_of_birth', DateType::class, [
+                'widget' => 'single_text',
+                'attr' => ['class' => 'js-datepicker', 'placeholder'=>' Geboorte datum'],
+                'html5' => false,
+                'label' => false,
+            ])
         ;
     }
 

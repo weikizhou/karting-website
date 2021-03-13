@@ -85,6 +85,11 @@ class User implements UserInterface
      */
     private $registrations;
 
+    /**
+     * @ORM\Column(type="date", nullable=true)
+     */
+    private $date_of_birth;
+
     public function __construct()
     {
         $this->registrations = new ArrayCollection();
@@ -279,5 +284,18 @@ class User implements UserInterface
 
         return $this;
     }
+
+    public function getDateOfBirth(): ?\DateTimeInterface
+    {
+        return $this->date_of_birth;
+    }
+
+    public function setDateOfBirth(?\DateTimeInterface $date_of_birth): self
+    {
+        $this->date_of_birth = $date_of_birth;
+
+        return $this;
+    }
+
 
 }
