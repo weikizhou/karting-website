@@ -30,7 +30,7 @@ div {
     color: #fff;
 }
 
-.txt-black{
+.txt-black {
     color: #000;
 }
 
@@ -164,20 +164,22 @@ div {
 }
 
 /*----Registratie-Form----*/
-.registration-form{
+.registration-form {
     margin-right: 10px;
     width: 65%;
 }
-.registration-form input{
+
+.registration-form input {
     width: 100%;
     margin: 10px 25px 10px auto;
     height: 50px;
 }
-.registration-form label{
+
+.registration-form label {
     padding-top: 15px;
 }
 
-.registration-card{
+.registration-card {
     background-size: cover;
     background-repeat: no-repeat;
     margin-bottom: 20px;
@@ -193,7 +195,7 @@ div {
 }
 
 /*----User----*/
-.lesson-image{
+.lesson-image {
     height: 700px;
     width: 100%;
     filter: brightness(50%);
@@ -208,7 +210,7 @@ div {
 }
 
 .uk-position-center-left.uk-position-small.uk-icon.uk-slidenav-previous.uk-slidenav svg,
-.uk-position-center-right.uk-position-small.uk-icon.uk-slidenav-next.uk-slidenav svg{
+.uk-position-center-right.uk-position-small.uk-icon.uk-slidenav-next.uk-slidenav svg {
     width: 25px;
 }
 
@@ -216,12 +218,12 @@ div {
     left: 10%;
 }
 
-.uk-position-center-left.uk-text-left div{
+.uk-position-center-left.uk-text-left div {
     width: 80%;
 }
 
 /*----Register----*/
-.register-row{
+.register-row {
     filter: brightness(75%);
     height: 400px;
     background-size: cover;
@@ -230,13 +232,13 @@ div {
     font-weight: 700;
 }
 
-.register-sidebar h3{
+.register-sidebar h3 {
     color: #fff;
     background-color: #0D19A3;
     padding: 10px 20px;
 }
 
-.register-sidebar ul{
+.register-sidebar ul {
     background-color: #F2F1F1;
     padding: 10px 20px;
     list-style: none;
@@ -255,8 +257,33 @@ div {
     position: relative;
 }
 
-.register-sidebar ul li{
-    padding: 0 20px;
+.register-sidebar ul li {
+    padding: 5px 20px;
+}
+
+/*----Lesson-Not-Found----*/
+.lesson-not-found-container{
+    height: 700px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    filter: brightness(65%);
+}
+
+.lesson-not-found-container::before {
+    filter: brightness(65%);
+    z-index: -1;
+}
+
+.lesson-not-found-container .container{
+    padding-top: 100px;
+}
+
+.not-found-sub-title, .not-found-title{
+    text-transform: uppercase;
+}
+.not-found-sub-title, .not-found-title, .not-found-content, .not-found-btn{
+    font-weight: 700;
+    color: #fff;
 }
 
 /*----Footer----*/

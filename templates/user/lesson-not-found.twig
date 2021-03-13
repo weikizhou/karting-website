@@ -1,0 +1,21 @@
+{% extends 'user/base.html.twig' %}
+
+{% block main %}
+    <div class="container-fluid m-0 p-0 lesson-not-found-container" style="background-image: url('{{ asset('assets/img/lesson-not-found_image.jpg') }}')">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 col-lg-6">
+                    <h2 class="not-found-sub-title">oops!</h2>
+                    <h1 class="not-found-title">404</h1>
+                    <p class="not-found-content">Deze les is helaas niet meer beschikbaar.</p>
+                    <a class="not-found-btn btn btn-blue" href="{{ path('user') }}">Ga terug naar race</a>
+                </div>
+                <div class="col-md-12 col-lg-6">
+                    <h2 class="not-found-sub-title">Datum: {{ date|date('d-m-Y') }}</h2>
+                    <h2 class="not-found-sub-title">Les: {{ slug }}</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+

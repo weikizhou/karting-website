@@ -25,7 +25,7 @@ class UserController extends AbstractController
         $moments = $momentRepository->FilterDate($momentRepository->findAll());
 
         return $this->render('user/index.twig', [
-            'title' => 'Gebruiker | Karting Max',
+            'title' => 'Gebruiker | Kartcentrum Max',
             'moments' => $moments,
             'pages' => $pages,
         ]);
@@ -40,10 +40,13 @@ class UserController extends AbstractController
 
         $newDate = \DateTime::createFromFormat('d-m-Y', $date);
         $category = $categoryRepository->findOneBy(['slug' => $slug]);
+        if(empty($lesson)){
+            return $this->redirectToRoute('empty-lesson', ['slug'=>$slug, 'date' => $date]);
+        }
         $lesson = $momentRepository->getCurrentLesson($category, $newDate->setTime(0,0,00));
 
         return $this->render('user/register.twig', [
-            'title' => 'Gebruiker | Karting Max',
+            'title' => $lesson[0]->getCategory()->getName() .' | Kartcentrum Max',
             'lesson' => $lesson,
             'pages' => $pages,
         ]);
@@ -74,8 +77,23 @@ class UserController extends AbstractController
             return $this->redirectToRoute('user-detail', ['slug'=>$slug, 'date'=>$date]);
         }
         return $this->render('user/register.twig', [
-            'title' => 'Gebruiker | Karting Max',
+            'title' => 'Gebruiker | Kartcentrum Max',
             'lesson' => $lesson,
+            'pages' => $pages,
+        ]);
+    }
+
+    /**
+     * @Route("/gebruiker/kartcentrum/lesson-not-found/{slug}/{date}", name="empty-lesson")
+     */
+    public function emptyLesson(PageRepository $pageRepository, CategoryRepository $categoryRepository , $slug, $date)
+    {
+        $pages = $pageRepository->findAll();
+
+        return $this->render('user/lesson-not-found.twig', [
+            'title' => '404 | Kartcentrum Max',
+            'date' => $date,
+            'slug' => $slug,
             'pages' => $pages,
         ]);
     }
