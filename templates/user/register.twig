@@ -51,8 +51,13 @@
                         / {{ lesson.time|date('H:i') }}</li>
                     <li><i class="fas fa-clock"></i> <span>Tijdsduur: </span>{{ lesson.category.time|date('H:i') }}</li>
                     <li><i class="fas fa-users"></i> <span>Max aantal: </span>{{ lesson.maxParticipants }}</li>
-                    <li><i class="far fa-id-card"></i> <span>Minumum leeftijd: {{ lesson.category.minimumAge }}</span>
-                    </li>
+                    {% if availablePlaces is not empty %}
+                        <li>
+                            <i class="fas fa-user-plus"></i>
+                            <span>Beschikbare plekken over: {{ availablePlaces }}</span>
+                        </li>
+                    {% endif %}
+                    <li><i class="far fa-id-card"></i><span> Minumum leeftijd: {{ lesson.category.minimumAge }}</span></li>
                     <li><i class="fas fa-ticket-alt"></i> <span> Prijs: </span> &euro;{{ price|number_format(2, ',', '.') }}</li>
                 </ul>
                 {% if registrationFull == true %}
@@ -75,8 +80,6 @@
                         </a>
                     {% endif %}
                 {% endif %}
-
-
             </div>
         </div>
     </div>

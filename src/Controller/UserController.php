@@ -25,6 +25,11 @@ class UserController extends AbstractController
         $pages = $pageRepository->findAll();
         $moments = $momentRepository->FilterDate($momentRepository->findAll());
 
+        foreach ($moments as $moment) {
+            $introduction = preg_replace("/<\/?div[^>]*\>/i", "", $moment->getCategory()->getIntroduction());
+            $moment->getCategory()->setIntroduction($introduction);
+        }
+
         return $this->render('user/index.twig', [
             'title' => 'Gebruiker | Kartcentrum Max',
             'moments' => $moments,
@@ -57,11 +62,15 @@ class UserController extends AbstractController
             $registration = [];
         }
         $currentRegistrations = $registrationRepository->findBy(['moment' => $lesson]);
+        $availablePlaces = $lesson[0]->getMaxParticipants() - count($currentRegistrations);
         if ($lesson[0]->getMaxParticipants() <= count($currentRegistrations)){
             $registrationFull = true;
         }
         else{
             $registrationFull = false;
+        }
+        if (empty($availablePlaces)){
+            $availablePlaces = [];
         }
 
         return $this->render('user/register.twig', [
@@ -69,6 +78,7 @@ class UserController extends AbstractController
             'lesson' => $lesson,
             'registration' => $registration,
             'registrationFull' => $registrationFull,
+            'availablePlaces' => $availablePlaces,
             'pages' => $pages,
         ]);
     }
@@ -159,7 +169,7 @@ class UserController extends AbstractController
 
             $this->addFlash(
                 'danger',
-                'U bent uitgeschreven uit de ' .$lesson[0]->getCategory()->getName(). '.'
+                'U bent uitgeschreven uit de ' .strtolower($lesson[0]->getCategory()->getName()). '.'
             );
             return $this->redirectToRoute('user-detail', ['slug' => $slug, 'date' => $date]);
         }
