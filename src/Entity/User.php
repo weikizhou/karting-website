@@ -70,6 +70,7 @@ class User implements UserInterface
     private $address;
 
     /**
+     * @Assert\NotBlank
      * @ORM\Column(type="string", length=255)
      */
     private $email;
@@ -86,6 +87,7 @@ class User implements UserInterface
     private $registrations;
 
     /**
+     * @Assert\NotBlank
      * @ORM\Column(type="date", nullable=true)
      */
     private $date_of_birth;

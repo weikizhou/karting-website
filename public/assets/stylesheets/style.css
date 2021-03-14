@@ -181,20 +181,47 @@ div {
     width: 65%;
 }
 
-.registration-form input {
-    width: 100%;
-    margin: 10px 25px 10px auto;
-    height: 50px;
+.registration-form label {
+    padding: 15px 0 5px 15px;
 }
 
-.registration-form label {
-    padding-top: 15px;
+.form-input {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.form-input div{
+    width: 100%;
+}
+
+.form-input input {
+    width: 100%;
+    display: flex;
+    border: 1px #cdcdcd solid;
+    border-radius: 2rem;
+    overflow: hidden;
+    padding: .5rem .5rem .5rem 3rem;
+}
+
+.form-input i {
+    height: 1.5rem;
+    position: absolute;
+    padding: 0 1rem;
+}
+
+.form-input input:focus {
+    outline: none;
 }
 
 .registration-card {
     background-size: cover;
     background-repeat: no-repeat;
     margin-bottom: 20px;
+}
+
+.my-custom-class-for-errors{
+    /*border: 5px solid #ffdddd;*/
 }
 
 /*----Empty-Section----*/

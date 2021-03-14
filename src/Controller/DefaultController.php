@@ -83,7 +83,8 @@ class DefaultController extends AbstractController
     /**
      * @Route("/registratie/kartcentrum", name="registration")
      */
-    public function registration(PageRepository $pageRepository, Request $request, EntityManagerInterface $em, UserPasswordEncoderInterface $encoder)
+    public function registration(PageRepository $pageRepository, Request $request, EntityManagerInterface $em,
+                                 UserPasswordEncoderInterface $encoder)
     {
         $pages = $pageRepository->findAll();
 

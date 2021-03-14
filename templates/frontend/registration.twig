@@ -10,67 +10,86 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12 col-lg-8 registration-form">
-                {{ form_start(registrationForm, {'attr': {'novalidate': 'novalidate'}}) }}
-                <div class="row">
+                {{ form_start(registrationForm) }}
+                <div class="row mx-2">
                     <h2>Maak uw eigen account</h2>
-                    <hr>
-                    <div class="col-md-4"><label>Gebruikersnaam</label></div>
-                    <div class="col-md-8">
-                        {{ form_row(registrationForm.username) }}
-                    </div>
+                    <hr class="m-0">
 
-
-                    <div class="col-md-4"><label>Wachtwoord</label></div>
-                    <div class="col-md-8">
-                        {{ form_row(registrationForm.password) }}
-                    </div>
-
-                    <div class="col-md-4"><label>Herhaal wachtwoord</label></div>
-                    <div class="col-md-8">
-                        {{ form_row(registrationForm.repeated_password) }}
-                    </div>
-                </div>
-                <div class="row my-4">
-                    <h2>Persoonlijke informatie</h2>
-                    <hr>
-                    <div class="col-md-4"><label>Volledige naam</label></div>
-                    <div class="col-md-8">
-                        {{ form_row(registrationForm.name) }}
-                    </div>
-
-                    <div class="col-md-4"><label>E-mailadres</label></div>
-                    <div class="col-md-8">
+                    <label>E-mailadres</label>
+                    <div class="form-input">
+                        <i class="far fa-envelope fa-lg"></i>
                         {{ form_row(registrationForm.email) }}
                     </div>
 
-                    <div class="col-md-4"><label>Telefoon</label></div>
-                    <div class="col-md-8">
+                    <label>Volledige naam</label>
+                    <div class="form-input">
+                        <i class="fas fa-id-card-alt fa-lg"></i>
+                        {{ form_row(registrationForm.name) }}
+                    </div>
+
+                    <label>Gebruikersnaam</label>
+                    <div class="form-input">
+                        <i class="fas fa-user fa-lg"></i>
+                        {{ form_row(registrationForm.username) }}
+                    </div>
+
+                    <div class="row p-0">
+                        <div class="col-md-12 col-lg-6">
+                            <label>Wachtwoord</label>
+                            <div class="form-input">
+                                <i class="fas fa-unlock-alt fa-lg"></i>
+                                {{ form_row(registrationForm.password) }}
+                            </div>
+                        </div>
+                        <div class="col-md-12 col-lg-6 p-0">
+                            <label>Herhaal wachtwoord</label>
+                            <div class="form-input">
+                                <i class="fas fa-unlock-alt fa-lg"></i>
+                                {{ form_row(registrationForm.repeated_password) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row my-4 mx-2">
+                    <h2>Persoonlijke informatie</h2>
+                    <hr class="m-0">
+                    <label>Telefoon</label>
+                    <div class="form-input">
+                        <i class="fas fa-phone fa-lg"></i>
                         {{ form_row(registrationForm.phone) }}
                     </div>
 
-                    <div class="col-md-4"><label>Geboorte datum</label></div>
-                    <div class="col-md-8">
+                    <label>Geboorte datum</label>
+                    <div class="form-input">
+                        <i class="fas fa-calendar-alt fa-lg"></i>
                         {{ form_row(registrationForm.date_of_birth) }}
                     </div>
 
-                    <div class="col-md-4"><label>Straat</label></div>
-                    <div class="col-md-8">
-                        <div class="row">
-                            <div class="col-9">
+                    <div class="row p-0">
+                        <div class="col-md-12 col-lg-8">
+                            <label>Postcode</label>
+                            <div class="form-input">
+                                <i class="fas fa-map-marked-alt fa-lg"></i>
                                 {{ form_row(registrationForm.postal_code) }}
                             </div>
-                            <div class="col-3">
+                        </div>
+                        <div class="col-md-12 col-lg-4 p-0">
+                            <label>Huis nr.</label>
+                            <div class="form-input">
+                                <i class="fas fa-home fa-lg"></i>
                                 {{ form_row(registrationForm.house_nr) }}
                             </div>
                         </div>
                     </div>
 
-                    <div class="col-md-4"><label>Adres</label></div>
-                    <div class="col-md-8">
+                    <label>Adres</label>
+                    <div class="form-input">
+                        <i class="fas fa-map-pin fa-lg"></i>
                         {{ form_row(registrationForm.address) }}
                     </div>
 
-                    <button class="btn btn-lg btn-blue mt-2" type="submit">
+                    <button class="btn btn-lg btn-blue my-3" type="submit">
                         Aanmelden
                     </button>
                 </div>
@@ -86,6 +105,7 @@
 
 {% block javascripts %}
     {{ parent() }}
+    <script src="{{ asset('assets/javascript/locationAutocomplete.js') }}"></script>
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script>
@@ -96,6 +116,7 @@
                 inline: true,
                 showOtherMonths: true,
                 maxDate: new Date,
+                dateFormat: 'dd-mm-yy',
             });
         });
     </script>
