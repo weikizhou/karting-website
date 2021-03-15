@@ -5,6 +5,7 @@ namespace App\Controller\Admin;
 use App\Entity\Category;
 use App\Entity\Moment;
 use App\Entity\Page;
+use App\Entity\Registration;
 use App\Entity\Section;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
@@ -37,6 +38,7 @@ class AdminController extends AbstractDashboardController
             MenuItem::linkToCrud('Section', 'fas fa-cubes', Section::class),
             MenuItem::linkToCrud('Moment', 'far fa-clock', Moment::class),
             MenuItem::linkToCrud('Category', 'fas fa-clipboard-list', Category::class),
+            MenuItem::linkToCrud('Registration', 'far fa-address-book', Registration::class),
         ];
     }
 }
