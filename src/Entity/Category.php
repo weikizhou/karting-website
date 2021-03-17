@@ -72,9 +72,15 @@ class Category
      */
     private $introduction;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Carousel::class, inversedBy="categories")
+     */
+    private $carousel;
+
     public function __construct()
     {
         $this->moments = new ArrayCollection();
+        $this->carousel = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -227,6 +233,30 @@ class Category
     public function setIntroduction(?string $introduction): self
     {
         $this->introduction = $introduction;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Carousel[]
+     */
+    public function getCarousel(): Collection
+    {
+        return $this->carousel;
+    }
+
+    public function addCarousel(Carousel $carousel): self
+    {
+        if (!$this->carousel->contains($carousel)) {
+            $this->carousel[] = $carousel;
+        }
+
+        return $this;
+    }
+
+    public function removeCarousel(Carousel $carousel): self
+    {
+        $this->carousel->removeElement($carousel);
 
         return $this;
     }

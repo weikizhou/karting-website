@@ -4,6 +4,7 @@ namespace App\Controller\Admin;
 
 use App\Entity\Category;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\MoneyField;
@@ -42,12 +43,14 @@ class CategoryCrudController extends AbstractCrudController
                 ->setFormType(VichImageType::class)
                 ->setLabel('Category image')
                 ->onlyOnForms(),
-            ImageField::new('image')->setBasePath('assets/uploads/category')->hideOnForm(),
+            ImageField::new('image')
+                ->setBasePath('assets/uploads/category')
+                ->hideOnForm()
+                ->setLabel('Category head image'),
 
             TextEditorField::new('introduction'),
             TextEditorField::new('description'),
-//            CollectionField::new('carousel')
-//                ->setFormType(CarouselType::class)
+            AssociationField::new('carousel'),
         ];
     }
 

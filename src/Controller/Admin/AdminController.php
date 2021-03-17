@@ -2,6 +2,7 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\Carousel;
 use App\Entity\Category;
 use App\Entity\Moment;
 use App\Entity\Page;
@@ -39,6 +40,7 @@ class AdminController extends AbstractDashboardController
             MenuItem::linkToCrud('Section', 'fas fa-cubes', Section::class),
             MenuItem::linkToCrud('Moment', 'far fa-clock', Moment::class),
             MenuItem::linkToCrud('Category', 'fas fa-clipboard-list', Category::class),
+            MenuItem::linkToCrud('Carousel', 'far fa-images', Carousel::class),
             MenuItem::linkToCrud('Registration', 'far fa-address-book', Registration::class),
             MenuItem::linkToCrud('User', 'fas fa-users-cog', User::class),
         ];
