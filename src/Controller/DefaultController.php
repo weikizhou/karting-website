@@ -78,6 +78,7 @@ class DefaultController extends AbstractController
     public function logout()
     {
         throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
+        return $this->redirectToRoute('index');
     }
 
     /**
@@ -99,14 +100,17 @@ class DefaultController extends AbstractController
             $passwordEncode = $encoder->encodePassword($user,  $user->getPassword());
             $passwordRepeatedEncode = $encoder->encodePassword($user,  $user->getRepeatedPassword());
 
+//            $dateOfBirth =  $form->get('date_of_birth')->getData();
+
             $user->setPassword($passwordEncode);
+            $user->setOldPassword($passwordEncode);
             $user->setRepeatedPassword($passwordRepeatedEncode);
             $user->setRoles(['ROLE_USER']);
 
             $em->persist($user);
             $em->flush($user);
 
-            return $this->redirectToRoute('registration');
+            return $this->redirectToRoute('app_login');
         }
 
         return $this->render('frontend/registration.twig', [

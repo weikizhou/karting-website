@@ -62,7 +62,7 @@
                 </ul>
                 {% if registrationFull == true %}
                     <a class="btn btn-lg btn-blue w-100"
-                       href="{{ path('user-detail',
+                       href="{{ path('moment-detail',
                            {'slug': categorySlug, 'date': lesson.date|date('d-m-Y')}) }}">
                         {{ lesson.category.name }} <span>zit vol!</span>
                     </a>

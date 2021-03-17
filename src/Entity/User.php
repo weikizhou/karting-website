@@ -92,6 +92,11 @@ class User implements UserInterface
      */
     private $date_of_birth;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $old_password;
+
     public function __construct()
     {
         $this->registrations = new ArrayCollection();
@@ -302,6 +307,18 @@ class User implements UserInterface
     public function __toString()
     {
         return $this->name;
+    }
+
+    public function getOldPassword(): ?string
+    {
+        return $this->old_password;
+    }
+
+    public function setOldPassword(string $old_password): self
+    {
+        $this->old_password = $old_password;
+
+        return $this;
     }
 
 

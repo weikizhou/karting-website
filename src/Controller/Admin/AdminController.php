@@ -7,6 +7,7 @@ use App\Entity\Moment;
 use App\Entity\Page;
 use App\Entity\Registration;
 use App\Entity\Section;
+use App\Entity\User;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
@@ -28,7 +29,7 @@ class AdminController extends AbstractDashboardController
     public function configureDashboard(): Dashboard
     {
         return Dashboard::new()
-            ->setTitle('Karting');
+            ->setTitle('Kartcentrum Max');
     }
 
     public function configureMenuItems(): iterable
@@ -39,6 +40,7 @@ class AdminController extends AbstractDashboardController
             MenuItem::linkToCrud('Moment', 'far fa-clock', Moment::class),
             MenuItem::linkToCrud('Category', 'fas fa-clipboard-list', Category::class),
             MenuItem::linkToCrud('Registration', 'far fa-address-book', Registration::class),
+            MenuItem::linkToCrud('User', 'fas fa-users-cog', User::class),
         ];
     }
 }

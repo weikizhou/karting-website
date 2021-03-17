@@ -3,7 +3,6 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Category;
-use App\Form\CarouselType;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
@@ -31,7 +30,9 @@ class CategoryCrudController extends AbstractCrudController
             SlugField::new('slug')
                 ->setTargetFieldName('name')
                 ->onlyOnForms(),
-            TimeField::new('time'),
+            TimeField::new('time')
+                ->setlabel('Time durance')
+                ->setFormattedValue('H:i'),
             MoneyField::new('price')
                 ->setCurrency('EUR')
                 ->setCurrencyPropertyPath(100),

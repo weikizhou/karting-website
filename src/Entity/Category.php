@@ -68,11 +68,6 @@ class Category
     private $slug;
 
     /**
-     * @ORM\OneToMany(targetEntity=Carousel::class, mappedBy="category")
-     */
-    private $carousel;
-
-    /**
      * @ORM\Column(type="text", nullable=true)
      */
     private $introduction;
@@ -80,7 +75,6 @@ class Category
     public function __construct()
     {
         $this->moments = new ArrayCollection();
-        $this->carousel = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -221,36 +215,6 @@ class Category
     public function setSlug(?string $slug): self
     {
         $this->slug = $slug;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Carousel[]
-     */
-    public function getCarousel(): Collection
-    {
-        return $this->carousel;
-    }
-
-    public function addCarousel(Carousel $carousel): self
-    {
-        if (!$this->carousel->contains($carousel)) {
-            $this->carousel[] = $carousel;
-            $carousel->setCategory($this);
-        }
-
-        return $this;
-    }
-
-    public function removeCarousel(Carousel $carousel): self
-    {
-        if ($this->carousel->removeElement($carousel)) {
-            // set the owning side to null (unless already changed)
-            if ($carousel->getCategory() === $this) {
-                $carousel->setCategory(null);
-            }
-        }
 
         return $this;
     }

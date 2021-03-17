@@ -5,6 +5,8 @@ namespace App\Controller;
 
 
 use App\Entity\Registration;
+use App\Form\ResetPasswordType;
+use App\Form\UserType;
 use App\Repository\CategoryRepository;
 use App\Repository\MomentRepository;
 use App\Repository\PageRepository;
@@ -14,6 +16,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class UserController extends AbstractController
 {
@@ -38,9 +41,91 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/gebruiker/kartcentrum/{slug}/{date}", name="user-detail")
+     * @Route("/gebruiker/gegevens", name="user-detail")
      */
-    public function userDetail(PageRepository $pageRepository, MomentRepository $momentRepository,
+    public function userDetail(PageRepository $pageRepository, Request $request, EntityManagerInterface $em)
+    {
+        $pages = $pageRepository->findAll();
+        $user = $this->get('security.token_storage')->getToken()->getUser();
+
+        $form = $this->createForm(UserType::class, $user);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $user = $form->getData();
+            $em->persist($user);
+            $em->flush($user);
+
+            return $this->redirectToRoute('user-detail');
+        }
+
+        return $this->render('user/detail.twig', [
+            'title' => 'Gebruiker | Kartcentrum Max',
+            'user' => $user,
+            'userForm' => $form->createView(),
+            'pages' => $pages,
+        ]);
+    }
+
+    /**
+     * @Route("/gebruiker/wachtwoord/wijzigen", name="reset-password")
+     */
+    public function resetPassword(PageRepository $pageRepository, Request $request, UserPasswordEncoderInterface $encoder, EntityManagerInterface $em)
+    {
+        $pages = $pageRepository->findAll();
+        $user = $this->get('security.token_storage')->getToken()->getUser();
+        $oldPassword = $user->getOldPassword();
+
+        $form = $this->createForm(ResetPasswordType::class, $user);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $user = $form->getData();
+            if ($oldPassword != $user->getPassword()){
+                $passwordEncode = $encoder->encodePassword($user,  $user->getPassword());
+                $passwordRepeatedEncode = $encoder->encodePassword($user,  $user->getRepeatedPassword());
+                $oldPasswordEncode = $encoder->encodePassword($user,  $user->getOldPassword());
+                if ($user->getPassword() == $user->getRepeatedPassword()){
+                    $user->setPassword($passwordEncode);
+                    $user->setRepeatedPassword($passwordRepeatedEncode);
+                    $user->setOldPassword($oldPasswordEncode);
+
+                    $this->addFlash(
+                        'success',
+                        'Uw wachtwoord is gewijzigd.'
+                    );
+                }
+                else{
+                    $this->addFlash(
+                        'danger',
+                        'Uw wachtwoord en herhaalde wachtwoord is niet identiek.'
+                    );
+                }
+            }
+            else{
+                $this->addFlash(
+                    'warning',
+                    'Uw oude wachtwoord is hetzelfde als uw nieuwe wachtwoord.'
+                );
+            }
+            $em->persist($user);
+            $em->flush($user);
+
+            return $this->redirectToRoute('reset-password');
+        }
+
+        return $this->render('user/reset-password.twig', [
+            'title' => 'Gebruiker | Kartcentrum Max',
+            'user' => $user,
+            'userForm' => $form->createView(),
+            'pages' => $pages,
+        ]);
+    }
+
+    /**
+     * @Route("/gebruiker/kartcentrum/{slug}/{date}", name="moment-detail")
+     */
+    public function momentDetail(PageRepository $pageRepository, MomentRepository $momentRepository,
                                CategoryRepository $categoryRepository, RegistrationRepository  $registrationRepository,
                                $slug, $date)
     {
@@ -73,7 +158,7 @@ class UserController extends AbstractController
             $availablePlaces = [];
         }
 
-        return $this->render('user/register.twig', [
+        return $this->render('user/moment-detail.twig', [
             'title' => $lesson[0]->getCategory()->getName() .' | Kartcentrum Max',
             'lesson' => $lesson,
             'registration' => $registration,
@@ -118,7 +203,7 @@ class UserController extends AbstractController
                         'U bent ingeschreven in de '. strtolower($lesson[0]->getCategory()->getName()) . '.'
                     );
 
-                    return $this->redirectToRoute('user-detail', ['slug'=>$slug, 'date'=>$date]);
+                    return $this->redirectToRoute('moment-detail', ['slug'=>$slug, 'date'=>$date]);
                 }
             }
             else{
@@ -126,7 +211,7 @@ class UserController extends AbstractController
                     'warning',
                     'U moet ' .$lesson[0]->getCategory()->getMinimumAge(). ' jaar zijn om hieraan deel te nemen.'
                 );
-                return $this->redirectToRoute('user-detail', ['slug'=>$slug, 'date'=>$date]);
+                return $this->redirectToRoute('moment-detail', ['slug'=>$slug, 'date'=>$date]);
             }
         }
         else{
@@ -134,10 +219,10 @@ class UserController extends AbstractController
                 'warning',
                 'De '.strtolower($lesson[0]->getCategory()->getName()). ' zit vol!'
             );
-            return $this->redirectToRoute('user-detail', ['slug'=>$slug, 'date'=>$date]);
+            return $this->redirectToRoute('moment-detail', ['slug'=>$slug, 'date'=>$date]);
         }
 
-        return $this->render('user/register.twig', [
+        return $this->render('user/moment-detail.twig', [
             'title' => 'Gebruiker | Kartcentrum Max',
             'lesson' => $lesson,
             'pages' => $pages,
@@ -171,7 +256,7 @@ class UserController extends AbstractController
                 'danger',
                 'U bent uitgeschreven uit de ' .strtolower($lesson[0]->getCategory()->getName()). '.'
             );
-            return $this->redirectToRoute('user-detail', ['slug' => $slug, 'date' => $date]);
+            return $this->redirectToRoute('moment-detail', ['slug' => $slug, 'date' => $date]);
         }
     }
 

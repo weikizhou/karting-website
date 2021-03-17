@@ -22,17 +22,28 @@
                 </a>
                 <ul class="navbar-nav">
                     {% for item in pages %}
-                        <li class="nav-item {{ loop.index == 1 ? 'active' : null }}">
-                            <a class="nav-link" href="/{{ item.slug }}">{{ item.navTitle }}</a>
-                        </li>
+                        {% if item.inNavigation == 1 %}
+                            <li class="nav-item {{ loop.index == 1 ? 'active' : null }}">
+                                <a class="nav-link" href="/{{ item.slug }}">{{ item.navTitle }}</a>
+                            </li>
+                        {% endif %}
                     {% endfor %}
                 </ul>
             </div>
             <div class="flex items-center">
                 <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link" href="/login/kartcentrum"><i class="fas fa-lock"></i> Inloggen</a>
-                    </li>
+                    {% if is_granted('ROLE_USER') %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('app_logout') }}"><i class="fas fa-unlock-alt"></i> Uitloggen</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/gebruiker/gegevens"><i class="fas fa-user"></i> Gebruiker</a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="/login/kartcentrum"><i class="fas fa-lock"></i> Inloggen</a>
+                        </li>
+                    {% endif %}
                 </ul>
             </div>
         </nav>
