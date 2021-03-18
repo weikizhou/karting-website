@@ -286,6 +286,10 @@ class UserController extends AbstractController
                 }
             }
         }
+        if(empty($registrations)){
+            $registrations = [];
+        }
+
 
         return $this->render('user/registration-list.twig', [
             'title' => 'Gebruiker | Kartcentrum Max',

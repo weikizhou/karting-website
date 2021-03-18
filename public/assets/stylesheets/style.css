@@ -45,10 +45,6 @@ div {
     display: flex;
 }
 
-.items-center {
-    align-items: center;
-}
-
 .justify-between {
     justify-content: space-between;
 }
@@ -60,6 +56,10 @@ div {
 .nav-link {
     color: #000 !important;
     font-size: 16pt;
+}
+
+.dropdown a, .dropdown a:hover{
+    text-decoration: none;
 }
 
 /*----Header----*/
@@ -323,6 +323,15 @@ div {
     width: 100%;
 }
 
+.empty-registration-list{
+    margin: auto;
+}
+
+.empty-registration-list i, .empty-registration-list a{
+    width: 100%;
+    text-align: center;
+}
+
 /*----Lesson-Not-Found----*/
 .lesson-not-found-container {
     height: 700px;
@@ -351,6 +360,9 @@ div {
 
 /*----Footer----*/
 .site-footer {
+    position: fixed;
+    bottom: -10vh;
+    width: 100%;
     background-color: #0D19A3;
     padding: 45px 0 20px;
     font-size: 15px;

@@ -5,17 +5,6 @@
                     aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-
-            {# <div class="collapse navbar-collapse" id="navbarSupportedContent"> #}
-            {# <ul class="navbar-nav"> #}
-            {# {% for item in pages %} #}
-            {# <li class="nav-item {{ loop.index == 1 ? 'active' : null }}"> #}
-            {# <a class="nav-link" href="/{{ item.slug }}">{{ item.navTitle }}</a> #}
-            {# </li> #}
-            {# {% endfor %} #}
-            {# </ul> #}
-            {# </div> #}
-
             <div class="flex items-center">
                 <a class="text-decoration-none text-dark" href="{{ path('index') }}">
                     <h2 class="mx-4 my-0">Kartcentrum Max</h2>
@@ -33,15 +22,20 @@
             <div class="flex items-center">
                 <ul class="navbar-nav">
                     {% if is_granted('ROLE_USER') %}
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ path('user-registrations') }}"><i class="far fa-clock"></i> Inschrijvingen</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ path('app_logout') }}"><i class="fas fa-unlock-alt"></i> Uitloggen</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ path('user-detail') }}"><i class="fas fa-user"></i> Gebruiker</a>
-                        </li>
+
+                        <div class="dropdown show">
+                            <button class="btn dropdown-toggle" type="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fas fa-user-circle"></i>
+                            </button>
+
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                <a class="dropdown-item" href="{{ path('user-detail') }}"><i class="fas fa-user"></i>  Profiel</a>
+                                <a class="dropdown-item" href="{{ path('user-registrations') }}"><i class="far fa-clock"></i>  Inschrijvingen</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="{{ path('app_logout') }}"><i class="fas fa-unlock-alt"></i>  Uitloggen</a>
+                            </div>
+                        </div>
+
                     {% else %}
                         <li class="nav-item">
                             <a class="nav-link" href="/login/kartcentrum"><i class="fas fa-lock"></i> Inloggen</a>
