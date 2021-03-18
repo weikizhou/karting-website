@@ -22,19 +22,17 @@ class RegistrationRepository extends ServiceEntityRepository
     // /**
     //  * @return Registration[] Returns an array of Registration objects
     //  */
-    /*
-    public function findByExampleField($value)
+
+    public function filterDate($user)
     {
         return $this->createQueryBuilder('r')
-            ->andWhere('r.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('r.id', 'ASC')
-            ->setMaxResults(10)
+            ->andWhere('r.user = :user')
+            ->setParameter('user', $user)
             ->getQuery()
             ->getResult()
-        ;
+            ;
     }
-    */
+
 
     /*
     public function findOneBySomeField($value): ?Registration

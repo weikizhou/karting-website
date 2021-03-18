@@ -270,6 +270,31 @@ class UserController extends AbstractController
     }
 
     /**
+     * @Route("/gebruiker/inschrijvingen", name="user-registrations")
+     */
+    public function userRegistrations(PageRepository $pageRepository, RegistrationRepository $registrationRepository)
+    {
+        $pages = $pageRepository->findAll();
+        $user = $this->get('security.token_storage')->getToken()->getUser();
+        $userRegistration = $registrationRepository->findBy(['user' => $user]);
+        $date = new \DateTime();
+        foreach($userRegistration as $lesson){
+            if ($lesson->getMoment()->getDate() >= $date){
+                $registration = $registrationRepository->findBy(['moment' => $lesson->getMoment(), 'user' => $user]);
+                if ($registration){
+                    $registrations[] = $registration;
+                }
+            }
+        }
+
+        return $this->render('user/registration-list.twig', [
+            'title' => 'Gebruiker | Kartcentrum Max',
+            'registrations' => $registrations,
+            'pages' => $pages,
+        ]);
+    }
+
+    /**
      * @Route("/gebruiker/kartcentrum/lesson-not-found/{slug}/{date}", name="empty-lesson")
      */
     public function emptyLesson(PageRepository $pageRepository, CategoryRepository $categoryRepository , $slug, $date)

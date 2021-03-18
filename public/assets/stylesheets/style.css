@@ -263,11 +263,11 @@ div {
 
 /*----Register----*/
 .detal-carousel-indicator .uk-position-center-left.uk-position-small.uk-icon.uk-slidenav-previous.uk-slidenav {
-    transform: translateX(25vh) translateY(-50%) translateY(-15px);
+    transform: translateX(18vh) translateY(-50%) translateY(-15px);
 }
 
 .detal-carousel-indicator .uk-position-center-right.uk-position-small.uk-icon.uk-slidenav-next.uk-slidenav {
-    transform: translateX(-25vh) translateY(-50%) translateY(-15px);
+    transform: translateX(-18vh) translateY(-50%) translateY(-15px);
 }
 
 .carousel-image {
@@ -315,6 +315,12 @@ div {
 
 .register-sidebar ul li {
     padding: 5px 20px;
+}
+
+/*----Registration-List----*/
+.registration-list-image{
+    height: 350px;
+    width: 100%;
 }
 
 /*----Lesson-Not-Found----*/

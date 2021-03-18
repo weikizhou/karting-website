@@ -9,13 +9,12 @@
     {% set lesson = lesson[0] %}
     {% if carousel is not empty %}
         <div class="uk-position-relative uk-visible-toggle uk-light detal-carousel-indicator" tabindex="-1" uk-slideshow="animation: push">
-
             <ul class="uk-slideshow-items">
                 {% for c in carousel %}
                     <li>
                         <img class="carousel-image" src="{{ asset('assets/uploads/category/carousel/'~c.image) }}" alt="" uk-cover>
-                        <div class="uk-position-center-left uk-text-left">
-                            <div class="col-6 m-auto">
+                        <div class="uk-position-center uk-text-left">
+                            <div class="container m-auto">
                                 <h1 uk-slideshow-parallax="x: 200,-200">{{ lesson.category.name }}</h1>
                                 <p uk-slideshow-parallax="x: 200,-200">{{ lesson.category.introduction|raw }}</p>
                                 <br>
@@ -32,30 +31,32 @@
                     </li>
                 {% endfor %}
             </ul>
-
             <a class="uk-position-center-left uk-position-small" href="#" uk-slidenav-previous uk-slideshow-item="previous"></a>
             <a class="uk-position-center-right uk-position-small" href="#" uk-slidenav-next uk-slideshow-item="next"></a>
-
         </div>
     {% else %}
-        <div class="container-fluid m-0 p-0 register-row"
-             style="background-image: url('{{ asset('assets/uploads/category/'~lesson.category.image) }}')">
-            <div class="container">
-                <div class="row">
-                    <div class="col-12 mt-5">
-                        <h1>{{ lesson.category.name }}</h1>
-                        {{ lesson.category.introduction|raw }}
-                        <br>
-                        <p>
-                            <i class="far fa-calendar-alt"></i>
-                            {{ lesson.date|date('d-m-Y') }} / {{ lesson.time|date('H:i') }}
+
+        <div class="uk-position-relative uk-visible-toggle uk-light detal-carousel-indicator" tabindex="-1" uk-slideshow="animation: push">
+            <ul class="uk-slideshow-items">
+                <li>
+                    <img class="carousel-image" src="{{ asset('assets/uploads/category/'~lesson.category.image) }}" alt="" uk-cover>
+                    <div class="uk-position-center uk-text-left">
+                        <div class="container m-auto">
+                            <h1 uk-slideshow-parallax="x: 200,-200">{{ lesson.category.name }}</h1>
+                            <p uk-slideshow-parallax="x: 200,-200">{{ lesson.category.introduction|raw }}</p>
                             <br>
-                            <i class="fas fa-users"></i>
-                            {{ lesson.maxParticipants }}
-                        </p>
+                            <p uk-slideshow-parallax="x: 200,-200">
+                                <i class="far fa-calendar-alt"></i>
+                                {{ lesson.date|date('d-m-Y') }} / {{ lesson.time|date('H:i') }}
+                                <br>
+                                <i class="fas fa-users"></i>
+                                {{ lesson.maxParticipants }}
+                            </p>
+                        </div>
+
                     </div>
-                </div>
-            </div>
+                </li>
+            </ul>
         </div>
     {% endif %}
     {% for label, messages in app.flashes(['success', 'warning', 'danger']) %}

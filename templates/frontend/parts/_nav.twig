@@ -34,10 +34,13 @@
                 <ul class="navbar-nav">
                     {% if is_granted('ROLE_USER') %}
                         <li class="nav-item">
+                            <a class="nav-link" href="{{ path('user-registrations') }}"><i class="far fa-clock"></i> Inschrijvingen</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link" href="{{ path('app_logout') }}"><i class="fas fa-unlock-alt"></i> Uitloggen</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/gebruiker/gegevens"><i class="fas fa-user"></i> Gebruiker</a>
+                            <a class="nav-link" href="{{ path('user-detail') }}"><i class="fas fa-user"></i> Gebruiker</a>
                         </li>
                     {% else %}
                         <li class="nav-item">
