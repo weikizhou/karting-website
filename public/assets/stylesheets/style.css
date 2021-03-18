@@ -41,15 +41,15 @@ div {
 }
 
 /*----Navbar----*/
-.flex{
+.flex {
     display: flex;
 }
 
-.items-center{
+.items-center {
     align-items: center;
 }
 
-.justify-between{
+.justify-between {
     justify-content: space-between;
 }
 
@@ -191,7 +191,7 @@ div {
     align-items: center;
 }
 
-.form-input div{
+.form-input div {
     width: 100%;
 }
 
@@ -220,7 +220,7 @@ div {
     margin-bottom: 20px;
 }
 
-.my-custom-class-for-errors{
+.my-custom-class-for-errors {
     /*border: 5px solid #ffdddd;*/
 }
 
@@ -240,11 +240,11 @@ div {
     filter: brightness(50%);
 }
 
-.uk-position-center-left.uk-position-small.uk-icon.uk-slidenav-previous.uk-slidenav {
+.moment-carousel-indicator .uk-position-center-left.uk-position-small.uk-icon.uk-slidenav-previous.uk-slidenav {
     transform: translateX(2vh) translateY(-50%) translateY(-15px);
 }
 
-.uk-position-center-right.uk-position-small.uk-icon.uk-slidenav-next.uk-slidenav {
+.moment-carousel-indicator .uk-position-center-right.uk-position-small.uk-icon.uk-slidenav-next.uk-slidenav {
     transform: translateX(-25vh) translateY(-50%) translateY(-15px);
 }
 
@@ -253,15 +253,32 @@ div {
     width: 25px;
 }
 
-.uk-position-center-left.uk-text-left {
+.moment-carousel-indicator .uk-position-center-left.uk-text-left {
     left: 10%;
 }
 
-.uk-position-center-left.uk-text-left div {
+.moment-carousel-indicator .uk-position-center-left.uk-text-left div {
     width: 80%;
 }
 
 /*----Register----*/
+.detal-carousel-indicator .uk-position-center-left.uk-position-small.uk-icon.uk-slidenav-previous.uk-slidenav {
+    transform: translateX(25vh) translateY(-50%) translateY(-15px);
+}
+
+.detal-carousel-indicator .uk-position-center-right.uk-position-small.uk-icon.uk-slidenav-next.uk-slidenav {
+    transform: translateX(-25vh) translateY(-50%) translateY(-15px);
+}
+
+.carousel-image {
+    filter: brightness(75%);
+    height: 450px;
+}
+
+.uk-slideshow-items {
+    min-height: 450px !important;
+}
+
 .register-row {
     filter: brightness(75%);
     height: 400px;
@@ -301,7 +318,7 @@ div {
 }
 
 /*----Lesson-Not-Found----*/
-.lesson-not-found-container{
+.lesson-not-found-container {
     height: 700px;
     background-size: cover;
     background-repeat: no-repeat;
@@ -313,14 +330,15 @@ div {
     z-index: -1;
 }
 
-.lesson-not-found-container .container{
+.lesson-not-found-container .container {
     padding-top: 100px;
 }
 
-.not-found-sub-title, .not-found-title{
+.not-found-sub-title, .not-found-title {
     text-transform: uppercase;
 }
-.not-found-sub-title, .not-found-title, .not-found-content, .not-found-btn{
+
+.not-found-sub-title, .not-found-title, .not-found-content, .not-found-btn {
     font-weight: 700;
     color: #fff;
 }

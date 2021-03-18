@@ -1,26 +1,63 @@
 {% extends 'user/base.html.twig' %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.6.18/dist/css/uikit.min.css" />
+{% endblock %}
+
 {% block main %}
     {% set lesson = lesson[0] %}
-    <div class="container-fluid m-0 p-0 register-row"
-         style="background-image: url('{{ asset('assets/uploads/category/'~lesson.category.image) }}')">
-        <div class="container">
-            <div class="row">
-                <div class="col-12 mt-5">
-                    <h1>{{ lesson.category.name }}</h1>
-                    {{ lesson.category.introduction|raw }}
-                    <br>
-                    <p>
-                        <i class="far fa-calendar-alt"></i>
-                        {{ lesson.date|date('d-m-Y') }} / {{ lesson.time|date('H:i') }}
+    {% if carousel is not empty %}
+        <div class="uk-position-relative uk-visible-toggle uk-light detal-carousel-indicator" tabindex="-1" uk-slideshow="animation: push">
+
+            <ul class="uk-slideshow-items">
+                {% for c in carousel %}
+                    <li>
+                        <img class="carousel-image" src="{{ asset('assets/uploads/category/carousel/'~c.image) }}" alt="" uk-cover>
+                        <div class="uk-position-center-left uk-text-left">
+                            <div class="col-6 m-auto">
+                                <h1 uk-slideshow-parallax="x: 200,-200">{{ lesson.category.name }}</h1>
+                                <p uk-slideshow-parallax="x: 200,-200">{{ lesson.category.introduction|raw }}</p>
+                                <br>
+                                <p uk-slideshow-parallax="x: 200,-200">
+                                    <i class="far fa-calendar-alt"></i>
+                                    {{ lesson.date|date('d-m-Y') }} / {{ lesson.time|date('H:i') }}
+                                    <br>
+                                    <i class="fas fa-users"></i>
+                                    {{ lesson.maxParticipants }}
+                                </p>
+                            </div>
+
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+
+            <a class="uk-position-center-left uk-position-small" href="#" uk-slidenav-previous uk-slideshow-item="previous"></a>
+            <a class="uk-position-center-right uk-position-small" href="#" uk-slidenav-next uk-slideshow-item="next"></a>
+
+        </div>
+    {% else %}
+        <div class="container-fluid m-0 p-0 register-row"
+             style="background-image: url('{{ asset('assets/uploads/category/'~lesson.category.image) }}')">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 mt-5">
+                        <h1>{{ lesson.category.name }}</h1>
+                        {{ lesson.category.introduction|raw }}
                         <br>
-                        <i class="fas fa-users"></i>
-                        {{ lesson.maxParticipants }}
-                    </p>
+                        <p>
+                            <i class="far fa-calendar-alt"></i>
+                            {{ lesson.date|date('d-m-Y') }} / {{ lesson.time|date('H:i') }}
+                            <br>
+                            <i class="fas fa-users"></i>
+                            {{ lesson.maxParticipants }}
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    {% endif %}
     {% for label, messages in app.flashes(['success', 'warning', 'danger']) %}
         {% for message in messages %}
             <div class="container-fluid m-0 p-0">
@@ -57,8 +94,10 @@
                             <span>Beschikbare plekken over: {{ availablePlaces }}</span>
                         </li>
                     {% endif %}
-                    <li><i class="far fa-id-card"></i><span> Minumum leeftijd: {{ lesson.category.minimumAge }}</span></li>
-                    <li><i class="fas fa-ticket-alt"></i> <span> Prijs: </span> &euro;{{ price|number_format(2, ',', '.') }}</li>
+                    <li><i class="far fa-id-card"></i><span> Minumum leeftijd: {{ lesson.category.minimumAge }}</span>
+                    </li>
+                    <li><i class="fas fa-ticket-alt"></i> <span> Prijs: </span>
+                        &euro;{{ price|number_format(2, ',', '.') }}</li>
                 </ul>
                 {% if registrationFull == true %}
                     <a class="btn btn-lg btn-blue w-100"
@@ -67,7 +106,7 @@
                         {{ lesson.category.name }} <span>zit vol!</span>
                     </a>
                 {% else %}
-                    {% if registration is empty%}
+                    {% if registration is empty %}
                         <a class="btn btn-lg btn-blue w-100"
                            href="{{ path('register-activity',
                                {'slug': categorySlug, 'date': lesson.date|date('d-m-Y')}) }}">
@@ -83,4 +122,10 @@
             </div>
         </div>
     </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.6.18/dist/js/uikit.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.6.18/dist/js/uikit-icons.min.js"></script>
 {% endblock %}

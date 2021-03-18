@@ -158,12 +158,21 @@ class UserController extends AbstractController
             $availablePlaces = [];
         }
 
+        $carousel = $category->getCarousel()->getValues();
+        if (empty($carousel)){
+            $carousel = [];
+        }
+
+        $introduction = preg_replace("/<\/?div[^>]*\>/i", "", $lesson[0]->getCategory()->getIntroduction());
+        $lesson[0]->getCategory()->setIntroduction($introduction);
+
         return $this->render('user/moment-detail.twig', [
             'title' => $lesson[0]->getCategory()->getName() .' | Kartcentrum Max',
             'lesson' => $lesson,
             'registration' => $registration,
             'registrationFull' => $registrationFull,
             'availablePlaces' => $availablePlaces,
+            'carousel' => $carousel,
             'pages' => $pages,
         ]);
     }
