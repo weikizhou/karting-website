@@ -28,7 +28,6 @@ class CarouselCrudController extends AbstractCrudController
                 ->setBasePath('assets/uploads/category/carousel')
                 ->hideOnForm()
                 ->setLabel('Carousel image'),
-            TextEditorField::new('content'),
         ];
     }
 

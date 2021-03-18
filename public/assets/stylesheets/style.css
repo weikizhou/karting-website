@@ -40,6 +40,10 @@ div {
     box-shadow: 3px 3px 5px 6px #ccc;
 }
 
+.height-s{
+    margin: 2% auto 10%;
+}
+
 /*----Navbar----*/
 .flex {
     display: flex;
@@ -64,6 +68,7 @@ div {
 
 /*----Header----*/
 .introduction-image {
+    margin-left: 40px;
     width: 80%;
     z-index: 1;
 }
@@ -120,6 +125,7 @@ div {
 }
 
 .section-image-1 {
+    margin-left: 40px;
     width: 60%;
     z-index: 1;
 }
@@ -140,10 +146,6 @@ div {
 }
 
 /*----Inloggen----*/
-.login-container {
-    margin-bottom: 40px;
-}
-
 .inlog-form {
     border-right: 1px solid #d1d1d1;
 }
@@ -360,9 +362,6 @@ div {
 
 /*----Footer----*/
 .site-footer {
-    position: fixed;
-    bottom: -10vh;
-    width: 100%;
     background-color: #0D19A3;
     padding: 45px 0 20px;
     font-size: 15px;

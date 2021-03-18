@@ -6,50 +6,48 @@
 {% endblock %}
 
 {% block main %}
-    <div class="container">
-        <div class="row my-3">
-            <h3 class="text-center">Uw inschrijvingen</h3>
-            {% if registrations is not empty %}
-                <div class="uk-slider-container-offset" uk-slider>
-
-                    <div class="uk-position-relative uk-visible-toggle uk-light" tabindex="-1">
-
-                        <ul class="uk-slider-items uk-grid {{ registrations|length > 1 ? 'uk-child-width-1-2@s' : 'uk-child-width-1' }}">
-                            {% for registration in registrations %}
-                                <li>
-                                    <div class="uk-card uk-card-default">
-                                        <div class="uk-card-media-top">
-                                            <img class="registration-list-image" src="{{ asset('assets/uploads/category/'~registration[0].moment.category.image) }}" alt="">
+    {% if registrations is not empty %}
+        <div class="container">
+            <div class="row my-3">
+                <h3 class="text-center">Uw inschrijvingen</h3>
+                    <div class="uk-slider-container-offset" uk-slider>
+                        <div class="uk-position-relative uk-visible-toggle uk-light" tabindex="-1">
+                            <ul class="uk-slider-items uk-grid {{ registrations|length > 1 ? 'uk-child-width-1-2@s' : 'uk-child-width-1' }}">
+                                {% for registration in registrations %}
+                                    <li>
+                                        <div class="uk-card uk-card-default">
+                                            <div class="uk-card-media-top">
+                                                <img class="registration-list-image" src="{{ asset('assets/uploads/category/'~registration[0].moment.category.image) }}" alt="">
+                                            </div>
+                                            <div class="uk-card-body">
+                                                <h3 class="uk-card-title">{{ registration[0].moment.category.name }}</h3>
+                                                <p>{{ registration[0].moment.category.introduction|raw }}</p>
+                                                <a class="btn btn-blue" href="{{ path('moment-detail',
+                                                    {'slug': registration[0].moment.category.slug, 'date': registration[0].moment.date|date('d-m-Y')}) }}">
+                                                    Meer info</a>
+                                            </div>
                                         </div>
-                                        <div class="uk-card-body">
-                                            <h3 class="uk-card-title">{{ registration[0].moment.category.name }}</h3>
-                                            <p>{{ registration[0].moment.category.introduction|raw }}</p>
-                                            <a class="btn btn-blue" href="{{ path('moment-detail',
-                                                {'slug': registration[0].moment.category.slug, 'date': registration[0].moment.date|date('d-m-Y')}) }}">
-                                                Meer info</a>
-                                        </div>
-                                    </div>
-                                </li>
-                            {% endfor %}
-                        </ul>
-
-                        <a class="uk-position-center-left uk-position-small" href="#" uk-slidenav-previous uk-slider-item="previous"></a>
-                        <a class="uk-position-center-right uk-position-small" href="#" uk-slidenav-next uk-slider-item="next"></a>
-
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                            <a class="uk-position-center-left uk-position-small" href="#" uk-slidenav-previous uk-slider-item="previous"></a>
+                            <a class="uk-position-center-right uk-position-small" href="#" uk-slidenav-next uk-slider-item="next"></a>
+                        </div>
+                        <ul class="uk-slider-nav uk-dotnav uk-flex-center uk-margin"></ul>
                     </div>
-
-                    <ul class="uk-slider-nav uk-dotnav uk-flex-center uk-margin"></ul>
-
-                </div>
-            {% else%}
+            </div>
+        </div>
+    {% else %}
+        <div class="container height-s">
+            <div class="row">
                 <div class="col-md-12 col-lg-6 empty-registration-list">
                     <i class="fas fa-history fa-4x"></i>
                     <p class="text-center">Er zijn geen inschrijvingen van u.</p>
                     <a class="btn btn-lg btn-blue" href="{{ path('user') }}">Schrijf je nu in</a>
                 </div>
-            {% endif %}
+            </div>
         </div>
-    </div>
+    {% endif %}
 {% endblock %}
 
 {% block javascripts %}

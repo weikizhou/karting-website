@@ -33,11 +33,6 @@ class Carousel
     private $imageFile;
 
     /**
-     * @ORM\Column(type="text", nullable=true)
-     */
-    private $content;
-
-    /**
      * @ORM\ManyToMany(targetEntity=Category::class, mappedBy="carousel")
      */
     private $categories;
@@ -76,18 +71,6 @@ class Carousel
     public function getImageFile()
     {
         return $this->imageFile;
-    }
-
-    public function getContent(): ?string
-    {
-        return $this->content;
-    }
-
-    public function setContent(?string $content): self
-    {
-        $this->content = $content;
-
-        return $this;
     }
 
     /**
