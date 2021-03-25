@@ -15,7 +15,7 @@
                             <ul class="uk-slider-items uk-grid {{ registrations|length > 1 ? 'uk-child-width-1-2@s' : 'uk-child-width-1' }}">
                                 {% for registration in registrations %}
                                     <li>
-                                        <div class="uk-card uk-card-default">
+                                        <div class="uk-card uk-card-default {{ registrations|length == 1 ? 'w-50 m-auto' : null }}">
                                             <div class="uk-card-media-top">
                                                 <img class="registration-list-image" src="{{ asset('assets/uploads/category/'~registration[0].moment.category.image) }}" alt="">
                                             </div>

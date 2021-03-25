@@ -2,7 +2,7 @@
 
     {% set currentPath = path(app.request.attributes.get('_route'),
     app.request.attributes.get('_route_params')) %}
-    {% if currentPath != "/inloggen/kartcentrum" %}
+    {% if currentPath != "/inloggen/kartcentrum" and currentPath != '/aanbod' %}
         <div class="container-fluid header-container">
             <div class="row">
                 {% if currentPage.introductionImage is not empty %}

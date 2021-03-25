@@ -40,7 +40,7 @@ div {
     box-shadow: 3px 3px 5px 6px #ccc;
 }
 
-.height-s{
+.height-s {
     margin: 2% auto 10%;
 }
 
@@ -62,7 +62,7 @@ div {
     font-size: 16pt;
 }
 
-.dropdown a, .dropdown a:hover{
+.dropdown a, .dropdown a:hover {
     text-decoration: none;
 }
 
@@ -91,6 +91,37 @@ div {
 
 .introduction-content div {
     padding: 20px;
+}
+
+/*----Offer-Page----*/
+.offer-container {
+    padding: 0;
+    margin: 0;
+    background: radial-gradient(ellipse at center, #464646 0%, #171717 100%);
+}
+
+.offer-container .container {
+    padding-bottom: 50px
+}
+
+.category-lesson-image {
+    height: 500px;
+    width: 100%;
+    filter: brightness(50%);
+}
+
+.offer-image {
+    height: 250px;
+    width: 100%;
+    filter: brightness(50%);
+}
+
+.lesson-card {
+    transition: all .5s ease-in-out;
+}
+
+.lesson-card:hover {
+    transform: scale(1.05);
 }
 
 /*----Section----*/
@@ -320,16 +351,16 @@ div {
 }
 
 /*----Registration-List----*/
-.registration-list-image{
+.registration-list-image {
     height: 350px;
     width: 100%;
 }
 
-.empty-registration-list{
+.empty-registration-list {
     margin: auto;
 }
 
-.empty-registration-list i, .empty-registration-list a{
+.empty-registration-list i, .empty-registration-list a {
     width: 100%;
     text-align: center;
 }

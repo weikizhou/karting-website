@@ -6,6 +6,8 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\RegistrationType;
+use App\Repository\CategoryRepository;
+use App\Repository\MomentRepository;
 use App\Repository\PageRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -27,7 +29,7 @@ class DefaultController extends AbstractController
         $sections = $currentPage->getSection()->getValues();
 
         return $this->render('frontend/index.twig', [
-            'title' => $currentPage->getNavTitle().' | Karting Max',
+            'title' => $currentPage->getNavTitle().' | Kartcentrum Max',
             'currentPage' => $currentPage,
             'sections' => $sections,
             'pages' => $pages,
@@ -37,7 +39,8 @@ class DefaultController extends AbstractController
     /**
      * @Route("/{slug}", name="page")
      */
-    public function page(PageRepository $pageRepository, $slug)
+    public function page(PageRepository $pageRepository, CategoryRepository $categoryRepository,
+                         MomentRepository $momentRepository, $slug)
     {
         if ($slug == "login"){
             return $this->redirectToRoute('app_login');
@@ -46,11 +49,47 @@ class DefaultController extends AbstractController
         $currentPage = $pageRepository->findOneBy(['slug'=> $slug]);
 
         $sections = $currentPage->getSection()->getValues();
+        $category = $categoryRepository->findAll();
+        foreach ($category as $c) {
+            $introduction = preg_replace("/<\/?div[^>]*\>/i", "", $c->getIntroduction());
+            $c->setIntroduction($introduction);
+        }
+
+        $moments = $momentRepository->FilterDate($momentRepository->findAll());
+        if (empty($moments)){
+            $moments = [];
+        }
 
         return $this->render('frontend/index.twig', [
-            'title' => $currentPage->getNavTitle().' | Karting Max',
+            'title' => $currentPage->getNavTitle().' | Kartcentrum Max',
             'currentPage' => $currentPage,
             'sections' => $sections,
+            'category' => $category,
+            'moments' => $moments,
+            'pages' => $pages,
+        ]);
+    }
+
+    /**
+     * @Route("/categorie/{slug}", name="category-detail")
+     */
+    public function categoryDetail(PageRepository $pageRepository, CategoryRepository $categoryRepository, $slug)
+    {
+        $pages = $pageRepository->findAll();
+
+        $category = $categoryRepository->findOneBy(['slug' => $slug]);
+        $introduction = preg_replace("/<\/?div[^>]*\>/i", "", $category->getIntroduction());
+        $category->setIntroduction($introduction);
+
+        $carousel = $category->getCarousel()->getValues();
+        if (empty($carousel)){
+            $carousel = [];
+        }
+
+        return $this->render('frontend/category-detail.twig', [
+            'title' => $category->getName() . ' | Kartcentrum Max',
+            'category' => $category,
+            'carousel' => $carousel,
             'pages' => $pages,
         ]);
     }
@@ -114,7 +153,7 @@ class DefaultController extends AbstractController
         }
 
         return $this->render('frontend/registration.twig', [
-            'title' => 'Registratie | Karting Max',
+            'title' => 'Registratie | Kartcentrum Max',
             'registrationForm' => $form->createView(),
             'pages' => $pages,
         ]);

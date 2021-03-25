@@ -1,0 +1,88 @@
+{% extends 'user/base.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.6.18/dist/css/uikit.min.css" />
+{% endblock %}
+
+{% block main %}
+    {% set price = category.price / 100 %}
+    {% if carousel is not empty %}
+        <div class="uk-position-relative uk-visible-toggle uk-light detal-carousel-indicator" tabindex="-1" uk-slideshow="animation: push">
+            <ul class="uk-slideshow-items">
+                {% for c in carousel %}
+                    <li>
+                        <img class="carousel-image" src="{{ asset('assets/uploads/category/carousel/'~c.image) }}" alt="" uk-cover>
+                        <div class="uk-position-center uk-text-left">
+                            <div class="container m-auto">
+                                <h1 uk-slideshow-parallax="x: 200,-200">{{ category.name }}</h1>
+                                <p uk-slideshow-parallax="x: 200,-200">{{ category.introduction|raw }}</p>
+                                <br>
+                                <p uk-slider-parallax="x: 200,-200">
+                                    <i class="far fa-id-card"></i> {{ category.minimumAge }}<br>
+                                    <i class="fas fa-hourglass-half"></i> {{ category.time|date('H:i') }}<br>
+                                    <i class="fas fa-ticket-alt"></i> &euro;{{ price|number_format(2, ',', '.') }}
+                                </p>
+                            </div>
+
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+            <a class="uk-position-center-left uk-position-small" href="#" uk-slidenav-previous uk-slideshow-item="previous"></a>
+            <a class="uk-position-center-right uk-position-small" href="#" uk-slidenav-next uk-slideshow-item="next"></a>
+        </div>
+    {% else %}
+
+        <div class="uk-position-relative uk-visible-toggle uk-light detal-carousel-indicator" tabindex="-1" uk-slideshow="animation: push">
+            <ul class="uk-slideshow-items">
+                <li>
+                    <img class="carousel-image" src="{{ asset('assets/uploads/category/'~category.image) }}" alt="" uk-cover>
+                    <div class="uk-position-center uk-text-left">
+                        <div class="container m-auto">
+                            <h1 uk-slideshow-parallax="x: 200,-200">{{ category.name }}</h1>
+                            <p uk-slideshow-parallax="x: 200,-200">{{ category.introduction|raw }}</p>
+                            <p uk-slider-parallax="x: 200,-200">
+                                <i class="far fa-id-card"></i> {{ category.minimumAge }}<br>
+                                <i class="fas fa-hourglass-half"></i> {{ category.time|date('H:i') }}<br>
+                                <i class="fas fa-ticket-alt"></i> &euro;{{ price|number_format(2, ',', '.') }}
+                            </p>
+                        </div>
+
+                    </div>
+                </li>
+            </ul>
+        </div>
+    {% endif %}
+    <div class="container my-4">
+        <div class="row">
+            <div class="col-md-12 col-lg-8">
+                <h2>{{ category.name }}</h2>
+                {{ category.description|raw }}
+            </div>
+            <div class="col-md-12 col-lg-4 register-sidebar">
+                <h3 class="m-0 shadow">Meer info</h3>
+                <ul class="shadow m-0">
+                    <li><i class="fas fa-clock"></i> <span>Tijdsduur: </span>{{ category.time|date('H:i') }}</li>
+                    <li><i class="far fa-id-card"></i><span> Minumum leeftijd: {{ category.minimumAge }}</span>
+                    </li>
+                    <li><i class="fas fa-ticket-alt"></i> <span> Prijs: </span>
+                        &euro;{{ price|number_format(2, ',', '.') }}</li>
+                </ul>
+                {% if is_granted('ROLE_USER') %}
+                    <a class="btn btn-lg btn-blue w-100"
+                       href="{{ path('register-activity',
+                           {'slug': categorySlug, 'date': lesson.date|date('d-m-Y')}) }}">
+                        Inschrijven
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.6.18/dist/js/uikit.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.6.18/dist/js/uikit-icons.min.js"></script>
+{% endblock %}
