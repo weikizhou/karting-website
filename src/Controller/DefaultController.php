@@ -58,7 +58,7 @@ class DefaultController extends AbstractController
     }
 
     /**
-     * @Route("/{slug}", name="page")
+     * @Route("/page/{slug}", name="page")
      */
     public function page(PageRepository $pageRepository, CategoryRepository $categoryRepository,
                          MomentRepository $momentRepository, $slug)
