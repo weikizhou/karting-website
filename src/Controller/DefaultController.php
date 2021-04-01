@@ -19,11 +19,19 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class DefaultController extends AbstractController
 {
+    private $serializer;
+
+    public function __construct(SerializerInterface $serializer)
+    {
+        $this->serializer = $serializer;
+    }
+
     /**
      * @Route("/", name="index")
      */
     public function index(PageRepository $pageRepository)
     {
+        return
         $pages = $pageRepository->findAll();
         $currentPage = $pageRepository->findOneBy(['slug'=> 'home']);
         $sections = $currentPage->getSection()->getValues();

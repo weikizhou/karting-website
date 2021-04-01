@@ -1,0 +1,23 @@
+{
+    "devDependencies": {
+        "@symfony/stimulus-bridge": "^2.0.0",
+        "@symfony/webpack-encore": "^1.1.2",
+        "core-js": "^3.0.0",
+        "regenerator-runtime": "^0.13.2",
+        "stimulus": "^2.0.0",
+        "vue-loader": "15.9.5",
+        "vue-template-compiler": "^2.6.12",
+        "webpack-notifier": "^1.6.0"
+    },
+    "license": "UNLICENSED",
+    "private": true,
+    "scripts": {
+        "watch": "encore dev --watch"
+    },
+    "dependencies": {
+        "axios": "^0.21.1",
+        "vue": "^2.6.12",
+        "vue-notification": "^1.3.20",
+        "vue-router": "^3.5.1"
+    }
+}
