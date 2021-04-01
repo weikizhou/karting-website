@@ -16,9 +16,14 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+
 
 class DefaultController extends AbstractController
 {
+
     private $serializer;
 
     public function __construct(SerializerInterface $serializer)
@@ -27,21 +32,29 @@ class DefaultController extends AbstractController
     }
 
     /**
-     * @Route("/", name="index")
+     * @Route("/api/home", name="index")
      */
-    public function index(PageRepository $pageRepository)
+    public function index(PageRepository $pageRepository, Request $request)
     {
-        return
         $pages = $pageRepository->findAll();
         $currentPage = $pageRepository->findOneBy(['slug'=> 'home']);
         $sections = $currentPage->getSection()->getValues();
-
-        return $this->render('frontend/index.twig', [
-            'title' => $currentPage->getNavTitle().' | Kartcentrum Max',
+        $data = [
+            'pages' => $pages,
             'currentPage' => $currentPage,
             'sections' => $sections,
-            'pages' => $pages,
-        ]);
+        ];
+        $jsonContent = $this->serializer->serialize($data,JsonEncoder::FORMAT, []);
+
+        echo $jsonContent;
+        return new JsonResponse($jsonContent, Response::HTTP_OK, [], true);
+
+//        return $this->render('frontend/index.twig', [
+//            'title' => $currentPage->getNavTitle().' | Kartcentrum Max',
+//            'currentPage' => $currentPage,
+//            'sections' => $sections,
+//            'pages' => $pages,
+//        ]);
     }
 
     /**

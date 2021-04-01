@@ -13,7 +13,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  * @ORM\Entity(repositoryClass=PageRepository::class)
  * @Vich\Uploadable
  */
-class Page
+class Page implements \JsonSerializable
 {
     /**
      * @ORM\Id
@@ -200,4 +200,11 @@ class Page
         return $this;
     }
 
+    public function jsonSerialize()
+    {
+        // TODO: Implement jsonSerialize() method.
+        return [
+            $this->title => 'title'
+        ];
+    }
 }
