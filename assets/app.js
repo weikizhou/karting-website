@@ -6,7 +6,6 @@
  */
 
 // any CSS you import will output into a single css file (app.css in this case)
-import './styles/app.css';
 
 // start the Stimulus application
 // import './bootstrap';
@@ -15,11 +14,13 @@ import Vue from 'vue';
 import App from './App.vue'
 import router from './router';
 import Notifications from 'vue-notification';
+import axios from 'axios';
 
 Vue.config.devtools = true;
 Vue.use(Notifications);
-Vue.component('page', require('./view/page.vue'));
 
 new Vue({
-    render: (h) => h(App),
+    components: { App },
+    template: "<App/>",
+    router,
 }).$mount("#app");

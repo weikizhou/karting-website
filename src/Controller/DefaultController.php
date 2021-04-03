@@ -32,29 +32,10 @@ class DefaultController extends AbstractController
     }
 
     /**
-     * @Route("/api/home", name="index")
+     * @Route("/", name="index")
      */
-    public function index(PageRepository $pageRepository, Request $request)
-    {
-        $pages = $pageRepository->findAll();
-        $currentPage = $pageRepository->findOneBy(['slug'=> 'home']);
-        $sections = $currentPage->getSection()->getValues();
-        $data = [
-            'pages' => $pages,
-            'currentPage' => $currentPage,
-            'sections' => $sections,
-        ];
-        $jsonContent = $this->serializer->serialize($data,JsonEncoder::FORMAT, []);
-
-        echo $jsonContent;
-        return new JsonResponse($jsonContent, Response::HTTP_OK, [], true);
-
-//        return $this->render('frontend/index.twig', [
-//            'title' => $currentPage->getNavTitle().' | Kartcentrum Max',
-//            'currentPage' => $currentPage,
-//            'sections' => $sections,
-//            'pages' => $pages,
-//        ]);
+    public function index(){
+        return $this->render('base.html.twig');
     }
 
     /**

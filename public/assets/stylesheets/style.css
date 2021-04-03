@@ -141,14 +141,14 @@ div {
     width: 45%;
     height: auto;
     padding: 20px;
-    position: absolute;
-    right: 50px;
     z-index: 1;
 }
 
 .section-content-0 {
     width: 60%;
     height: auto;
+    position: absolute;
+    right: 30px;
     color: #fff;
     margin: 5% 30px;
     padding: 40px;
@@ -156,16 +156,17 @@ div {
 }
 
 .section-image-1 {
-    margin-left: 40px;
-    width: 60%;
+    margin: 0 60px 0 auto;
     z-index: 1;
+    width: 60%;
+    display: block;
 }
 
 .section-content-1 {
     width: 45%;
     height: auto;
     position: absolute;
-    right: 30px;
+    left: 30px;
     color: #fff;
     margin: 5% 30px;
     padding: 40px;

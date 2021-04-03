@@ -9,7 +9,6 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use ApiPlatform\Core\Annotation\ApiResource;
-use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=PageRepository::class)
@@ -27,7 +26,7 @@ class Page implements \JsonSerializable
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"cheese_listing:read"})
+     *
      */
     private $title;
 
