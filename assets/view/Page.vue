@@ -87,7 +87,8 @@ import axios from 'axios';
 import Section from './component/Section';
 
 var currentUrl = window.location.pathname;
-var currentPage;
+var cPage;
+
 export default {
   name: "Page",
   data() {
@@ -101,38 +102,47 @@ export default {
     Section
   },
   methods: {
-    getPages(){
-      axios
-          .get('http://localhost:8000/api/pages')
-          .then(response => (this.pages = response.data['hydra:member']))
-          .catch(error => console.log(error))
-    },
+    // getPages(){
+    //   const requestOne = axios.get('http://localhost:8000/api/pages');
+    //   axios.all([requestOne]).then(axios.spread((...responses) => {
+    //     this.pages = responses[0].data['hydra:member'];
+    //     this.globalPages = this.pages;
+    //   })).catch(errors => {
+    //     console.log('error page')
+    //   });
+    // },
     getSection(){
-      axios
-          .get('http://localhost:8000/api/sections?page='+currentPage.id)
-          .then(response => (this.section = response.data['hydra:member']))
-          .catch(error => console.log(error))
+      const requestTwo = axios.get('http://localhost:8000/api/sections?page='+ this.currentPage.id);
+      axios.all([requestTwo]).then(axios.spread((...responses) => {
+        this.section = responses[0].data['hydra:member']
+      })).catch(errors => {
+        console.log('error section')
+      })
     }
   },
   mounted () {
     //First i get the pages
-    this.getPages()
-  },
-  updated (){
-    if (currentUrl == '/'){
-      currentUrl = 'home';
-    }
-    //Then we have to get the currentPage
-    var i;
-    for (i = 0; i < this.pages.length; i++) {
-      if (this.pages[i].slug == currentUrl){
-        currentPage = this.pages[i];
+    const requestOne = axios.get('http://localhost:8000/api/pages');
+    axios.all([requestOne]).then(axios.spread((...responses) => {
+      this.pages = responses[0].data['hydra:member'];
+      if (currentUrl == '/'){
+        currentUrl = 'home';
       }
-    }
-    this.currentPage = currentPage;
-    //After that we can call our api to get the sections of this page
-    this.getSection()
+      //Then we have to get the currentPage
+      var i;
+      for (i = 0; i < this.pages.length; i++) {
+        if (this.pages[i].slug == currentUrl){
+          this.currentPage = this.pages[i];
+        }
+      }
+      this.cPage = this.currentPage;
+      //After that we can call our api to get the sections of this page
+      this.getSection();
+    })).catch(errors => {
+      console.log('error page')
+    });
   },
+
 }
 </script>
 

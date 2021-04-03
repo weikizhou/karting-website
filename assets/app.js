@@ -12,15 +12,15 @@
 
 import Vue from 'vue';
 import App from './App.vue'
+import Page from './view/Page.vue'
 import router from './router';
 import Notifications from 'vue-notification';
-import axios from 'axios';
 
 Vue.config.devtools = true;
 Vue.use(Notifications);
 
 new Vue({
-    components: { App },
-    template: "<App/>",
+    components: { Page },
+    template: "<Page/>",
     router,
 }).$mount("#app");
