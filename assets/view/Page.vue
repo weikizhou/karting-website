@@ -13,6 +13,7 @@
                 <h2 class="mx-4 my-0">Kartcentrum Max</h2>
               </a>
               <ul class="navbar-nav">
+                <router-link :to="'/'+slug"></router-link>
                 <li class="nav-item" v-for="(page, index) in pages">
                   <a class="nav-link" :href="'/' + page.slug" v-if="page.inNavigation == 1">{{ page.navTitle }}</a>
                 </li>
@@ -61,7 +62,9 @@
               <div class="col-xs-6 col-md-3">
                 <h2>Pagina's</h2>
                 <ul class="footer-links">
-
+                  <li v-for="(page, index) in pages">
+                    <a :href="'/' + page.slug" v-if="page.inNavigation == 1">{{ page.navTitle }}</a>
+                  </li>
                 </ul>
               </div>
             </div>
@@ -87,7 +90,6 @@ import axios from 'axios';
 import Section from './component/Section';
 
 var currentUrl = window.location.pathname;
-var cPage;
 
 export default {
   name: "Page",
@@ -96,21 +98,13 @@ export default {
       pages: {},
       currentPage: {},
       section: {},
+      slug: [],
     };
   },
   components: {
     Section
   },
   methods: {
-    // getPages(){
-    //   const requestOne = axios.get('http://localhost:8000/api/pages');
-    //   axios.all([requestOne]).then(axios.spread((...responses) => {
-    //     this.pages = responses[0].data['hydra:member'];
-    //     this.globalPages = this.pages;
-    //   })).catch(errors => {
-    //     console.log('error page')
-    //   });
-    // },
     getSection(){
       const requestTwo = axios.get('http://localhost:8000/api/sections?page='+ this.currentPage.id);
       axios.all([requestTwo]).then(axios.spread((...responses) => {
@@ -126,18 +120,20 @@ export default {
     axios.all([requestOne]).then(axios.spread((...responses) => {
       this.pages = responses[0].data['hydra:member'];
       if (currentUrl == '/'){
-        currentUrl = 'home';
+        currentUrl = '/home';
       }
       //Then we have to get the currentPage
       var i;
       for (i = 0; i < this.pages.length; i++) {
-        if (this.pages[i].slug == currentUrl){
+        if ('/'+this.pages[i].slug == currentUrl){
           this.currentPage = this.pages[i];
         }
+        this.slug.push(this.pages[i].slug);
       }
-      this.cPage = this.currentPage;
-      //After that we can call our api to get the sections of this page
-      this.getSection();
+      //After that we can call our api to get the sections of this page in methods()
+      if (this.currentPage){
+        this.getSection();
+      }
     })).catch(errors => {
       console.log('error page')
     });

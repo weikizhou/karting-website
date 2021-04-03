@@ -39,7 +39,7 @@ class DefaultController extends AbstractController
     }
 
     /**
-     * @Route("/page/{slug}", name="page")
+     * @Route("/{slug}", name="page")
      */
     public function page(PageRepository $pageRepository, CategoryRepository $categoryRepository,
                          MomentRepository $momentRepository, $slug)
@@ -47,29 +47,31 @@ class DefaultController extends AbstractController
         if ($slug == "login"){
             return $this->redirectToRoute('app_login');
         }
-        $pages = $pageRepository->findAll();
-        $currentPage = $pageRepository->findOneBy(['slug'=> $slug]);
+        return $this->render('base.html.twig');
 
-        $sections = $currentPage->getSection()->getValues();
-        $category = $categoryRepository->findAll();
-        foreach ($category as $c) {
-            $introduction = preg_replace("/<\/?div[^>]*\>/i", "", $c->getIntroduction());
-            $c->setIntroduction($introduction);
-        }
-
-        $moments = $momentRepository->FilterDate($momentRepository->findAll());
-        if (empty($moments)){
-            $moments = [];
-        }
-
-        return $this->render('frontend/index.twig', [
-            'title' => $currentPage->getNavTitle().' | Kartcentrum Max',
-            'currentPage' => $currentPage,
-            'sections' => $sections,
-            'category' => $category,
-            'moments' => $moments,
-            'pages' => $pages,
-        ]);
+//        $pages = $pageRepository->findAll();
+//        $currentPage = $pageRepository->findOneBy(['slug'=> $slug]);
+//
+//        $sections = $currentPage->getSection()->getValues();
+//        $category = $categoryRepository->findAll();
+//        foreach ($category as $c) {
+//            $introduction = preg_replace("/<\/?div[^>]*\>/i", "", $c->getIntroduction());
+//            $c->setIntroduction($introduction);
+//        }
+//
+//        $moments = $momentRepository->FilterDate($momentRepository->findAll());
+//        if (empty($moments)){
+//            $moments = [];
+//        }
+//
+//        return $this->render('frontend/index.twig', [
+//            'title' => $currentPage->getNavTitle().' | Kartcentrum Max',
+//            'currentPage' => $currentPage,
+//            'sections' => $sections,
+//            'category' => $category,
+//            'moments' => $moments,
+//            'pages' => $pages,
+//        ]);
     }
 
     /**
