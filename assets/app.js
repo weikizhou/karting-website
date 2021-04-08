@@ -11,16 +11,15 @@
 // import './bootstrap';
 
 import Vue from 'vue';
-import App from './App.vue'
-import Page from './view/Page.vue'
+import App from './App.vue';
 import router from './router';
-import Notifications from 'vue-notification';
+import store from './store';
 
-Vue.config.devtools = true;
-Vue.use(Notifications);
+Vue.config.productionTip = false
+
 
 new Vue({
-    components: { Page },
-    template: "<Page/>",
     router,
-}).$mount("#app");
+    store,
+    render: h => h(App)
+}).$mount('#app')

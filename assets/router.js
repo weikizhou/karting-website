@@ -9,15 +9,15 @@ Vue.use(Router);
 export default new Router({
     mode: 'history',
     routes: [
-        {
-            name: "Page",
-            path: "/",
-            component: Page,
-        },
         // {
         //     name: "Page",
-        //     path: "/:slug",
+        //     path: "/",
         //     component: Page,
         // },
+        {
+            name: "Page",
+            path: "/:slug",
+            component: Page,
+        },
     ],
 })

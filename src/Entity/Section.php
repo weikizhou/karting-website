@@ -10,11 +10,15 @@ use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Symfony\Component\Serializer\Annotation\Groups;
+use ApiPlatform\Core\Annotation\ApiProperty;
+use App\Uuid;
+
 
 /**
  * @ORM\Entity(repositoryClass=SectionRepository::class)
  * @ApiResource()
  * @Vich\Uploadable
+ *
  */
 class Section
 {
@@ -22,6 +26,8 @@ class Section
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @var Uuid
+     * @ApiProperty(identifier=true)
      */
     private $id;
 
