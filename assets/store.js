@@ -32,25 +32,31 @@ const actions = {
                 var slugArr = [];
                 //get currentPage
                 var currentPage;
-
                 for (i = 0; i < pages.length; i++) {
                     if ('/' + pages[i].slug == currentUrl) {
                         currentPage = pages[i];
                     }
                     slugArr.push('/' + pages[i].slug);
                 }
+
                 commit('SET_SLUG', slugArr)
                 commit('SET_CURRENTPAGE', currentPage);
                 return currentPage;
             })
     },
-    loadSection({commit}, id) {
-        console.log(id);
-        return axios.get('/api/sections?' + id)
-            .then(response => {
-                commit('SET_SECTION', response.data['hydra:member']);
-                return response.data['hydra:member'];
-            })
+    loadSection({commit}, res) {
+        var i;
+        var api;
+        var sectionArr = [];
+        for (i = 0; i < res.section.length; i++) {
+            api = res.section[i];
+            axios.get(api)
+                .then(response => {
+                    sectionArr.push(response.data)
+                    commit('SET_SECTION', sectionArr);
+                })
+        }
+
     }
 }
 
@@ -68,8 +74,6 @@ const mutations = {
     SET_SECTION(state, section) {
         state.section = section
     }
-
-
 }
 
 //export store module

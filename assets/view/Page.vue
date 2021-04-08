@@ -95,22 +95,15 @@
 </template>
 
 <script>
-import axios from 'axios';
 import Section from './component/Section';
 import store from '../store';
 import {mapMutations, mapActions} from 'vuex';
-
-var currentUrl = window.location.pathname;
 
 export default {
     name: "Page",
     store: store,
     data() {
         return {
-            // pages: {},
-            // currentPage: {},
-            // section: {},
-            // slug: [],
         };
     },
     components: {
@@ -130,30 +123,27 @@ export default {
             return this.$store.state.section
         }
     },
+    methods: {
+      ...mapActions({
+        loadSection: 'loadSection',
+        getPages: 'getPages'
+      }),
+      ...mapMutations({
+        setCurrentPage: 'SET_CURRENTPAGE',
+        setSection: 'SET_SECTION'
+      })
+    },
     mounted() {
         this.getPages().then(res => {
-            this.loadSection(res.id)
+          this.loadSection(res)
         });
-    },
-    methods: {
-        ...mapActions({
-            loadSection: 'loadSection',
-            getPages: 'getPages'
-        }),
-        ...mapMutations({
-            setCurrentPage: 'SET_CURRENTPAGE',
-            setSection: 'SET_SECTION'
-        })
-
-
     },
     watch: {
         '$route.params.slug'(newVal) {
             const page = this.pages.find(page => page.slug === newVal);
             this.setCurrentPage(page);
-            this.loadSection(page.id).then(res => {
+            this.loadSection(page).then(res => {
                 this.setSection(res)
-
             });
         }
     }

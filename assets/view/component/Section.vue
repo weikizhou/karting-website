@@ -1,12 +1,13 @@
 <template>
     <div class="container-fluid">
+<!--      <h1>{{parentData}}</h1>-->
       <div class="row" v-for="(section, index) in parentData">
         <div v-if="section.textAlign == 0">
           <div class="section-content-0 shadow" :class="{'bg-brown': index % 2 === 0, 'bg-blue': index % 2 !== 0 }">
             <h2>{{ section.title }}</h2>
             <p v-html="section.content">{{ section.content }}</p>
           </div>
-          <img class="section-image-0 p-0 shadow"
+          <img v-if="section.image != null" class="section-image-0 p-0 shadow"
                :src="'assets/uploads/section/'+ section.image" alt="section image">
         </div>
         <div v-else>
@@ -14,7 +15,7 @@
             <h2>{{ section.title }}</h2>
             <p v-html="section.content">{{ section.content }}</p>
           </div>
-          <img class="img-fluid section-image-1 p-0 shadow"
+          <img v-if="section.image != null" class="img-fluid section-image-1 p-0 shadow"
                :src="'assets/uploads/section/'+ section.image" alt="section image">
         </div>
       </div>
