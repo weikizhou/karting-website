@@ -11,14 +11,21 @@ const state = {
     slug: [],
     currentPage: [],
     section: [],
+    category: [],
+    moments: [],
+    currentUrl: '',
 }
 
 //to handle state
-const getters = {}
+const getters = {
+    getCurrentUrl(state) {
+        return state.currentUrl;
+    }
+}
 
 //to handle actions
 const actions = {
-    getPages({commit}) {
+    loadPages({commit}) {
         return axios.get('/api/pages')
             .then(response => {
                 commit('SET_PAGES', response.data['hydra:member'])
@@ -38,7 +45,6 @@ const actions = {
                     }
                     slugArr.push('/' + pages[i].slug);
                 }
-
                 commit('SET_SLUG', slugArr)
                 commit('SET_CURRENTPAGE', currentPage);
                 return currentPage;
@@ -56,7 +62,19 @@ const actions = {
                     commit('SET_SECTION', sectionArr);
                 })
         }
-
+    },
+    loadCategory({commit}){
+        axios.get('/api/categories')
+            .then(response => {
+                commit('SET_CATEGORY', response.data['hydra:member']);
+            })
+    },
+    loadMoments({commit}){
+        axios.get('/api/moments')
+            .then(response => {
+                commit('SET_MOMENTS', response.data['hydra:member']);
+                console.log(response.data['hydra:member'])
+            })
     }
 }
 
@@ -73,7 +91,13 @@ const mutations = {
     },
     SET_SECTION(state, section) {
         state.section = section
-    }
+    },
+    SET_CATEGORY(state, category) {
+        state.category = category
+    },
+    SET_MOMENTS(state, moments) {
+        state.moments = moments
+    },
 }
 
 //export store module

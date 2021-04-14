@@ -36,19 +36,24 @@
                 </div>
             </div>
         </div>
-
+      <div v-if="currentPage.slug != 'aanbod'">
         <div class="container-fluid header-container">
-            <div class="row">
-                <img class="introduction-image shadow p-0" v-if="currentPage.introductionImage != undefined "
-                     :src="'assets/uploads/page/'+ currentPage.introductionImage" alt="introduction image">
-                <div class="introduction-content shadow">
-                    <h2>{{ currentPage.introductionTitle }}</h2>
-                    <p v-html="currentPage.introduction">{{ currentPage.introduction }}</p>
-                </div>
+          <div class="row">
+            <img class="introduction-image shadow p-0" v-if="currentPage.introductionImage != undefined "
+                 :src="'assets/uploads/page/'+ currentPage.introductionImage" alt="introduction image">
+            <div class="introduction-content shadow">
+              <h2>{{ currentPage.introductionTitle }}</h2>
+              <p v-html="currentPage.introduction">{{ currentPage.introduction }}</p>
             </div>
+          </div>
         </div>
 
         <Section :parentData="section"></Section>
+      </div>
+      <div v-else>
+        <Category :parentData="category"></Category>
+        <Moment :parentData="moments"></Moment>
+      </div>
 
         <footer class="site-footer">
             <div class="container">
@@ -88,28 +93,32 @@
                     </div>
                 </div>
             </div>
-
         </footer>
     </div>
-
 </template>
 
 <script>
 import Section from './component/Section';
+import Category from './component/Category';
 import store from '../store';
-import {mapMutations, mapActions} from 'vuex';
+import {mapMutations, mapActions, mapGetters} from 'vuex';
+import Moment from "./component/Moment";
 
+// var currentUrl = window.location.pathname;
+
+// console.log(currentUrl)
 export default {
     name: "Page",
     store: store,
-    data() {
-        return {
-        };
-    },
     components: {
-        Section
+        Section,
+        Category,
+        Moment,
     },
     computed: {
+        // ...mapGetters({
+        //   currentUrl: 'getCurrentUrl'
+        // }),
         pages() {
             return this.$store.state.pages
         },
@@ -121,33 +130,43 @@ export default {
         },
         section() {
             return this.$store.state.section
-        }
+        },
+        category() {
+          return this.$store.state.category
+        },
+        moments() {
+          return this.$store.state.moments
+        },
     },
     methods: {
       ...mapActions({
+        loadPages: 'loadPages',
         loadSection: 'loadSection',
-        getPages: 'getPages'
+        loadCategory: 'loadCategory',
+        loadMoments: 'loadMoments',
       }),
       ...mapMutations({
         setCurrentPage: 'SET_CURRENTPAGE',
-        setSection: 'SET_SECTION'
+        setSection: 'SET_SECTION',
       })
     },
     mounted() {
-        this.getPages().then(res => {
+        this.loadPages().then(res => {
           this.loadSection(res)
         });
+        this.loadCategory();
+        this.loadMoments();
     },
     watch: {
-        '$route.params.slug'(newVal) {
-            const page = this.pages.find(page => page.slug === newVal);
+        '$route'(newVal) {
+            let slug = newVal.params.slug ? newVal.params.slug : 'home';
+            const page = this.pages.find(page => page.slug === slug);
             this.setCurrentPage(page);
             this.loadSection(page).then(res => {
-                this.setSection(res)
+              this.setSection(res)
             });
         }
     }
-
 }
 </script>
 

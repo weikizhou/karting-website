@@ -9,10 +9,14 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Annotation\ApiProperty;
+use App\Uuid;
+use Symfony\Component\Serializer\Annotation\Groups;
+
 
 /**
- * @ApiResource()
  * @ORM\Entity(repositoryClass=CategoryRepository::class)
+ * @ApiResource()
  * @Vich\Uploadable
  */
 class Category
@@ -21,61 +25,75 @@ class Category
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @var Uuid
+     * @ApiProperty(identifier=true)
+     * @Groups({"moment"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"moment"})
      */
     private $name;
 
     /**
      * @ORM\Column(type="time", nullable=true)
+     * @Groups({"moment"})
      */
     private $time;
 
     /**
      * @ORM\Column(type="decimal", precision=6, scale=2, nullable=true)
+     * @Groups({"moment"})
      */
     private $price;
 
     /**
      * @ORM\OneToMany(targetEntity=Moment::class, mappedBy="Category")
+     *
      */
     private $moments;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"moment"})
      */
     private $image;
 
     /**
      * @Vich\UploadableField(mapping="category_image", fileNameProperty="image")
+     * @Groups({"moment"})
      */
     private $imageFile;
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @Groups({"moment"})
      */
     private $description;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     * @Groups({"moment"})
      */
     private $minimum_age;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"moment"})
      */
     private $slug;
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @Groups({"moment"})
      */
     private $introduction;
 
     /**
      * @ORM\ManyToMany(targetEntity=Carousel::class, inversedBy="categories")
+     * @Groups({"moment"})
      */
     private $carousel;
 

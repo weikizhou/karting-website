@@ -4,9 +4,13 @@ namespace App\Entity;
 
 use App\Repository\RegistrationRepository;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Annotation\ApiProperty;
+use App\Uuid;
 
 /**
  * @ORM\Entity(repositoryClass=RegistrationRepository::class)
+ * @ApiResource()
  */
 class Registration
 {
@@ -14,6 +18,8 @@ class Registration
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @var Uuid
+     * @ApiProperty(identifier=true)
      */
     private $id;
 

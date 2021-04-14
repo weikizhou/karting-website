@@ -6,9 +6,15 @@ use App\Repository\MomentRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Annotation\ApiProperty;
+use App\Uuid;
+use Symfony\Component\Serializer\Annotation\Groups;
+
 
 /**
  * @ORM\Entity(repositoryClass=MomentRepository::class)
+ * @ApiResource(normalizationContext={ "groups": {"moment"} })
  */
 class Moment
 {
@@ -16,31 +22,40 @@ class Moment
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @var Uuid
+     * @ApiProperty(identifier=true)
+     * @Groups({"moment"})
      */
     private $id;
 
     /**
-     * @ORM\Column(type="date", nullable=true)
-     */
-    private $date;
-
-    /**
-     * @ORM\Column(type="time", nullable=true)
-     */
-    private $time;
-
-    /**
-     * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="moments")
-     */
-    private $Category;
-
-    /**
      * @ORM\Column(type="integer", nullable=true)
+     * @Groups({"moment"})
      */
     private $max_participants;
 
     /**
+     * @ORM\Column(type="time", nullable=true)
+     * @Groups({"moment"})
+     */
+    private $time;
+
+    /**
+     * @ORM\Column(type="date", nullable=true)
+     * @Groups({"moment"})
+     */
+    private $date;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="moments", fetch="EAGER")
+     * @Groups({"moment"})
+     *
+     */
+    private $Category;
+
+    /**
      * @ORM\OneToMany(targetEntity=Registration::class, mappedBy="moment")
+     * @Groups({"moment"})
      */
     private $registrations;
 

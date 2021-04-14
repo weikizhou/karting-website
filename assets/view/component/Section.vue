@@ -1,6 +1,5 @@
 <template>
     <div class="container-fluid">
-<!--      <h1>{{parentData}}</h1>-->
       <div class="row" v-for="(section, index) in parentData">
         <div v-if="section.textAlign == 0">
           <div class="section-content-0 shadow" :class="{'bg-brown': index % 2 === 0, 'bg-blue': index % 2 !== 0 }">
