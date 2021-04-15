@@ -19,5 +19,10 @@ export default new Router({
             path: "/:slug",
             component: Page,
         },
+        {
+            name: "Login",
+            path: "/login",
+            component: Page,
+        },
     ],
 })

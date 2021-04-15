@@ -36,7 +36,7 @@
                 </div>
             </div>
         </div>
-      <div v-if="currentPage.slug != 'aanbod'">
+      <div v-if="currentPage.slug != 'aanbod' && currentPage.slug != 'login' ">
         <div class="container-fluid header-container">
           <div class="row">
             <img class="introduction-image shadow p-0" v-if="currentPage.introductionImage != undefined "
@@ -51,8 +51,13 @@
         <Section :parentData="section"></Section>
       </div>
       <div v-else>
-        <Category :parentData="category"></Category>
-        <Moment :parentData="moments"></Moment>
+        <div v-if="currentPage.slug == 'aanbod'">
+          <Category :parentData="category"></Category>
+          <Moment :parentData="moments"></Moment>
+        </div>
+        <div v-else>
+          <Login></Login>
+        </div>
       </div>
 
         <footer class="site-footer">
@@ -103,6 +108,7 @@ import Category from './component/Category';
 import store from '../store';
 import {mapMutations, mapActions, mapGetters} from 'vuex';
 import Moment from "./component/Moment";
+import Login from "./component/Login";
 
 // var currentUrl = window.location.pathname;
 
@@ -114,6 +120,7 @@ export default {
         Section,
         Category,
         Moment,
+        Login,
     },
     computed: {
         // ...mapGetters({

@@ -21,21 +21,25 @@ use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 
 
+
 class DefaultController extends AbstractController
 {
-
-    private $serializer;
-
-    public function __construct(SerializerInterface $serializer)
-    {
-        $this->serializer = $serializer;
-    }
 
     /**
      * @Route("/{vueRouting}", requirements={"vueRouting"="^(?!api|_(profiler|wdt)).*"} , name="index")
      */
     public function index(){
         return $this->render('base.html.twig');
+    }
+
+    /**
+     * @Route("/login", name="app_login", methods={"POST"})
+     */
+    public function login()
+    {
+        return $this->json([
+                'user' => $this->getUser() ? $this->getUser()->getId() : null]
+        );
     }
 
 //    /**

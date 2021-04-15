@@ -20,6 +20,10 @@ security:
             guard:
                 authenticators:
                     - App\Security\LoginFormAuthenticator
+            json_login:
+              check_path: app_login
+              username_path: username
+              password_path: password
             logout:
                 path: app_logout
                 # where to redirect after logout
