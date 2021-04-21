@@ -35,7 +35,7 @@
               <div class="flex items-center">
                 <ul v-if="user">
                   <div class="dropdown show">
-                    <button class="btn dropdown-toggle" type="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                    <button class="btn dropdown-toggle mt-4" type="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
                       <i class="fas fa-user-circle fa-lg"></i>
                     </button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">

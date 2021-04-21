@@ -33,16 +33,16 @@ const actions = {
                 commit('SET_PAGES', response.data['hydra:member'])
 
                 //get slugs of al the pages
-                if (currentUrl == '/') {
-                    currentUrl = '/home';
-                }
                 var i;
                 var pages = response.data['hydra:member'];
                 var slugArr = [];
                 //get currentPage
                 var currentPage;
                 for (i = 0; i < pages.length; i++) {
-                    if ('/' + pages[i].slug == currentUrl) {
+                    if ('/' + pages[i].slug == window.location.pathname) {
+                        currentPage = pages[i];
+                    }
+                    else if ('/' + pages[i].slug == '/home'){
                         currentPage = pages[i];
                     }
                     slugArr.push('/' + pages[i].slug);
@@ -77,7 +77,7 @@ const actions = {
                 var category = response.data['hydra:member'];
                 var currentCategory;
                 for (i = 0; i < category.length; i++) {
-                    if ('/' + category[i].slug == window.location.pathname) {
+                    if ('/categorie/' + category[i].slug == window.location.pathname) {
                         currentCategory = category[i];
                         commit('SET_CURRENT_CATEGORY', currentCategory);
                     }
