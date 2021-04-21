@@ -20,6 +20,9 @@
 </head>
 <body>
     <div id="app"></div>
+    <script>
+        window.user = {{ user|raw }};
+    </script>
     {% block main %}{% endblock %}
 
 {% block javascripts %}

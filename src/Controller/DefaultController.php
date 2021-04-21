@@ -19,27 +19,48 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
-
-
+use ApiPlatform\Core\Api\IriConverterInterface;
 
 class DefaultController extends AbstractController
 {
 
     /**
-     * @Route("/{vueRouting}", requirements={"vueRouting"="^(?!api|_(profiler|wdt)).*"} , name="index")
+     * @Route("/{vueRouting}",
+     *     requirements={
+     *     "vueRouting"="^(?!api|_(profiler|wdt)).*"
+     *     },
+     *     name="index")
      */
-    public function index(){
-        return $this->render('base.html.twig');
+    public function index(SerializerInterface $serializer){
+        return $this->render('base.html.twig',
+        [
+            'user' => $serializer->serialize($this->getUser(), 'jsonld')
+        ]);
     }
 
     /**
-     * @Route("/login", name="app_login", methods={"POST"})
+     * @Route("/api/login", name="app_login")
      */
-    public function login()
+    public function login(IriConverterInterface $iriConverter)
     {
-        return $this->json([
-                'user' => $this->getUser() ? $this->getUser()->getId() : null]
-        );
+        if (!$this->isGranted('IS_AUTHENTICATED_FULLY')) {
+            return $this->json([
+                'error' => 'Invalid login request: check that the Content-Type header is "application/json".'
+            ], 400);
+        }
+        return new Response(null, 204, [
+            'Location' => $iriConverter->getIriFromItem($this->getUser())
+        ]);
+    }
+
+    /**
+     * @Route("/kartcentrum/logout", name="app_logout")
+     */
+    public function logout()
+    {
+        throw new \Exception('should not be reached');
+        return $this->redirectToRoute('index');
+
     }
 
 //    /**

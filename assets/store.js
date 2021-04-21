@@ -13,6 +13,8 @@ const state = {
     section: [],
     category: [],
     moments: [],
+    currentMoment: [],
+    currentCategory: [],
     currentUrl: '',
 }
 
@@ -45,7 +47,8 @@ const actions = {
                     }
                     slugArr.push('/' + pages[i].slug);
                 }
-                commit('SET_SLUG', slugArr)
+
+                commit('SET_SLUG', slugArr);
                 commit('SET_CURRENTPAGE', currentPage);
                 return currentPage;
             })
@@ -54,28 +57,61 @@ const actions = {
         var i;
         var api;
         var sectionArr = [];
-        for (i = 0; i < res.section.length; i++) {
-            api = res.section[i];
-            axios.get(api)
-                .then(response => {
-                    sectionArr.push(response.data)
-                    commit('SET_SECTION', sectionArr);
-                })
+        if (res != 'user'){
+            for (i = 0; i < res.section.length; i++) {
+                api = res.section[i];
+                axios.get(api)
+                    .then(response => {
+                        sectionArr.push(response.data)
+                        commit('SET_SECTION', sectionArr);
+                    })
+            }
         }
     },
     loadCategory({commit}){
         axios.get('/api/categories')
             .then(response => {
                 commit('SET_CATEGORY', response.data['hydra:member']);
+
+                var i;
+                var category = response.data['hydra:member'];
+                var currentCategory;
+                for (i = 0; i < category.length; i++) {
+                    if ('/' + category[i].slug == window.location.pathname) {
+                        currentCategory = category[i];
+                        commit('SET_CURRENT_CATEGORY', currentCategory);
+                    }
+                }
             })
     },
     loadMoments({commit}){
         axios.get('/api/moments')
             .then(response => {
                 commit('SET_MOMENTS', response.data['hydra:member']);
-                console.log(response.data['hydra:member'])
-            })
-    }
+
+                var i;
+                var moments = response.data['hydra:member'];
+
+                var currentMoment;
+                var momentDate;
+                var currentCategory;
+                var momentDetailUrl;
+                for (i = 0; i < moments.length; i++) {
+                    momentDate = moments[i].date.slice(0, 10);
+                    currentCategory = moments[i].Category.slug;
+                    momentDetailUrl = '/'+currentCategory +'/'+ momentDate;
+                    if (momentDetailUrl == window.location.pathname) {
+                        if (moments[i].Category != null){
+                            currentMoment = moments[i];
+                            currentCategory = moments[i].Category;
+                            commit('SET_CURRENT_MOMENT', currentMoment);
+                            commit('SET_CURRENT_CATEGORY', currentCategory);
+                        }
+                    }
+                }
+            });
+    },
+
 }
 
 //to handle mutations
@@ -98,6 +134,14 @@ const mutations = {
     SET_MOMENTS(state, moments) {
         state.moments = moments
     },
+    SET_CURRENT_MOMENT(state, currentMoment){
+        state.currentMoment = currentMoment
+    },
+    SET_CURRENT_CATEGORY(state, currentCategory){
+        state.currentCategory = currentCategory
+    }
+
+
 }
 
 //export store module

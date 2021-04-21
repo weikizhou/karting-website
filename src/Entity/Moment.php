@@ -31,6 +31,7 @@ class Moment
     /**
      * @ORM\Column(type="integer", nullable=true)
      * @Groups({"moment"})
+     *
      */
     private $max_participants;
 
