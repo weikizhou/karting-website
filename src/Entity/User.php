@@ -11,10 +11,20 @@ use Symfony\Component\Validator\Constraints as Assert;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Annotation\ApiProperty;
 use App\Uuid;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Serializer\Annotation\SerializedName;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
- * @ApiResource()
+ * @ApiResource(
+ *      collectionOperations={"get", "post"},
+ *      itemOperations={"get", "put", "delete"},
+ *      normalizationContext={"groups"={"read"}},
+ *      denormalizationContext={"groups"={"write"}},
+ * )
+ * @UniqueEntity(fields={"username"})
+ * @UniqueEntity(fields={"email"})
  */
 class User implements UserInterface
 {
@@ -30,60 +40,49 @@ class User implements UserInterface
     /**
      * @Assert\NotBlank
      * @ORM\Column(type="string", length=180, unique=true)
+     * @Groups({"read", "write"})
      */
     private $username;
 
     /**
      * @ORM\Column(type="json")
+     * @Groups({"read", "write"})
      */
     private $roles = [];
 
     /**
      * @Assert\NotBlank
-     * @var string The hashed password
      * @ORM\Column(type="string")
+     * @Groups({"read", "write"})
+     *
      */
     private $password;
 
     /**
      * @Assert\NotBlank
      * @ORM\Column(type="string", length=255)
-     */
-    private $repeated_password;
-
-    /**
-     * @Assert\NotBlank
-     * @ORM\Column(type="string", length=255)
+     * @Groups({"read", "write"})
      */
     private $name;
 
     /**
      * @Assert\NotBlank
      * @ORM\Column(type="string", length=255)
-     */
-    private $postal_code;
-
-    /**
-     * @Assert\NotBlank
-     * @ORM\Column(type="string", length=255)
-     */
-    private $house_nr;
-
-    /**
-     * @Assert\NotBlank
-     * @ORM\Column(type="string", length=255)
+     * @Groups({"read", "write"})
      */
     private $address;
 
     /**
-     * @Assert\NotBlank
+     *
      * @ORM\Column(type="string", length=255)
+     * @Groups({"read", "write"})
      */
     private $email;
 
     /**
-     * @Assert\NotBlank
+     *
      * @ORM\Column(type="string", length=255)
+     * @Groups({"read", "write"})
      */
     private $phone;
 
@@ -93,15 +92,36 @@ class User implements UserInterface
     private $registrations;
 
     /**
-     * @Assert\NotBlank
-     * @ORM\Column(type="date", nullable=true)
+     * @ORM\Column(type="string", length=255)
+     * @Groups({"read", "write"})
+     *
      */
-    private $date_of_birth;
+    private $repeatedPassword;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"read", "write"})
+     *
      */
-    private $old_password;
+    private $oldPassword;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     * @Groups({"read", "write"})
+     */
+    private $postalCode;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     * @Groups({"read", "write"})
+     */
+    private $houseNr;
+
+    /**
+     * @ORM\Column(type="date", nullable=true)
+     * @Groups({"read", "write"})
+     */
+    private $dateOfBirth;
 
     public function __construct()
     {
@@ -184,18 +204,6 @@ class User implements UserInterface
         // $this->plainPassword = null;
     }
 
-    public function getRepeatedPassword(): ?string
-    {
-        return $this->repeated_password;
-    }
-
-    public function setRepeatedPassword(string $repeated_password): self
-    {
-        $this->repeated_password = $repeated_password;
-
-        return $this;
-    }
-
     public function getName(): ?string
     {
         return $this->name;
@@ -204,30 +212,6 @@ class User implements UserInterface
     public function setName(string $name): self
     {
         $this->name = $name;
-
-        return $this;
-    }
-
-    public function getPostalCode(): ?string
-    {
-        return $this->postal_code;
-    }
-
-    public function setPostalCode(string $postal_code): self
-    {
-        $this->postal_code = $postal_code;
-
-        return $this;
-    }
-
-    public function getHouseNr(): ?string
-    {
-        return $this->house_nr;
-    }
-
-    public function setHouseNr(string $house_nr): self
-    {
-        $this->house_nr = $house_nr;
 
         return $this;
     }
@@ -298,31 +282,67 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getDateOfBirth(): ?\DateTimeInterface
-    {
-        return $this->date_of_birth;
-    }
-
-    public function setDateOfBirth(?\DateTimeInterface $date_of_birth): self
-    {
-        $this->date_of_birth = $date_of_birth;
-
-        return $this;
-    }
-
     public function __toString()
     {
         return $this->name;
     }
 
-    public function getOldPassword(): ?string
+    public function getRepeatedPassword(): ?string
     {
-        return $this->old_password;
+        return $this->repeatedPassword;
     }
 
-    public function setOldPassword(string $old_password): self
+    public function setRepeatedPassword(string $repeatedPassword): self
     {
-        $this->old_password = $old_password;
+        $this->repeatedPassword = $repeatedPassword;
+
+        return $this;
+    }
+
+    public function getOldPassword(): ?string
+    {
+        return $this->oldPassword;
+    }
+
+    public function setOldPassword(string $oldPassword): self
+    {
+        $this->oldPassword = $oldPassword;
+
+        return $this;
+    }
+
+    public function getPostalCode(): ?string
+    {
+        return $this->postalCode;
+    }
+
+    public function setPostalCode(string $postalCode): self
+    {
+        $this->postalCode = $postalCode;
+
+        return $this;
+    }
+
+    public function getHouseNr(): ?string
+    {
+        return $this->houseNr;
+    }
+
+    public function setHouseNr(string $houseNr): self
+    {
+        $this->houseNr = $houseNr;
+
+        return $this;
+    }
+
+    public function getDateOfBirth(): ?\DateTimeInterface
+    {
+        return $this->dateOfBirth;
+    }
+
+    public function setDateOfBirth(?\DateTimeInterface $dateOfBirth): self
+    {
+        $this->dateOfBirth = $dateOfBirth;
 
         return $this;
     }

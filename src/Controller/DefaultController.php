@@ -54,7 +54,7 @@ class DefaultController extends AbstractController
     }
 
     /**
-     * @Route("/kartcentrum/logout", name="app_logout")
+     * @Route("/api/logout", name="app_logout")
      */
     public function logout()
     {
@@ -62,6 +62,31 @@ class DefaultController extends AbstractController
         return $this->redirectToRoute('index');
 
     }
+
+//    /**
+//     * @Route("/api/registratie/gebruiker", name="registration_user")
+//     *
+//     */
+//    public function registrationUser(Request $request, UserPasswordEncoderInterface $encoder, EntityManagerInterface $em)
+//    {
+//        $data = json_decode($request->getContent(), true);
+//        $user = new User();
+//        $form = $this->createForm(RegistrationType::class, $user);
+//
+//        $form->handleRequest($request);
+//        $form->submit($data);
+//
+//        $user->setUser($this->findUserByUsername('weaverryan'));
+//
+//        $em = $this->getDoctrine()->getManager();
+//        $em->persist($user);
+//        $em->flush();
+//
+//        return new Response('It worked. Believe me - I\'m an API');
+//
+//    }
+
+
 
 //    /**
 //     * @Route("/{vueRouting}", name="page")
