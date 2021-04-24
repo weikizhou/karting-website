@@ -216,7 +216,7 @@ div {
 }
 
 .registration-form label {
-    padding: 15px 0 5px 15px;
+    padding: 10px 0 5px 15px;
 }
 
 .form-input {
@@ -256,6 +256,18 @@ div {
 
 .my-custom-class-for-errors {
     /*border: 5px solid #ffdddd;*/
+}
+
+.form-group__message, .error {
+    display: none;
+}
+
+.form-group--error .error {
+    display: block;
+    font-size: 0.75rem;
+    color: #f57f6c;
+    line-height: 2;
+    margin-left: 14px;
 }
 
 /*----Empty-Section----*/
