@@ -96,7 +96,7 @@
                 <label>Postcode</label>
                 <div class="form-input p-0">
                   <i class="fas fa-map-marked-alt fa-lg"></i>
-                  <input id="postal_code" type="text" v-model.trim="$v.postalCode.$model" name="postal_code" placeholder="Postcode">
+                  <input  v-on:blur="getAddres(postalCode, houseNr)" type="text" v-model.trim="$v.postalCode.$model" name="postal_code" placeholder="Postcode">
                 </div>
                 <div class="error" v-if="!$v.postalCode.required && submitStatus !== 'OK'">Postal code is required.</div>
                 <div class="error" v-if="!$v.postalCode.minLength && submitStatus !== 'OK'">Postal code must have at least {{ $v.postalCode.$params.minLength.min }} letters.</div>
@@ -105,7 +105,7 @@
                 <label>Huis nr.</label>
                 <div class="form-input p-0">
                   <i class="fas fa-home fa-lg"></i>
-                  <input id="house_nr" type="text" v-model.trim="$v.houseNr.$model" name="house_nr" placeholder="Huis nr.">
+                  <input v-on:blur="getAddres(postalCode, houseNr)" type="text" v-model.trim="$v.houseNr.$model" name="house_nr" placeholder="Huis nr.">
                 </div>
                 <div class="error" v-if="!$v.houseNr.required && submitStatus !== 'OK'">House number is required.</div>
               </div>
@@ -115,7 +115,7 @@
               <label>Adres</label>
               <div class="form-input p-0">
                 <i class="fas fa-map-pin fa-lg"></i>
-                <input id="address" type="text" v-model="$v.address.$model" name="address" placeholder="Adres">
+                <input id="registration_address" type="text" v-model="$v.address.$model" name="address" placeholder="Adres">
               </div>
               <div class="error" v-if="!$v.address.required && submitStatus !== 'OK'">Address is required.</div>
             </div>
@@ -140,6 +140,7 @@
 <script>
 import axios from 'axios';
 import { required, sameAs, minLength } from 'vuelidate/lib/validators';
+
 
 export default {
   name: "Registration",
@@ -172,6 +173,33 @@ export default {
     address: {required},
   },
   methods:{
+    // getPostalCode(postalCode){
+    //   getAddres();
+    // },
+    // getHouseNumber(houseNr){
+    //   console.log(1212121);
+    //   console.log(houseNr);
+    //   getAddres();
+    // },
+    getAddres(houseNr, postalCode){
+        console.log(postalCode);
+        console.log(houseNr);
+
+      var location;
+      if (postalCode && houseNr){
+        var p = "?fq="+ postalCode +'&q='+ houseNr;
+        var url = 'https://geodata.nationaalgeoregister.nl/locatieserver/v3/free'+p;
+        var dataset;
+        var address;
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {
+              var location = data['response']['docs'][0];
+              var weergaveNaam = location['weergavenaam'];
+              this.address = weergaveNaam;
+            });
+      }
+    },
     handleSubmit(){
       this.error = '';
       this.$v.$touch()

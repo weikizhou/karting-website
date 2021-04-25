@@ -215,6 +215,10 @@ div {
     width: 65%;
 }
 
+.form-group-registration{
+    padding: 0;
+}
+
 .registration-form label {
     padding: 10px 0 5px 15px;
 }

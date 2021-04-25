@@ -43,7 +43,7 @@
                       <router-link class="dropdown-item" :to="{name: 'User'}"><i class="far fa-clock"></i>  Aanbevolen racen</router-link>
                       <router-link class="dropdown-item" :to="{name: 'UserRegistrations'}"><i class="far fa-address-book"></i>  Inschrijvingen</router-link>
                       <div class="dropdown-divider"></div>
-                      <a class="dropdown-item" href="/kartcentrum/logout"><i class="fas fa-unlock-alt"></i>  Uitloggen</a>
+                      <a class="dropdown-item" href="/api/logout"><i class="fas fa-unlock-alt"></i>  Uitloggen</a>
                     </div>
                   </div>
                 </ul>

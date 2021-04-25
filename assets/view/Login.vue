@@ -11,8 +11,8 @@
                  id="inputUsername" placeholder="Gebruikersnaam">
           <input type="password" v-model="password" class="form-control"
                  id="inputPassword" placeholder="Wachtwoord">
-<!--          <button type="submit" class="btn btn-primary" v-bind:class="{ disabled: this.user }">Log in</button>-->
-          <button type="submit" class="btn btn-primary">Log in</button>
+          <button type="submit" class="btn btn-primary" v-bind:class="{ disabled: this.$parent.user }">Log in</button>
+<!--          <button type="submit" class="btn btn-primary">Log in</button>-->
         </form>
         <router-link :to="{name: 'Registration'}">
           Nog geen account? Meld je aan!
@@ -46,7 +46,9 @@ export default {
             password: this.password,
           })
           .then(response => {
-            this.$emit('user-authenticated', response.headers.location);
+            axios
+                .get(response.headers.location)
+                .then(response => (this.$parent.user = response.data))
             this.username = '';
             this.password = '';
             this.$router.push('/gebruiker');

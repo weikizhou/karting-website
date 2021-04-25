@@ -5,6 +5,7 @@ var postalCode;
 var houseNumber;
 var location;
 
+console.log(1221212);
 function getPostalCode(){
     postalCode = document.getElementById('registration_postal_code').value;
     getAddres();

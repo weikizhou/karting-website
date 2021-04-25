@@ -7,6 +7,7 @@ import Registration from './view/Registration.vue';
 import Login from './view/Login.vue';
 import MomentDetail from './view/MomentDetail.vue';
 import User from './view/User.vue';
+import UserDetail from './view/UserDetail.vue';
 
 Vue.use(Router);
 
@@ -46,7 +47,7 @@ export default new Router({
         {
             name: "UserDetail",
             path: "/gebruiker/gegevens",
-            component: User,
+            component: UserDetail,
         },
         {
             name: "UserRegistrations",
