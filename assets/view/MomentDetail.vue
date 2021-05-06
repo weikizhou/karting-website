@@ -62,11 +62,18 @@
               &euro;{{ parseFloat(currentCategory.price/100).toFixed(2) }}</li>
           </ul>
           <div v-if="isRegistrated == false">
-            <form v-on:submit.prevent="handleAddRegistration">
-              <button class="btn btn-lg btn-blue w-100" type="submit">
-                Inschrijven
-              </button>
-            </form>
+            <div v-if="registerStatus == false">
+              <form v-on:submit.prevent="handleAddRegistration">
+                <button class="btn btn-lg btn-blue w-100" type="submit">
+                  Inschrijven
+                </button>
+              </form>
+            </div>
+            <div v-else-if="registerStatus == true">
+              <span class="btn btn-lg btn-blue w-100">
+                {{ currentCategory.name }} <span>zit vol!</span>
+              </span>
+            </div>
           </div>
           <div v-else-if="isRegistrated == true">
             <form v-on:submit.prevent="handleRemoveRegistration">
@@ -98,6 +105,7 @@ export default {
       submitStatus: null,
       alertType: null,
       isRegistrated: false,
+      registerStatus: false,
     }
   },
   computed: {
@@ -158,8 +166,6 @@ export default {
               this.alertType = 'success';
               this.isRegistrated = true;
               this.loadMoments();
-
-
           }).catch((error) => {
             console.log('registration is not correct');
           })
@@ -212,17 +218,26 @@ export default {
                 axios
                     .get(registrations[i])
                     .then(response => {
-                      if (response.data.user.id == user.id){
+                      if (response.data.user.id == this.user.id){
                           this.isRegistrated = true;
                         }
                     })
             }
         }
+    },
+    momentFull(){
+      if (this.currentMoment.registrations.length >= this.currentMoment.maxParticipants){
+        this.registerStatus = true;
+      }
+      else{
+        this.registerStatus = false;
+      }
     }
   },
   mounted() {
     this.loadMoments().then(res => {
-      this.loadRegistrated(res)
+      this.loadRegistrated(res);
+      this.momentFull();
     });
     // this.loadMoments();
     this.loadCategory();

@@ -210,11 +210,6 @@ div {
 }
 
 /*----Registratie-Form----*/
-.registration-form {
-    /*margin-right: 10px;*/
-    width: 65%;
-}
-
 .form-group-registration{
     padding: 0;
 }
@@ -256,6 +251,54 @@ div {
     background-size: cover;
     background-repeat: no-repeat;
     margin-bottom: 20px;
+}
+
+.first-box{
+    background-color: #0D19A3;
+    width: 40%;
+    height: 40%;
+    position: absolute;
+    right: 10%;
+}
+
+.second-box{
+    background-color: #E4C580;
+    width: 40%;
+    height: 40%;
+    position: absolute;
+    right: -30%;
+    top: 40%;
+    z-index: 2;
+
+}
+
+.registration-title{
+    color: #fff;
+    font-size: 50pt;
+    position: absolute;
+    top: 20%;
+    left: 5%;
+}
+
+.registration-content{
+    color: #f0f0f0;
+    width: 60%;
+    position: absolute;
+    top: 50%;
+    left: 5%;
+    z-index: 2;
+}
+
+.watermark{
+    font-size: 260pt;
+    color: #0f0f0f;
+    font-weight: bolder;
+    letter-spacing: 0px;
+    text-transform: uppercase;
+    position: absolute;
+    top: 30%;
+    z-index: 1;
+    left: -1%;
 }
 
 .my-custom-class-for-errors {

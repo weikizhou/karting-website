@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container-fluid">
     <div class="row">
       <div v-if="this.savingSuccessful == true">
         <div class="alert alert-success" role="alert">
@@ -12,7 +12,7 @@
       <div v-if="error" class="alert alert-danger">
         {{ error }}
       </div>
-      <div class="col-md-12 col-lg-7 registration-form mr-4">
+      <div class="col-md-12 col-lg-4 registration-form">
         <form v-on:submit.prevent="handleSubmit">
           <div class="row mx-2">
             <h2>Maak uw eigen account</h2>
@@ -130,8 +130,13 @@
           </div>
         </form>
       </div>
-      <div class="col-md-12 col-lg-4 registration-card shadow"
-           :style="{ 'background-image' : 'url(assets/img/registratie_image.jpg)' }">
+      <div class="col-md-12 col-lg-8 registration-card shadow"
+           :style="{ 'background-image' : 'linear-gradient(rgba(0, 0, 0, .8), rgba(0, 0, 0, .8)), url(assets/img/registratie_image.jpg)' }">
+        <div class="first-box"></div>
+        <div class="second-box"></div>
+        <h1 class="registration-title">Kartcentrum <br>Max</h1>
+        <p class="registration-content">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Autem corporis, dignissimos ducimus est ex.</p>
+        <h1 class="watermark">Racen</h1>
       </div>
     </div>
   </div>
