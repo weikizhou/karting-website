@@ -41,6 +41,7 @@ import {mapActions} from "vuex";
 
 export default {
   name: "User",
+  props: ['user'],
   methods: {
     formatTime(time){
       var hours = new Date(time).getHours();

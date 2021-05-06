@@ -173,24 +173,11 @@ export default {
     address: {required},
   },
   methods:{
-    // getPostalCode(postalCode){
-    //   getAddres();
-    // },
-    // getHouseNumber(houseNr){
-    //   console.log(1212121);
-    //   console.log(houseNr);
-    //   getAddres();
-    // },
     getAddres(houseNr, postalCode){
-        console.log(postalCode);
-        console.log(houseNr);
-
       var location;
       if (postalCode && houseNr){
         var p = "?fq="+ postalCode +'&q='+ houseNr;
         var url = 'https://geodata.nationaalgeoregister.nl/locatieserver/v3/free'+p;
-        var dataset;
-        var address;
         fetch(url)
             .then(response => response.json())
             .then(data => {

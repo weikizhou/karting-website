@@ -10,11 +10,18 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Annotation\ApiProperty;
 use App\Uuid;
 use Symfony\Component\Serializer\Annotation\Groups;
-
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\DateFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\RangeFilter;
 
 /**
  * @ORM\Entity(repositoryClass=MomentRepository::class)
- * @ApiResource(normalizationContext={ "groups": {"moment"} })
+ * @ApiFilter(RangeFilter::class, properties={"date"})
+ * @ApiResource(
+ *     normalizationContext={"groups": {"moment"}}),
+ *     denormalizationContext={"groups"={"write"}},
+ * )
+ *
  */
 class Moment
 {
@@ -29,27 +36,20 @@ class Moment
     private $id;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
-     * @Groups({"moment"})
-     *
-     */
-    private $max_participants;
-
-    /**
      * @ORM\Column(type="time", nullable=true)
-     * @Groups({"moment"})
+     * @Groups({"moment", "write"})
      */
     private $time;
 
     /**
      * @ORM\Column(type="date", nullable=true)
-     * @Groups({"moment"})
+     * @Groups({"moment", "write"})
      */
     private $date;
 
     /**
      * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="moments", fetch="EAGER")
-     * @Groups({"moment"})
+     * @Groups({"moment", "write"})
      *
      */
     private $Category;
@@ -59,6 +59,12 @@ class Moment
      * @Groups({"moment"})
      */
     private $registrations;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     * @Groups({"moment", "write"})
+     */
+    private $maxParticipants;
 
     public function __construct()
     {
@@ -106,18 +112,6 @@ class Moment
         return $this;
     }
 
-    public function getMaxParticipants(): ?int
-    {
-        return $this->max_participants;
-    }
-
-    public function setMaxParticipants(?int $max_participants): self
-    {
-        $this->max_participants = $max_participants;
-
-        return $this;
-    }
-
     /**
      * @return Collection|Registration[]
      */
@@ -144,6 +138,18 @@ class Moment
                 $registration->setMoment(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getMaxParticipants(): ?int
+    {
+        return $this->maxParticipants;
+    }
+
+    public function setMaxParticipants(?int $maxParticipants): self
+    {
+        $this->maxParticipants = $maxParticipants;
 
         return $this;
     }

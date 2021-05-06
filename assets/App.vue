@@ -59,7 +59,7 @@
           </div>
         </div>
       </div>
-        <router-view></router-view>
+        <router-view :user="user"></router-view>
       <footer class="site-footer">
         <div class="container">
           <div class="row">

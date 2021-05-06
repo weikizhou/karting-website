@@ -5,6 +5,10 @@ api_platform:
         json: ['application/merge-patch+json']
     swagger:
         versions: [3]
+    eager_loading:
+        max_joins: 100
+        fetch_partial: true
+        force_eager: false
     formats:
         jsonld:
             mime_types:
@@ -18,6 +22,7 @@ api_platform:
         jsonhal:
             mime_types:
                 - application/hal+json
+
 
 #    enable_docs: false
 #    enable_entrypoint: false

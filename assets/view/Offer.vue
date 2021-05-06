@@ -42,26 +42,26 @@
           <hr>
           <div class="uk-position-relative uk-visible-toggle uk-light" tabindex="-1" uk-slider>
             <ul class="uk-slider-items uk-child-width-1-2 uk-child-width-1-3@m uk-grid">
-              <li v-for="(lesson, index) in moments">
-                <div class="uk-panel">
-                  <!--                  {{lesson}}-->
-                  <img class="offer-image"
-                       :src="'../assets/uploads/category/'+ lesson.Category.image"
-                       alt="">
-                  <div class="uk-position-center uk-text-center">
-                    <div class="content">
-                      <h3>{{ lesson.Category.name }}</h3>
-                      <i class="fas fa-users"></i>
-                      {{ lesson.maxParticipants }}
+                <li v-for="(lesson, index) in moments">
+                  <router-link :to="{name: 'MomentDetail', params: {category: lesson.Category.slug, date: formatDate(lesson.date)}}">
+                  <div class="uk-panel">
+                    <img class="offer-image"
+                         :src="'../assets/uploads/category/'+ lesson.Category.image"
+                         alt="">
+                    <div class="uk-position-center uk-text-center">
+                      <div class="content">
+                        <h3>{{ lesson.Category.name }}</h3>
+                        <i class="fas fa-users"></i>
+                        {{ lesson.maxParticipants }}
+                      </div>
                     </div>
                   </div>
-                </div>
-                <p class="text-center">
-                  <i class="far fa-calendar-alt"></i>
-                  {{ formatDate(lesson.date) }} / {{ formatTime(lesson.time) }}
-                </p>
-              </li>
-
+                  <p class="text-center">
+                    <i class="far fa-calendar-alt"></i>
+                    {{ formatDate(lesson.date) }} / {{ formatTime(lesson.time) }}
+                  </p>
+                  </router-link>
+                </li>
             </ul>
 
             <a class="uk-position-center-left uk-position-small" href="#" uk-slidenav-previous uk-slider-item="previous"></a>

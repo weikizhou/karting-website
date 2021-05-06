@@ -34,6 +34,7 @@ class User implements UserInterface
      * @ORM\Column(type="integer")
      * @var Uuid
      * @ApiProperty(identifier=true)
+     * @Groups({"read"})
      */
     private $id;
 
@@ -88,6 +89,7 @@ class User implements UserInterface
 
     /**
      * @ORM\OneToMany(targetEntity=Registration::class, mappedBy="user")
+     * @Groups({"read"})
      */
     private $registrations;
 

@@ -16,7 +16,9 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=CategoryRepository::class)
- * @ApiResource()
+ * @ApiResource(
+ *      denormalizationContext={"groups"={"write"}},
+ * )
  * @Vich\Uploadable
  */
 class Category
@@ -39,13 +41,13 @@ class Category
 
     /**
      * @ORM\Column(type="time", nullable=true)
-     * @Groups({"moment"})
+     * @Groups({"moment", "write"})
      */
     private $time;
 
     /**
      * @ORM\Column(type="decimal", precision=6, scale=2, nullable=true)
-     * @Groups({"moment"})
+     * @Groups({"moment", "write"})
      */
     private $price;
 
@@ -57,45 +59,45 @@ class Category
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"moment"})
+     * @Groups({"moment", "write"})
      */
     private $image;
 
     /**
      * @Vich\UploadableField(mapping="category_image", fileNameProperty="image")
-     * @Groups({"moment"})
+     * @Groups({"moment", "write"})
      */
     private $imageFile;
 
     /**
      * @ORM\Column(type="text", nullable=true)
-     * @Groups({"moment"})
+     * @Groups({"moment", "write"})
      */
     private $description;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
-     * @Groups({"moment"})
-     */
-    private $minimum_age;
-
-    /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"moment"})
+     * @Groups({"moment", "write"})
      */
     private $slug;
 
     /**
      * @ORM\Column(type="text", nullable=true)
-     * @Groups({"moment"})
+     * @Groups({"moment", "write"})
      */
     private $introduction;
 
     /**
      * @ORM\ManyToMany(targetEntity=Carousel::class, inversedBy="categories")
-     * @Groups({"moment"})
+     * @Groups({"moment", "write"})
      */
     private $carousel;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     * @Groups({"moment", "write"})
+     */
+    private $minimumAge;
 
     public function __construct()
     {
@@ -221,18 +223,6 @@ class Category
         return $this;
     }
 
-    public function getMinimumAge(): ?int
-    {
-        return $this->minimum_age;
-    }
-
-    public function setMinimumAge(?int $minimum_age): self
-    {
-        $this->minimum_age = $minimum_age;
-
-        return $this;
-    }
-
     public function getSlug(): ?string
     {
         return $this->slug;
@@ -277,6 +267,18 @@ class Category
     public function removeCarousel(Carousel $carousel): self
     {
         $this->carousel->removeElement($carousel);
+
+        return $this;
+    }
+
+    public function getMinimumAge(): ?int
+    {
+        return $this->minimumAge;
+    }
+
+    public function setMinimumAge(?int $minimumAge): self
+    {
+        $this->minimumAge = $minimumAge;
 
         return $this;
     }

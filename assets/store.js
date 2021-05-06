@@ -85,7 +85,7 @@ const actions = {
             })
     },
     loadMoments({commit}){
-        axios.get('/api/moments')
+        return axios.get('/api/moments')
             .then(response => {
                 commit('SET_MOMENTS', response.data['hydra:member']);
 
@@ -99,7 +99,7 @@ const actions = {
                 for (i = 0; i < moments.length; i++) {
                     momentDate = moments[i].date.slice(0, 10);
                     currentCategory = moments[i].Category.slug;
-                    momentDetailUrl = '/'+currentCategory +'/'+ momentDate;
+                    momentDetailUrl = '/gebruiker/'+currentCategory +'/'+ momentDate;
                     if (momentDetailUrl == window.location.pathname) {
                         if (moments[i].Category != null){
                             currentMoment = moments[i];
@@ -109,9 +109,9 @@ const actions = {
                         }
                     }
                 }
+                return currentMoment;
             });
     },
-
 }
 
 //to handle mutations
@@ -139,9 +139,7 @@ const mutations = {
     },
     SET_CURRENT_CATEGORY(state, currentCategory){
         state.currentCategory = currentCategory
-    }
-
-
+    },
 }
 
 //export store module

@@ -4,7 +4,7 @@
       <ul class="uk-slideshow-items">
         <li>
           <img class="carousel-image" v-if="currentCategory.image != null"
-               :src="'../assets/uploads/category/'+ currentCategory.image" alt="category_image" uk-cover>
+               :src="'../../assets/uploads/category/'+ currentCategory.image" alt="category_image" uk-cover>
           <div class="uk-position-center uk-text-left">
             <div class="container m-auto">
               <h1 uk-slideshow-parallax="x: 200,-200">{{ currentCategory.name }}</h1>
@@ -26,7 +26,14 @@
 
     <div class="container my-4">
       <div class="row">
-<!--        {% set categorySlug = lesson.category.slug %}-->
+        <div v-if="this.submitStatus != '' && this.alertType != ''">
+          <div class="alert alert-success" role="alert" v-if="this.alertType == 'succes'">
+            {{this.submitStatus}}
+          </div>
+          <div class="alert alert-warning" role="alert" v-else-if="this.alertType == 'warning'">
+            {{this.submitStatus}}
+          </div>
+        </div>
         <div class="col-md-12 col-lg-8">
           <h2>{{ currentCategory.name }}</h2>
           <div v-html="currentCategory.description">
@@ -54,26 +61,20 @@
             <li><i class="fas fa-ticket-alt"></i> <span> Prijs: </span>
               &euro;{{ parseFloat(currentCategory.price/100).toFixed(2) }}</li>
           </ul>
-<!--          {% if registrationFull == true %}-->
-<!--          <a class="btn btn-lg btn-blue w-100"-->
-<!--             href="{{ path('moment-detail',-->
-<!--                           {'slug': categorySlug, 'date': lesson.date|date('d-m-Y')}) }}">-->
-<!--            {{ lesson.category.name }} <span>zit vol!</span>-->
-<!--          </a>-->
-<!--          {% else %}-->
-<!--          {% if registration is empty %}-->
-<!--          <a class="btn btn-lg btn-blue w-100"-->
-<!--             href="{{ path('register-activity',-->
-<!--                               {'slug': categorySlug, 'date': lesson.date|date('d-m-Y')}) }}">-->
-<!--            Inschrijven-->
-<!--          </a>-->
-<!--          {% else %}-->
-<!--          <a class="btn btn-lg btn-blue w-100"-->
-<!--             href="{{ path('delete-register', {'slug': registration[0].moment.category.slug, 'date': lesson.date|date('d-m-Y')}) }}">-->
-<!--            Uitschrijven-->
-<!--          </a>-->
-<!--          {% endif %}-->
-<!--          {% endif %}-->
+          <div v-if="isRegistrated == false">
+            <form v-on:submit.prevent="handleAddRegistration">
+              <button class="btn btn-lg btn-blue w-100" type="submit">
+                Inschrijven
+              </button>
+            </form>
+          </div>
+          <div v-else-if="isRegistrated == true">
+            <form v-on:submit.prevent="handleRemoveRegistration">
+              <button class="btn btn-lg btn-blue w-100" type="submit">
+                Uitschrijven
+              </button>
+            </form>
+          </div>
         </div>
       </div>
     </div>
@@ -90,13 +91,16 @@ import axios from "axios";
 
 export default {
   name: "MomentDetail",
+  props: ['user'],
   store: store,
-  components: {
+  data() {
+    return {
+      submitStatus: null,
+      alertType: null,
+      isRegistrated: false,
+    }
   },
   computed: {
-    // ...mapGetters({
-    //   currentUrl: 'getCurrentUrl'
-    // }),
     category() {
       return this.$store.state.category
     },
@@ -125,11 +129,7 @@ export default {
       return hours + ':' + minutes;
     },
     formatDate(date){
-      var d = new Date(date),
-          month = '' + (d.getMonth() + 1),
-          day = '' + d.getDate(),
-          year = d.getFullYear();
-
+      var d = new Date(date), month = '' + (d.getMonth() + 1), day = '' + d.getDate(), year = d.getFullYear();
       if (month.length < 2)
         month = '0' + month;
       if (day.length < 2)
@@ -137,22 +137,94 @@ export default {
 
       return [year, month, day].join('-');
     },
-    onUserAuthenticated(userUri) {
-      axios
-          .get(userUri)
-          .then(response => (this.user = response.data));
-    }
-  },
-  data() {
-    return {
-      user: null,
+    handleAddRegistration(){
+      //First we check whether the age limit has been reached
+      var date = new Date(this.user.dateOfBirth);
+      var month_diff = Date.now() - date.getTime();
+      var age_dt = new Date(month_diff);
+      var year = age_dt.getUTCFullYear();
+      var age = Math.abs(year - 1970);
+      if (age >= this.currentCategory.minimumAge){
+        //Then we check whether there is still room
+        var currentRegistrations = this.currentMoment.registrations;
+        if (currentRegistrations.length < this.currentMoment.maxParticipants){
+          axios
+              .post('/api/registrations', {
+                createdAt: new Date(),
+                moment: '/api/moments/'+this.currentMoment.id,
+                user: '/api/users/'+this.user.id,
+              }).then(response =>{
+              this.submitStatus = 'U bent ingeschreven in de '+ this.currentCategory.name +' .';
+              this.alertType = 'success';
+              this.isRegistrated = true;
+              this.loadMoments();
+
+
+          }).catch((error) => {
+            console.log('registration is not correct');
+          })
+        }
+        else{
+          this.submitStatus = 'De '+ this.currentCategory.name +' zit vol!';
+          this.alertType = 'warning';
+        }
+      }
+      else{
+        this.submitStatus = 'U moet '+ this.currentCategory.minimumAge +' jaar zijn om hieraan deel te nemen.';
+        this.alertType = 'warning';
+      }
+    },
+    handleRemoveRegistration(){
+      if (this.isRegistrated == true && this.user.registrations != null){
+        var i;
+        for (i = 0; i < this.currentMoment.registrations.length; i++) {
+          axios
+              .get(this.currentMoment.registrations[i])
+              .then(response => {
+                var x;
+                for (x = 0; x < this.user.registrations.length; x++){
+                  if(response.data.id == this.user.registrations[x].id){
+                    axios
+                        .delete("/api/registrations/"+response.data.id)
+                        .then(response => {
+                          this.loadMoments();
+                          this.isRegistrated = false;
+
+                          // this.loadRegistrated(this.currentMoment);
+                        })
+                        .catch((error) => {
+                          console.log('registration is niet goed verwijdert');
+                        });
+                    console.log(response.data)
+                  }
+                }
+
+              })
+        }
+      }
+    },
+    loadRegistrated(currentMoment){
+        if (currentMoment.registrations != null){
+            //Checks if the user is already registrated on this moment.
+            var i;
+            var registrations = currentMoment.registrations;
+            for (i = 0; i < registrations.length; i++) {
+                axios
+                    .get(registrations[i])
+                    .then(response => {
+                      if (response.data.user.id == user.id){
+                          this.isRegistrated = true;
+                        }
+                    })
+            }
+        }
     }
   },
   mounted() {
-    if (window.user) {
-      this.user = window.user;
-    }
-    this.loadMoments();
+    this.loadMoments().then(res => {
+      this.loadRegistrated(res)
+    });
+    // this.loadMoments();
     this.loadCategory();
   },
 

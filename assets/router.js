@@ -8,6 +8,7 @@ import Login from './view/Login.vue';
 import MomentDetail from './view/MomentDetail.vue';
 import User from './view/User.vue';
 import UserDetail from './view/UserDetail.vue';
+import ResetPassword from './view/ResetPassword.vue';
 
 Vue.use(Router);
 
@@ -40,18 +41,23 @@ export default new Router({
             component: CategoryDetail,
         },
         {
-            name: "User",
-            path: "/gebruiker",
-            component: User,
-        },
-        {
             name: "UserDetail",
             path: "/gebruiker/gegevens",
             component: UserDetail,
         },
         {
+            name: "ResetPassword",
+            path: "/gebruiker/wijzig/wachtwoord",
+            component: ResetPassword,
+        },
+        {
             name: "UserRegistrations",
             path: "/gebruiker/inschrijvingen",
+            component: User,
+        },
+        {
+            name: "User",
+            path: "/gebruiker",
             component: User,
         },
         {
@@ -61,7 +67,7 @@ export default new Router({
         },
         {
             name: "MomentDetail",
-            path: "/:category/:date",
+            path: "/gebruiker/:category/:date",
             component: MomentDetail,
         },
     ],
