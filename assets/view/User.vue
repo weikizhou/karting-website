@@ -31,7 +31,7 @@
       </div>
     </div>
   </div>
-  <div class="container-fluid empty-moments" v-else
+  <div class="container-fluid empty-moments" v-else-if="moments.length < 1"
        :style="{ 'background-image' :
          'linear-gradient(rgba(0, 0, 0, .8), ' +
          'rgba(0, 0, 0, .8)), ' +

@@ -147,17 +147,6 @@ export default {
     houseNr: {required},
     address: {required},
   },
-  computed:{
-    getUserValues() {
-      this.email = this.user.email;
-      this.name = this.user.name;
-      this.username = this.user.username;
-      this.phone = this.user.phone;
-      this.postalCode = this.user.postalCode;
-      this.houseNr = this.user.houseNr;
-      this.address = this.user.address;
-    },
-  },
   methods: {
     handleSubmit() {
       this.error = '';
@@ -179,8 +168,6 @@ export default {
                 houseNr: this.houseNr,
                 address: this.address,
               }).then(response => {
-            // this.user = '';
-            console.log(response)
             if (response.status == 201) {
               this.savingSuccessful = true;
             }
@@ -190,8 +177,20 @@ export default {
         }, 500)
       }
 
+    },
+    getUserValues(){
+      this.email = this.user.email;
+      this.name = this.user.name;
+      this.username = this.user.username;
+      this.phone = this.user.phone;
+      this.postalCode = this.user.postalCode;
+      this.houseNr = this.user.houseNr;
+      this.address = this.user.address;
     }
   },
+  mounted(){
+    this.getUserValues();
+  }
 }
 </script>
 
