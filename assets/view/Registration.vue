@@ -1,5 +1,5 @@
 <template>
-  <div class="container-fluid">
+  <div class="container-fluid pl-0">
     <div class="row">
       <div v-if="this.savingSuccessful == true">
         <div class="alert alert-success" role="alert">
@@ -12,7 +12,7 @@
       <div v-if="error" class="alert alert-danger">
         {{ error }}
       </div>
-      <div class="col-md-12 col-lg-4 registration-form">
+      <div class="col-md-12 col-lg-4 registration-form pl-0">
         <form v-on:submit.prevent="handleSubmit">
           <div class="row mx-2">
             <h2>Maak uw eigen account</h2>
@@ -135,7 +135,7 @@
         <div class="first-box"></div>
         <div class="second-box"></div>
         <h1 class="registration-title">Kartcentrum <br>Max</h1>
-        <p class="registration-content">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Autem corporis, dignissimos ducimus est ex.</p>
+        <p class="registration-content">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus dolores in ipsa quisquam? Deserunt, eligendi eos excepturi.</p>
         <h1 class="watermark">Racen</h1>
       </div>
     </div>

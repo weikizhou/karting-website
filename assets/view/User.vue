@@ -1,9 +1,8 @@
 <template>
-  <div class="container-fluid">
+  <div class="container-fluid" v-if="moments.length >= 1">
     <div class="row">
       <div class="uk-position-relative uk-visible-toggle uk-light moment-carousel-indicator" tabindex="-1" uk-slider>
         <ul class="uk-slider-items uk-grid">
-          <!--          {% set categorySlug = lesson.category.slug %}-->
           <li class="uk-width-4-5" v-for="(lesson, index) in moments">
             <div class="uk-panel">
               <img class="lesson-image shadow" :src="'assets/uploads/category/'+ lesson.Category.image" alt="lesson_image">
@@ -31,6 +30,18 @@
         <a class="uk-position-center-right uk-position-small" href="#" uk-slidenav-next uk-slider-item="next"></a>
       </div>
     </div>
+  </div>
+  <div class="container-fluid empty-moments" v-else
+       :style="{ 'background-image' :
+         'linear-gradient(rgba(0, 0, 0, .8), ' +
+         'rgba(0, 0, 0, .8)), ' +
+         'url(assets/img/empty_image.jpg)' }">
+    <div class="container">
+      <div class="row">
+        <h1>Er is helaas geen moment om te racen.</h1>
+      </div>
+    </div>
+
   </div>
 </template>
 

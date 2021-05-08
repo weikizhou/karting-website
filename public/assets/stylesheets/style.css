@@ -124,6 +124,11 @@ div {
     transform: scale(1.05);
 }
 
+.offer-container h2{
+    color: #fff;
+    text-align: center;
+}
+
 /*----Section----*/
 .bg-brown {
     background-color: #E4C580;
@@ -282,7 +287,7 @@ div {
 
 .registration-content{
     color: #f0f0f0;
-    width: 60%;
+    width: 70%;
     position: absolute;
     top: 50%;
     left: 5%;
@@ -352,6 +357,21 @@ div {
 
 .moment-carousel-indicator .uk-position-center-left.uk-text-left div {
     width: 80%;
+}
+
+.empty-moments{
+    background-size: cover;
+    background-repeat: no-repeat;
+    margin: 0 0 20px 0;
+    min-height: 600px;
+    padding: 0;
+}
+
+.empty-moments h1{
+    color: #fff;
+    font-size: 30pt;
+    text-align: center;
+    margin: 20% 0 0 0;
 }
 
 /*----Register----*/

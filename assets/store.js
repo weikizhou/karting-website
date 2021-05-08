@@ -85,12 +85,12 @@ const actions = {
             })
     },
     loadMoments({commit}){
-        return axios.get('/api/moments')
+        return axios.get('/api/dates')
             .then(response => {
-                commit('SET_MOMENTS', response.data['hydra:member']);
+                commit('SET_MOMENTS', response.data);
 
                 var i;
-                var moments = response.data['hydra:member'];
+                var moments = response.data;
 
                 var currentMoment;
                 var momentDate;

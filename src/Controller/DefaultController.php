@@ -60,7 +60,19 @@ class DefaultController extends AbstractController
     {
         throw new \Exception('should not be reached');
         return $this->redirectToRoute('index');
+    }
 
+    /**
+     * @Route("/api/dates", name="moments")
+     */
+    public function moments(MomentRepository $momentRepository, SerializerInterface $serializer)
+    {
+        $moments = $momentRepository->FilterDate($momentRepository->findAll());
+        if (empty($moments)){
+            $moments = [];
+        }
+        $jsonContent = $serializer->serialize($moments,JsonEncoder::FORMAT, []);
+        return new JsonResponse($jsonContent, Response::HTTP_OK, [], true);
     }
 
 //    /**
