@@ -5,21 +5,15 @@
         <div class="col-md-12 col-lg-10 m-auto">
           <form v-on:submit.prevent="handleSubmit">
             <div class="row">
+              <div v-if="this.savingSuccessful == true">
+                <div class="alert alert-success" role="alert">
+                  <span>Wachtwoord is geupdate</span>
+                </div>
+              </div>
               <h2>Wijzig uw account</h2>
               <hr class="m-0">
-
-              <div class="form-group-registration">
-                <label class="mt-3">Oude wachtwoord</label>
-                <div class="form-input">
-                  <i class="fas fa-unlock-alt fa-lg"></i>
-                  <input type="password" v-model.trim="$v.oldPassword.$model" name="oldPassword" placeholder="Wachtwoord">
-                </div>
-                <div class="error" v-if="!$v.password.required && submitStatus !== 'OK'">Password is required.</div>
-                <div class="error" v-if="!$v.password.minLength && submitStatus !== 'OK'">Password must have at least {{ $v.password.$params.minLength.min }} letters.</div>
-              </div>
-
-              <div class="row mt-5 pr-0">
-                <div class="col-md-12 col-lg-6 pl-0" :class="{ 'form-group--error': $v.password.$error }">
+              <div class="row mt-5 pr-0 mx-auto">
+                <div class="col-md-12 col-lg-5 pl-0" :class="{ 'form-group--error': $v.password.$error }">
                   <label>Nieuw wachtwoord</label>
                   <div class="form-input">
                     <i class="fas fa-unlock-alt fa-lg"></i>
@@ -28,7 +22,7 @@
                   <div class="error" v-if="!$v.password.required && submitStatus !== 'OK'">Password is required.</div>
                   <div class="error" v-if="!$v.password.minLength && submitStatus !== 'OK'">Password must have at least {{ $v.password.$params.minLength.min }} letters.</div>
                 </div>
-                <div class="col-md-12 col-lg-6 p-0" :class="{ 'form-group--error': $v.repeatedPassword.$error }">
+                <div class="col-md-12 col-lg-5 p-0" :class="{ 'form-group--error': $v.repeatedPassword.$error }">
                   <label>Herhaal wachtwoord</label>
                   <div class="form-input">
                     <i class="fas fa-unlock-alt fa-lg"></i>
@@ -42,7 +36,7 @@
             <button class="btn btn-lg btn-blue my-3" type="submit">
               Opslaan
             </button>
-            <div  class="col-md-12 col-lg-5">
+            <div  class="col-md-12 col-lg-5 p-0">
               <p class="typo__p" v-if="submitStatus === 'OK'">Password has updated.</p>
               <p class="typo__p" v-if="submitStatus === 'ERROR'">Please fill the form correctly.</p>
               <p class="typo__p" v-if="submitStatus === 'PENDING'">Sending...</p>
@@ -66,7 +60,6 @@ export default {
   props: ['user'],
   data() {
     return {
-      oldPassword: '',
       password: '',
       repeatedPassword: '',
       savingSuccessful: false,
@@ -75,7 +68,6 @@ export default {
     }
   },
   validations: {
-    oldPassword: {required, minLength: minLength(6)},
     password: {required, minLength: minLength(6)},
     repeatedPassword: { sameAsPassword: sameAs('password')},
   },
@@ -90,29 +82,19 @@ export default {
         this.submitStatus = 'PENDING'
         setTimeout(() => {
           this.submitStatus = 'OK';
-          console.log(this.oldPassword == this.user.oldPassword);
-          console.log('zelfde hash');
-          if (this.oldPassword == this.user.oldPassword){
-            var oldKey = this.user.oldPassword;
-
-            console.log(oldKey != this.password);
-            console.log('old key is niet meer hetzelgfde');
-            if(oldKey != this.password){
-              // axios
-              //     .put('/api/users/' + this.user.id, {
-              //       oldPassword: this.password,
-              //       password: this.password,
-              //       repeatedPassword: this.repeatedPassword,
-              //     }).then(response => {
-              //   console.log(response)
-              //   if (response.status == 201) {
-              //     this.savingSuccessful = true;
-              //   }
-              // }).catch((error) => {
-              //   console.log('registration is not correct');
-              // })
+          axios
+              .put('/api/users/' + this.user.id, {
+                oldPassword: this.password,
+                password: this.password,
+                repeatedPassword: this.repeatedPassword,
+              }).then(response => {
+            console.log(response)
+            if (response.status == 200) {
+              this.savingSuccessful = true;
             }
-          }
+          }).catch((error) => {
+            console.log('registration is not correct');
+          })
 
         }, 500)
       }

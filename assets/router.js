@@ -8,6 +8,7 @@ import Login from './view/Login.vue';
 import MomentDetail from './view/MomentDetail.vue';
 import User from './view/User.vue';
 import UserDetail from './view/UserDetail.vue';
+import UserRegistrations from './view/UserRegistrations.vue';
 import ResetPassword from './view/ResetPassword.vue';
 
 Vue.use(Router);
@@ -53,7 +54,7 @@ export default new Router({
         {
             name: "UserRegistrations",
             path: "/gebruiker/inschrijvingen",
-            component: User,
+            component: UserRegistrations,
         },
         {
             name: "User",
