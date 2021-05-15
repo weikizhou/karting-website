@@ -15,6 +15,7 @@ const state = {
     moments: [],
     currentMoment: [],
     currentCategory: [],
+    currentCarousel: [],
     currentUrl: '',
 }
 
@@ -106,6 +107,17 @@ const actions = {
                             currentCategory = moments[i].Category;
                             commit('SET_CURRENT_MOMENT', currentMoment);
                             commit('SET_CURRENT_CATEGORY', currentCategory);
+                            // if (currentCategory.carousel != null){
+                            //     axios.get('/api/carousels')
+                            //         .then(response => {
+                            //             var x;
+                            //             var carousel = response.data['hydra:member'];
+                            //             for (x = 0; x < carousel.length; x++){
+                            //                 if ()
+                            //             }
+                            //         });
+                            //
+                            // }
                         }
                     }
                 }
@@ -139,6 +151,9 @@ const mutations = {
     },
     SET_CURRENT_CATEGORY(state, currentCategory){
         state.currentCategory = currentCategory
+    },
+    SET_CURRENT_CAROUSEL(state, currentCarousel){
+        state.currentCarousel = currentCarousel
     },
 }
 

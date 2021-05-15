@@ -16,7 +16,9 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=CarouselRepository::class)
- * @ApiResource()
+ * @ApiResource(
+ *     denormalizationContext={"groups"={"write"}},
+ * )
  * @Vich\Uploadable
  */
 class Carousel
@@ -27,21 +29,25 @@ class Carousel
      * @ORM\Column(type="integer")
      * @var Uuid
      * @ApiProperty(identifier=true)
+     * @Groups({"moment", "write"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"moment", "write"})
      */
     private $image;
 
     /**
      * @Vich\UploadableField(mapping="carousel_image", fileNameProperty="image")
+     *
      */
     private $imageFile;
 
     /**
      * @ORM\ManyToMany(targetEntity=Category::class, mappedBy="carousel")
+     * @Groups({"moment", "write"})
      */
     private $categories;
 

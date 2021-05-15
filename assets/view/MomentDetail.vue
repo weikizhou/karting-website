@@ -26,12 +26,19 @@
 
     <div class="container my-4">
       <div class="row">
-        <div v-if="this.submitStatus != '' && this.alertType != ''">
-          <div class="alert alert-success" role="alert" v-if="this.alertType == 'succes'">
-            {{this.submitStatus}}
+        <div v-if="this.savingSuccessful == true">
+          <div class="alert alert-success" role="alert">
+            <span>U bent ingeschreven in de {{currentCategory.name}}.</span>
           </div>
-          <div class="alert alert-warning" role="alert" v-else-if="this.alertType == 'warning'">
-            {{this.submitStatus}}
+        </div>
+        <div v-else-if="this.underage == true">
+          <div class="alert alert-warning" role="alert">
+            <span>U moet {{currentCategory.minimumAge}} jaar zijn om hieraan deel te nemen.</span>
+          </div>
+        </div>
+        <div v-else-if="this.deleteRegistration == true">
+          <div class="alert alert-danger" role="alert">
+            <span>U bent uitgeschreven uit deze race.</span>
           </div>
         </div>
         <div class="col-md-12 col-lg-8">
@@ -76,7 +83,7 @@
             </div>
           </div>
           <div v-else-if="isRegistrated == true">
-            <form v-on:submit.prevent="handleRemoveRegistration">
+            <form v-on:submit.prevent="handleRemoveRegistration(user)">
               <button class="btn btn-lg btn-blue w-100" type="submit">
                 Uitschrijven
               </button>
@@ -102,10 +109,12 @@ export default {
   store: store,
   data() {
     return {
-      submitStatus: null,
-      alertType: null,
       isRegistrated: false,
       registerStatus: false,
+      savingSuccessful: false,
+      underage: false,
+      momentIsFull: false,
+      deleteRegistration: false,
     }
   },
   computed: {
@@ -162,50 +171,56 @@ export default {
                 moment: '/api/moments/'+this.currentMoment.id,
                 user: '/api/users/'+this.user.id,
               }).then(response =>{
-              this.submitStatus = 'U bent ingeschreven in de '+ this.currentCategory.name +' .';
-              this.alertType = 'success';
+              this.user.registrations.push(response.data);
               this.isRegistrated = true;
+              if(response.status == 201){
+                this.savingSuccessful = true;
+              }
               this.loadMoments();
           }).catch((error) => {
             console.log('registration is not correct');
           })
         }
         else{
-          this.submitStatus = 'De '+ this.currentCategory.name +' zit vol!';
-          this.alertType = 'warning';
+          this.momentIsFull = true;
         }
       }
       else{
-        this.submitStatus = 'U moet '+ this.currentCategory.minimumAge +' jaar zijn om hieraan deel te nemen.';
-        this.alertType = 'warning';
+        this.underage = true;
       }
     },
-    handleRemoveRegistration(){
-      if (this.isRegistrated == true && this.user.registrations != null){
+    handleRemoveRegistration(user){
+      if (this.isRegistrated == true){
         var i;
         for (i = 0; i < this.currentMoment.registrations.length; i++) {
           axios
               .get(this.currentMoment.registrations[i])
               .then(response => {
-                var x;
-                for (x = 0; x < this.user.registrations.length; x++){
-                  if(response.data.id == this.user.registrations[x].id){
+                var x = 0;
+                for (x = 0; x <= user.registrations.length; x++){
+                  if(response.data.id == user.registrations[x].id){
                     axios
                         .delete("/api/registrations/"+response.data.id)
                         .then(response => {
-                          this.loadMoments();
+                          this.loadMoments().then(response => {
+                            this.loadRegistrated(response);
+                            this.momentFull();
+                          });
                           this.isRegistrated = false;
-
-                          // this.loadRegistrated(this.currentMoment);
+                          this.savingSuccessful = false;
+                          this.deleteRegistration = true;
+                          user.registrations.splice(x - 1, 1);
                         })
                         .catch((error) => {
                           console.log('registration is niet goed verwijdert');
                         });
-                    console.log(response.data)
                   }
                 }
 
               })
+              .catch((error) => {
+                console.log('registration is aan het verwijderen');
+              });
         }
       }
     },
