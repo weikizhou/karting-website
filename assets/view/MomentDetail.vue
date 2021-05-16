@@ -57,12 +57,13 @@
             <li><i class="fas fa-clock"></i> <span>Tijdsduur: </span>{{ formatTime(currentCategory.time) }}</li>
             <li><i class="fas fa-users"></i> <span>Max aantal: </span>{{ currentMoment.maxParticipants }}</li>
 
-            <li v-if="currentMoment.registrations != null">
-              <div v-if="currentMoment.registrations.length < currentMoment.maxParticipants">
-                <i class="fas fa-user-plus"></i>
-                <span>Beschikbare plekken over: {{currentMoment.maxParticipants - currentMoment.registrations.length}}</span>
-              </div>
-            </li>
+            <div v-if="currentMoment.registrations != null">
+              <li v-if="currentMoment.registrations.length < currentMoment.maxParticipants">
+                  <i class="fas fa-user-plus"></i>
+                  <span>Beschikbare plekken over: {{currentMoment.maxParticipants - currentMoment.registrations.length}}</span>
+              </li>
+            </div>
+
 
             <li><i class="far fa-id-card"></i><span>
               Minumum leeftijd: {{ currentCategory.minimumAge }}</span>
