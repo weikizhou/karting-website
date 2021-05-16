@@ -89,7 +89,6 @@ const actions = {
         return axios.get('/api/dates')
             .then(response => {
                 commit('SET_MOMENTS', response.data);
-
                 var i;
                 var moments = response.data;
 

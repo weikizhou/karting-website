@@ -322,6 +322,11 @@ div {
     margin-left: 14px;
 }
 
+.user-registration-list .uk-position-center-right.uk-position-small.uk-icon.uk-slidenav-next.uk-slidenav,
+.user-registration-list .uk-position-center-left.uk-position-small.uk-icon.uk-slidenav-previous.uk-slidenav{
+    transform: translateY(-150%);
+}
+
 /*----Empty-Section----*/
 .empty-container {
     margin: 0;
