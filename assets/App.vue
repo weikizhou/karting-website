@@ -82,7 +82,18 @@
                   <h2>Pagina's</h2>
                   <ul class="footer-links">
                     <li v-for="(page, index) in pages">
-                      <a :href="'/' + page.slug" v-if="page.inNavigation == 1">{{ page.navTitle }}</a>
+                      <div v-if="page.slug == 'aanbod'">
+                        <router-link v-if="page.inNavigation == 1"
+                                     :to="{name: 'Offer'}">
+                          {{ page.navTitle }}
+                        </router-link>
+                      </div>
+                      <div v-else>
+                        <router-link v-if="page.inNavigation == 1"
+                                     :to="{name: 'Page', params: {slug: page.slug}}">
+                          {{ page.navTitle }}
+                        </router-link>
+                      </div>
                     </li>
                   </ul>
                 </div>

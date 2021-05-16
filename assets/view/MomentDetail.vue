@@ -8,9 +8,9 @@
           <div class="uk-position-center uk-text-left">
             <div class="container m-auto">
               <h1 uk-slideshow-parallax="x: 200,-200">{{ currentCategory.name }}</h1>
-              <p v-html="currentCategory.introduction" uk-slideshow-parallax="x: 200,-200">{{ currentCategory.introduction }}</p>
+              <p class="text-white" v-html="currentCategory.introduction" uk-slideshow-parallax="x: 200,-200">{{ currentCategory.introduction }}</p>
               <br>
-              <p uk-slideshow-parallax="x: 200,-200">
+              <p class="text-white" uk-slideshow-parallax="x: 200,-200">
                 <i class="far fa-calendar-alt"></i>
                 {{ formatDate(currentMoment.date) }} / {{ formatTime(currentMoment.time) }}
                 <br>

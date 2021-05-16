@@ -8,7 +8,7 @@
               <div class="uk-panel">
                 <img class="category-lesson-image shadow"
                      :src="'../assets/uploads/category/'+ category.image" alt="category_image">
-                <div class="uk-position-center-left uk-text-left">
+                <div class="uk-position-center-left uk-text-left text-white">
                   <div class="content">
                     <h2 uk-slider-parallax="x: 200,-200">{{ category.name }}</h2>
                     <p uk-slider-parallax="x: 200,-200" v-html="category.introduction">{{ category.introduction }}</p>
@@ -53,13 +53,13 @@
                         <h3>{{ lesson.Category.name }}</h3>
                         <i class="fas fa-users"></i>
                         {{ lesson.maxParticipants }}
+                        <p class="text-center">
+                          <i class="far fa-calendar-alt"></i>
+                          {{ formatDate(lesson.date) }} / {{ formatTime(lesson.time) }}
+                        </p>
                       </div>
                     </div>
                   </div>
-                  <p class="text-center">
-                    <i class="far fa-calendar-alt"></i>
-                    {{ formatDate(lesson.date) }} / {{ formatTime(lesson.time) }}
-                  </p>
                   </router-link>
                 </li>
             </ul>

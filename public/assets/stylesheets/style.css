@@ -114,6 +114,11 @@ div {
     height: 250px;
     width: 100%;
     filter: brightness(50%);
+    transition: transform .30s;
+}
+
+.offer-image:hover{
+    transform: scale(1.05);
 }
 
 .lesson-card {

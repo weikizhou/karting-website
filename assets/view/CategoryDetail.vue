@@ -6,7 +6,7 @@
           <img class="carousel-image" v-if="currentCategory.image != null"
                :src="'../assets/uploads/category/'+ currentCategory.image" alt="" uk-cover>
           <div class="uk-position-center uk-text-left">
-            <div class="container m-auto">
+            <div class="container m-auto text-white">
               <h1 uk-slideshow-parallax="x: 200,-200">{{ currentCategory.name }}</h1>
               <p v-html="currentCategory.introduction" uk-slideshow-parallax="x: 200,-200">{{ currentCategory.introduction }}</p>
               <p uk-slider-parallax="x: 200,-200">
@@ -37,13 +37,6 @@
             <li><i class="fas fa-ticket-alt"></i> <span> Prijs: </span>
               &euro;{{ parseFloat(currentCategory.price/100).toFixed(2) }}</li>
           </ul>
-<!--          {% if is_granted('ROLE_USER') %}-->
-<!--          <a class="btn btn-lg btn-blue w-100"-->
-<!--             href="{{ path('register-activity',-->
-<!--                           {'slug': categorySlug, 'date': lesson.date|date('d-m-Y')}) }}">-->
-<!--            Inschrijven-->
-<!--          </a>-->
-<!--          {% endif %}-->
         </div>
       </div>
     </div>
